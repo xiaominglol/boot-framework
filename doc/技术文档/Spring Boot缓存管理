@@ -1,0 +1,90 @@
+package com.xiaomingbudushu.msl.module.sys.service.impl;
+
+import com.xiaomingbudushu.msl.module.common.entity.Page;
+import com.xiaomingbudushu.msl.module.sys.dao.MenuDao;
+import com.xiaomingbudushu.msl.module.sys.entity.Menu;
+import com.xiaomingbudushu.msl.module.sys.service.MenuService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * @author xiaomingbudushu
+ * @date 2017-12-12
+ */
+@Service
+@CacheConfig(cacheNames = "menuCache")
+public class MenuServiceImpl implements MenuService {
+
+    @Autowired
+    MenuDao menuDao;
+
+    @Override
+    public Menu getById(String id) {
+        return menuDao.getById(id);
+    }
+
+    /**
+     * 如果不加（condition="#page.pageSize == 0"），进到页面查询时会执行分页查询，只能缓存到10条数据
+     * 导致后面无论查询第一页还是第二页时，都只是显示第一页的10条，只能加了条件缓存全部数据，缓存不了分页
+     * -----------------待解决------------------------
+     * @param page
+     * @param o
+     * @return
+     */
+    @Override
+    @Cacheable(key="'MENU_CACHE_GETLIST'", condition="#page.pageSize == 0")
+    public List<Menu> getList(Page page,Object o) {
+        System.out.println("-----------MENU_CACHE_GETLIST-----------"+page.getPageSize());
+        return menuDao.getList(o);
+    }
+
+    /**
+     * @CachePut导致缓存清空，并不是更新缓存里面的信息，待解决
+     * @param entity
+     */
+    @Override
+    //@CachePut(key = "'MENU_CACHE_GETLIST'")
+    public void add(Menu entity) {
+        menuDao.add(entity);
+    }
+
+    /**
+     * @CachePut导致缓存清空，并不是更新缓存里面的信息，待解决
+     * @param entity
+     */
+    @Override
+    //@CachePut(key = "'MENU_CACHE_GETLIST'")
+    public void update(Menu entity) {
+        menuDao.update(entity);
+    }
+
+    @Override
+    @CacheEvict(key = "'MENU_CACHE_GETLIST'")
+    public void delete(String id) {
+        menuDao.delete(id);
+    }
+
+    /**
+     * 每次新增的时候，怎么更新这个缓存？待解决
+     * @param account
+     * @return
+     */
+    @Override
+    //@Cacheable(key = "'MENU_CACHE_GETBYACCOUNT_'+#account")
+    public List<Menu> getByAccount(String account) {
+        System.out.println("-----------------调用了MENU_CACHE_GETBYACCOUNT_--------------------");
+        return menuDao.getByAccount(account);
+    }
+
+    @Override
+    public void deleteMenuAut(String id) {
+        menuDao.deleteMenuAut(id);
+    }
+
+}

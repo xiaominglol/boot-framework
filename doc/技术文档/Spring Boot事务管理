@@ -1,0 +1,32 @@
+第一步：
+    Controller添加事务注解，service无需添加，待更好方案解决
+
+    import org.springframework.transaction.annotation.Transactional;
+
+    /**
+     * 添加
+     *
+     * @param org 组织架构
+     */
+    @PostMapping("/org")
+    @Transactional(rollbackFor = { Exception.class })------------------------------(加)
+    @ResponseBody
+    public Message add(Org org) {
+        Message message = new Message();
+        try {
+            if (org.getId() == null) {
+                orgService.add(org);
+                message.setStatus("success");
+            } else {
+                message.setStatus("fail");
+                message.setMessage("添加失败,id已存在");
+            }
+        } catch (Exception e) {
+            message.setStatus("fail");
+            message.setMessage(e.getMessage());
+            excpLogService.add(ExcpLog.addResponseResult(e.getMessage()));
+            logger.error(e.getMessage());
+            throw e;---------------------------------------------------------------(加)
+        }
+        return message;
+    }

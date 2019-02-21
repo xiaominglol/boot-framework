@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.gemini</groupId>
+    <artifactId>gemini-admin</artifactId>
+    <version>${gemini.version}</version>
+    <packaging>jar</packaging>
+
+    <name>gemini-admin</name>
+    <description>基础模块</description>
+
+    <parent>
+        <groupId>com.gemini</groupId>
+        <artifactId>gemini-module</artifactId>
+        <version>${gemini.version}</version>
+    </parent>
+
+    <dependencies>
+        <!--前端版本，二选一，如果两个都同时引入，那么首先匹配靠前这个-->
+        <dependency>
+            <groupId>com.gemini</groupId>
+            <artifactId>gemini-layui</artifactId>
+            <version>${gemini.version}</version>
+        </dependency>
+        <!--
+        <dependency>
+            <groupId>com.gemini</groupId>
+            <artifactId>gemini-bootstrap</artifactId>
+            <version>${gemini.version}</version>
+        </dependency>
+        -->
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -1,0 +1,194 @@
+<div th:replace="module/sys/user/user_crud"></div>
+<div th:replace="module/sys/user/user_excel"></div>
+<link rel="stylesheet" th:href="@{/plugins/layui-formSelects-v4/formSelects-v4.css }">
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md2">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div id="tree"></div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md10">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div id="content">
+                        <div class="layui-row">
+                            <div class="layui-col-md12">
+                                <blockquote class="layui-elem-quote layui-quote-nm">
+                                    <form class="layui-form layui-form-pane queryFrom" action="">
+                                        <div class="layui-form-item">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">名称</label>
+                                                <div class="layui-input-inline">
+                                                    <input type="text" name="name" placeholder="请输入名称" autocomplete="off"
+                                                           class="layui-input">
+                                                </div>
+                                            </div>
+
+                                            <div class="layui-inline">
+                                                <div class="layui-input-inline" style="width: 100%">
+                                                    <div class="layui-btn-container">
+                                                        <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit
+                                                                lay-filter="queryButton">
+                                                            <i class="layui-icon layui-icon-search"></i>查询
+                                                        </button>
+                                                        <button type="reset" class="layui-btn layui-btn-sm layui-btn-rest">
+                                                            <i class="layui-icon layui-icon-refresh-1"></i>重置
+                                                        </button>
+                                                        <span class="layui-btn layui-btn-sm addButton">
+                                                <i class="layui-icon layui-icon-add-circle"></i> 添加
+                                            </span>
+                                                        <span class="layui-btn layui-btn-sm layui-btn-warm editButton">
+                                                <i class="layui-icon layui-icon-edit"></i> 修改
+                                            </span>
+                                                        <span class="layui-btn layui-btn-sm layui-btn-danger delButton">
+                                                <i class="layui-icon layui-icon-delete"></i> 删除
+                                            </span>
+                                                        <span class="layui-btn layui-btn-sm layui-btn-normal importButton">
+                                                <i class="layui-icon layui-icon-upload-circle"></i> 导入
+                                            </span>
+                                                        <span class="layui-btn layui-btn-sm exportButton"
+                                                              style="background-color: #5FB878;">
+                                                <i class="layui-icon layui-icon-download-circle"></i> 导出
+                                            </span>
+                                                        <span class="layui-btn layui-btn-sm restPwdButton">
+                                                <i class="layui-icon layui-icon-password"></i> 重置密码
+                                            </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </blockquote>
+                            </div>
+                        </div>
+
+                        <div class="layui-row">
+                            <div class="layui-col-md12">
+                                <table id="table" lay-filter="table"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script th:inline="none">
+
+    layui.use(['form', 'table', 'util'], function () {
+        var form = layui.form;
+        var table = layui.table;
+        var util = layui.util;
+
+        //左侧树
+        renderTree({
+            dom: "tree"
+            , click: function (node) {
+                refreshTable({
+                    id: "table"
+                    , where: {
+                        id: node.id
+                    }
+                });
+            }
+        });
+
+        function renderTree(param) {
+            var data = getSysData({
+                url: "/org"
+                , isTreeTable: true
+            });
+            initTree({
+                dom: param.dom
+                , data: data
+                , id: "id"
+                , pid: "pid"
+                , name: "name"
+                , click: param.click
+            });
+        }
+
+        //右侧表格
+        initTable({
+            dom: "table"
+            , url: "/user"
+            , cols: [
+                {checkbox: true}
+                , {field: 'account', title: '用户账号', width: 160}
+                , {
+                    field: 'name', title: '用户名称', templet: function (d) {
+                        return '<img src="' + d.picture + '" class="layui-nav-img">' + d.name
+                    }
+                }
+                , {
+                    field: 'createDate', title: '创建日期', width: 180, sort: true, templet: function (d) {
+                        return util.toDateString(d.createDate);
+                    }
+                }
+                , {
+                    field: 'status', title: '状态', width: 80, templet: function (d) {
+                        return d.status == 1 ? '<span class="layui-color-green">正常</span>' : '<span class="layui-color-red">禁用</span>'
+                    }
+                }
+
+                , {title: '操作', width: 120, toolbar: '#optToolBar'}
+            ]
+            , isMultiSelect: true
+        });
+
+        //查询
+        form.on('submit(queryButton)', function (data) {
+            refreshTable({
+                id: "table"
+                , where: data.field
+            });
+            return false;
+        });
+
+        table.on('tool(table)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            data.createDate = new Date(util.toDateString(data.createDate));
+            data.optTime = new Date(util.toDateString(data.optTime));
+            console.log("data", data)
+            //启用
+            if (layEvent == "enabled") {
+                data.status = 1;
+                confirmUpdate({
+                    msg: "启用"
+                    , url: '/user'
+                    , data: data
+                    , tableId: 'table'
+                })
+            }
+            //禁用
+            if (layEvent == "disable") {
+                data.status = 0;
+                confirmUpdate({
+                    msg: "禁用"
+                    , url: '/user'
+                    , data: data
+                    , tableId: 'table'
+                })
+            }
+
+        });
+
+    });
+
+</script>
+
+<script type="text/html" id="optToolBar">
+    {{#  if(d.status == 1){ }}
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="disable"><i
+            class="layui-icon layui-icon-password"></i>禁用</a>
+    {{#  } else { }}
+    <a class="layui-btn layui-btn-sm layui-btn-rest" lay-event="enabled"><i class="layui-icon layui-icon-auz"></i>启用</a>
+    {{#  } }}
+</script>

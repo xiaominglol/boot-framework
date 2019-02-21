@@ -1,0 +1,235 @@
+#当前运行环境
+spring:
+  profiles:
+    #dev：开发环境，prod：生产环境，test：测试环境
+    active: dev
+
+#########################  mybatis配置  #######################
+#mybatis:
+#  # 指定全局配置文件位置
+#  # config-location: classpath:mybatis/mybatis-config.xml
+#  # 指定sql映射文件位置（如果映射文件与相应的接口同名，且在同一路径下，那么可以不配置该选项，不在同一包下则需要配置）
+#  # mapper-locations: classpath:com/gemini/admin/*/dao/*.xml
+#  # 实体类别名
+#  # type-aliases-package: com.gemini.admin.*.entity
+#  configuration:
+#    # 开启驼峰命名匹配
+#    map-underscore-to-camel-case: true
+#    # 开启懒加载
+#    lazyLoadingEnabled: true
+#    aggressiveLazyLoading: false
+mybatis-plus:
+  # 如果是放在src/main/java目录下 classpath:/com/gemini/*/mapper/*Mapper.xml
+  # 如果是放在src/main/resource目录 classpath:/mapper/*Mapper.xml
+  mapper-locations: classpath:/com/gemini/admin/*/dao/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  #typeAliasesPackage: com.gemini.admin.*.entity
+  global-config:
+    db-config:
+      #主键类型  AUTO(0):"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+      #支持主键自增的数据库插入数据获取主键值
+      id-type: AUTO
+      #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+      field-strategy: NOT_EMPTY
+      #全局设置-表前缀
+      #table-prefix: tbl_
+      #数据库大写下划线转换
+      #capital-mode: true
+      # Sequence序列接口实现类配置
+      #key-generator: com.baomidou.mybatisplus.incrementer.OracleKeyGenerator
+      #逻辑删除配置（下面3个配置）
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+    #sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector
+    #自定义填充策略接口实现
+    #meta-object-handler: com.baomidou.springboot.MyMetaObjectHandler
+  configuration:
+    # 开启驼峰命名匹配
+    map-underscore-to-camel-case: true
+    # 开启懒加载
+    lazyLoadingEnabled: true
+    aggressiveLazyLoading: false
+    # 开启缓存
+    cache-enabled: false
+    #配置JdbcTypeForNull, oracle数据库必须配置
+    jdbc-type-for-null: 'null'
+
+#########################  log日志  #######################
+logging:
+  pattern:
+    # 在控制台输出的日志的格式
+    console: '[%-5level] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%logger{50}] %n%msg%n%n'
+    # 指定文件中日志输出的格式
+    file: '[%-5level] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%logger{50}] %n%msg%n%n'
+  level:
+    # mybatis sql打印
+    com.gemini.msl.module.sys.dao : debug
+
+
+---
+########################################  开发环境dev  #######################################
+
+
+##################  项目启动端口和访问路径  ###############
+server:
+  port: 8001
+  servlet:
+    path: /
+
+###################  gemini自定义配置  ####################
+gemini:
+  #用户头像上传目录
+  pictureUploadPath: E:/file/picture/
+
+
+########################  spring配置  ######################
+spring:
+  profiles: dev
+  datasource:
+      # 数据源基本配置
+      #driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+      driver-class-name: com.mysql.jdbc.Driver
+      #Caused by: java.security.cert.CertPathValidatorException: Path does not chain with any of the trust
+      #将useSSL改为false
+      url: jdbc:mysql://localhost:3306/gemini_core?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      username: root
+      password: root
+      type: com.alibaba.druid.pool.DruidDataSource
+      # 数据源其他配置
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: stat,wall # ,log4j
+      maxPoolPreparedStatementPerConnectionSize: 20
+      useGlobalDataSourceStat: true
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  redis:
+    host: 47.110.47.45
+    port: 6379
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${gemini.pictureUploadPath}
+  thymeleaf:
+    #开发的时候禁用模板引擎的缓存，否则修改刷新无效
+    cache: false
+
+
+---
+
+########################################  生产环境prod  #######################################
+
+
+##################  项目启动端口和访问路径  ###############
+server:
+  port: 80
+  servlet:
+    path: /
+###################  gemini自定义配置  ####################
+gemini:
+  #用户头像上传目录
+  pictureUploadPath: /home/prod/pictrue
+
+
+########################  spring配置  ######################
+spring:
+  profiles: prod
+  datasource:
+      # 数据源基本配置
+      driver-class-name: com.mysql.jdbc.Driver
+      #url: jdbc:mysql://127.0.0.1:3306/gemini_core?useUnicode=true&characterEncoding=UTF-8&useSSL=true
+      #Caused by: java.security.cert.CertPathValidatorException: Path does not chain with any of the trust
+      #将useSSL改为false
+      url: jdbc:mysql://127.0.0.1:3305/gemini_core?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      username: gemini_core
+      password: prodgeminicore2018
+      type: com.alibaba.druid.pool.DruidDataSource
+      # 数据源其他配置
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: stat,wall # ,log4j
+      maxPoolPreparedStatementPerConnectionSize: 20
+      useGlobalDataSourceStat: true
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  redis:
+    host: 127.0.0.1
+    port: 6378
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${gemini.pictureUploadPath}
+  thymeleaf:
+    #开发的时候禁用模板引擎的缓存，否则修改刷新无效
+    cache: true
+
+
+
+---
+
+########################################  测试环境test  #######################################
+
+
+##################  项目启动端口和访问路径  ###############
+server:
+  port: 8888
+  servlet:
+    path: /
+###################  gemini自定义配置  ####################
+gemini:
+  pictureUploadPath: /home/test/pictrue
+
+
+###################  spring  ###################
+spring:
+  profiles: test
+  datasource:
+      # 数据源基本配置
+      driver-class-name: com.mysql.jdbc.Driver
+      #url: jdbc:mysql://127.0.0.1:3306/gemini_core?useUnicode=true&characterEncoding=UTF-8&useSSL=true
+      #Caused by: java.security.cert.CertPathValidatorException: Path does not chain with any of the trust
+      #将useSSL改为false
+      url: jdbc:mysql://127.0.0.1:3307/gemini_core?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      username: gemini_core
+      password: testgeminicore2018
+      type: com.alibaba.druid.pool.DruidDataSource
+      # 数据源其他配置
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: stat,wall # ,log4j
+      maxPoolPreparedStatementPerConnectionSize: 20
+      useGlobalDataSourceStat: true
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  redis:
+    host: 127.0.0.1
+    port: 6380
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${gemini.pictureUploadPath}
+  thymeleaf:
+    #开发的时候禁用模板引擎的缓存，否则修改刷新无效
+    cache: false
+

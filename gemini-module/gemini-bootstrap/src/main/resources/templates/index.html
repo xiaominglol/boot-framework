@@ -1,0 +1,200 @@
+<div th:replace="common/header"></div>
+<!--主页-->
+<link th:href="@{/css/index.css}" rel="stylesheet">
+<script th:src="@{/js/index.js}"></script>
+
+<div class="main">
+
+	<!-- 头部开始 -->
+	<div class="header">
+		<!-- logo -->
+		<div class="logo"><img th:src="@{/img/logo.png}" /></div>
+		<div class="tab"></div>
+		<div class="button"><a th:href="@{/logout}">退出</a></div>
+	</div>
+	<!-- 头部结束 -->
+
+	<!-- 左侧导航开始 -->
+	<div class="left">
+		<!-- 主菜单 -->
+		<ul class="main-menu">
+			<!-- 主页 -->
+			<li>
+				<div>
+					<a href="#" onclick="openMenu('/UserController/gotoList');">
+						<img class="icon" th:src="@{/img/icon/index.png}" />
+						<span class="main-name">主页</span>
+						<img class="arrow-right" th:src="@{/img/icon/arrow-right.png}" />
+					</a>
+				</div>
+			</li>
+
+			<li>
+				<div>
+					<img class="icon" th:src="@{/img/icon/set.png}" /><span class="main-name">系统设置</span><img class="arrow-right" th:src="@{/img/icon/arrow-right.png}" />
+				</div>
+				<ul class="sub-menu">
+					<li class="sub-name">
+						<div>系统设置</div>
+						<ul class="third-menu">
+							<li>
+								<a href="#" onclick="test('${ctx }/list.jsp');">组织架构</a>
+							</li>
+							<li>
+								<a href="${ctx }/list.jsp">角色管理</a>
+							</li>
+							<li>
+								<a href="${ctx }/list.jsp">用户管理</a>
+							</li>
+							<li>
+								<a href="${ctx }/list.jsp">菜单管理</a>
+							</li>
+						</ul>
+					</li>
+
+
+					<li class="sub-name">
+						<div>后台设置</div>
+						<ul class="third-menu">
+							<li>
+								<a href="${ctx }/list.jsp">序列配置</a>
+							</li>
+							<li>
+								<a href="${ctx }/list.jsp">字典配置</a>
+							</li>
+							<li>
+								<a href="${ctx }/list.jsp">参数配置</a>
+							</li>
+							<li>
+								<a href="${ctx }/list.jsp">接口配置</a>
+							</li>
+						</ul>
+					</li>
+
+
+					<li class="sub-name">
+						<div>日志管理</div>
+						<ul class="third-menu">
+							<li>
+								<a href="${ctx }/list.jsp">登录日志</a>
+							</li>
+							<li>
+								<a href="${ctx }/list.jsp">操作日志</a>
+							</li>
+							<li>
+								<a href="${ctx }/list.jsp">异常日志</a>
+							</li>
+						</ul>
+					</li>
+
+
+				</ul>
+			</li>
+
+		</ul>
+	</div>
+	<!-- 左侧导航结束 -->
+
+	<!-- 右侧工作区开始 -->
+	<div class="workspace">
+
+		<iframe id="mainIframe" style="width: 100%;height: 60%;" name="mainIframe" scrolling="yes" th:src="@{/user/gotoList}">
+
+
+		</iframe>
+	</div>
+	<!-- 右侧工作区结束 -->
+
+</div>
+
+<script>
+    $(function(){
+
+        //初始化菜单
+        initMenu();
+
+        //自动调整宽高
+        var heightObj = $(".left, .workspace, #mainIframe");
+        heightObj.height($("html").height() - $(".header").height());
+        $(".workspace").width($(".main").width() - $(".left").width());
+
+        //鼠标经过主菜单显示当前菜单的下级菜单（注意要用动态加载on，否则append菜单后无法触发函数）
+        $('.main-menu').on('mouseenter','>li',function(){
+            $(this).find(".sub-menu").show();
+            $(this).css("background-color","#222222");
+            $(this).css("border","1px solid #2E3C3A");
+        })
+
+        $('.main-menu').on('mouseleave','>li',function(){
+            $(this).css("background-color","#222222");
+            $(this).css("border","0px solid");
+            $(this).find(".sub-menu").hide();
+        });
+
+        $("#exitButton").click(function(){
+            var url ='${ctx }/LoginController/logout';
+            window.location.href = url;
+        });
+
+
+    });
+
+    //加载菜单
+    function initMenu(){
+        $.ajax({
+            url:"/menu/list",
+            type:"GET",
+            success:function(result){
+                addMenu(result.result.menuList);
+            }
+        });
+    }
+
+    function addMenu(data) {
+        console.log("data222",data)
+        $.each(data,function(index,item){
+            //console.log(item);
+            //alert("item.url="+item.url);
+
+//			debugger
+            //加载一级菜单
+            if (item.type == "1") {
+                var main_li = $("<li></li>").attr("id",item.id);
+                var main_div = $("<div></div>");
+                var main_img = $("<img></img>").addClass("icon").attr("src",item.icon);
+                var main_span = $("<span></span>").addClass("main-name").append(item.name);
+                var main_arrow_right = $("<img></img>").addClass("arrow-right").attr("src","/img/icon/arrow-right.png");
+                var sub_ul = $("<ul></ul>").addClass("sub-menu");
+                main_div.append(main_img).append(main_span).append(main_arrow_right);
+                main_li.append(main_div).append(sub_ul);
+                main_li.appendTo(".main-menu");
+            }
+
+            //加载二级菜单
+            if (item.type == "2") {
+                var sub_li = $("<li></li>").addClass("sub-name").attr("id",item.id);
+                var sub_div = $("<div></div>").append(item.name);
+                var third_ul = $("<ul></ul>").addClass("third-menu");
+                sub_li.append(sub_div).append(third_ul);
+                sub_li.appendTo("#" + item.pid + " .sub-menu");
+            }
+
+            //加载三级菜单 <a href="#" onclick="openMenu('${ctx }/list.jsp');">组织架构</a>
+            if (item.type == "3") {
+                var third_li = $("<li></li>").attr("id",item.id);
+                var third_div = $("<div></div>");
+                var third_a = $("<a></a>").attr("href","#").attr("onclick","openMenu('"+ item.url + "')").append(item.name);
+                third_div.append(third_a);
+                third_li.append(third_div);
+                third_li.appendTo("#" + item.pid + " .third-menu");
+            }
+
+        });
+
+    }
+
+    function openMenu(url) {
+        $("iframe[name='mainIframe']").attr("src",url);
+    }
+
+</script>

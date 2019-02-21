@@ -1,0 +1,36 @@
+1、
+
+layer.open({
+  type: 1,
+  content: $('#id') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+});
+
+<body class="layui-layout-body">
+    </body>
+
+    <div id="page_model_body">
+    </div>
+
+    $("#page_model_body").html($("#addOrUpdate"));
+
+2、https://fly.layui.com/jie/41877/
+
+3、我是使用的layui的table数据表格模块，然后thymeleaf渲染的时候失败，
+报错的位置提示在 cols：[[...]],就是[[]]里面的内容不能渲染，应该怎么改才能渲染。
+
+[[]]是thymeleaf的内联表达式，可以在cols的后面换行
+
+, cols: [
+            [ //表头
+                {field: 'xxx', title: 'ID', width: 80, sort: true, fixed: 'left'}
+                , {field: 'xxx', title: '记录日期', width: 80}
+                , {field: 'xxx', title: '操作人ID', width: 80, sort: true}
+                , {field: 'xxx', title: '', width: 80}
+                , {field: 'xxx', title: '签名', width: 177}
+                , {field: 'xxx', title: '积分', width: 80, sort: true}
+                , {field: 'xxx', title: '评分', width: 80, sort: true}
+                , {field: 'xxx', title: '职业', width: 80}
+                , {field: 'xxx', title: '财富', width: 135, sort: true}
+            ]
+        ]
+或者在script标签里 th:inline="none" 就可以了

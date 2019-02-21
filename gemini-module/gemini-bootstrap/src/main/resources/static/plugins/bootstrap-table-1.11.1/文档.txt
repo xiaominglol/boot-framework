@@ -1,0 +1,4 @@
+官方地址（中文）：
+http://bootstrap-table.wenzhixin.net.cn/zh-cn/documentation/
+中文文档：
+http://blog.csdn.net/rickiyeat/article/details/56483577

@@ -1,0 +1,11 @@
+1、修改项目名称，鼠标放在module上按shift+F6
+Rename directory
+Rename module
+2、修改包名，例如com.xiaomingbudushu.test，将test修改
+3、修改编译文件*.iml
+<output url="file://$MODULE_DIR$/../gemini-core/target/classes" />
+<output-test url="file://$MODULE_DIR$/../gemini-core/target/test-classes" />
+如果是这样写，就不用改
+<output url="file://$MODULE_DIR$/target/classes" />
+<output-test url="file://$MODULE_DIR$/target/test-classes" />
+4、修改SpringBoot启动程序名称Application

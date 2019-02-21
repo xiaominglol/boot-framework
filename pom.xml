@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.gemini</groupId>
+    <artifactId>gemini-plus</artifactId>
+    <version>${gemini.version}</version>
+    <!--父模块打包类型必须为pom-->
+    <packaging>pom</packaging>
+
+    <name>gemini-plus</name>
+    <description>父pom，统一管理版本号</description>
+
+    <modules>
+        <module>gemini-common</module>
+        <module>gemini-module</module>
+    </modules>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.8.RELEASE</version>
+        <relativePath/>
+    </parent>
+
+    <!-- 子模块会共用这个配置，所以子模块不需要这个配置 -->
+    <!-- 在properties中统一控制依赖包的版本，更清晰-->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+
+        <!--gemini项目版本-->
+        <gemini.version>1.0.0-SNAPSHOT</gemini.version>
+
+        <!--用3覆盖2版本-->
+        <thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
+        <!--布局功能的支持程序 thymeleaf3需要layout2以上版本 所以用2版本覆盖1版本-->
+        <thymeleaf-layout-dialect.version>2.3.0</thymeleaf-layout-dialect.version>
+
+        <mybatis.version>2.0.0</mybatis.version>
+        <mybatis-plus.version>3.0.7.1</mybatis-plus.version>
+        <pagehelper.version>1.2.10</pagehelper.version>
+        <shiro.version>1.4.0</shiro.version>
+        <druid.version>1.1.8</druid.version>
+        <fastjson.version>1.2.51</fastjson.version>
+        <poi-3.14.version>3.14</poi-3.14.version>
+        <poi-4.0.0.version>4.0.0</poi-4.0.0.version>
+
+    </properties>
+
+    <dependencies>
+        <!--导入配置文件处理器，配置文件进行绑定就会有提示-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--开发热部署-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--test测试模块-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!-- 使用aliyun镜像 -->
+    <repositories>
+        <repository>
+            <id>aliyun</id>
+            <name>aliyun</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+        </repository>
+    </repositories>
+
+</project>

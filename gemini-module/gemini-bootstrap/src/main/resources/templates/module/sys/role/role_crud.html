@@ -1,0 +1,125 @@
+<script th:src="@{/js/sys-utils.js}"></script>
+<!--添加/修改-->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!--头-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="addLabel">新增用户</h4>
+            </div>
+            <!--内容-->
+            <div class="modal-body">
+                <form id="addForm" class="form-horizontal">
+                    <div class="input-group">
+                        <span class="input-group-addon">用户账号</span>
+                        <input type="text" class="form-control" name="account">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">用户名称</span>
+                        <input type="text" class="form-control" name="name">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">用户密码</span>
+                        <input type="password" class="form-control" name="password">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">所属部门</span>
+                        <select class="form-control" name="id"></select>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon"> 状态 </span>
+                        <select class="form-control" name="status">
+                            <option value="1">正常</option>
+                            <option value="0">禁用</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <!--脚-->
+            <div class="modal-footer">
+                <button id="saveButton" class="btn btn-primary">保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        var type = 'POST';
+
+        // 添加
+        $("#addButton").click(function () {
+            type = 'POST';
+            // 清空表单数据
+            clearFrom();
+            // 获取组织架构
+            getOrgSelect("pid");
+            // 打开模态框
+            openModal("addModal");
+        });
+
+        // 修改
+        $("#editButton").click(function () {
+            type = 'PUT';
+            var selectedData = $("#table").bootstrapTable('getAllSelections');
+            if(selectedData.length == 1){
+                // 获取组织架构
+                getOrgSelect("pid");
+
+                $("[name='account']").val(selectedData[0].account);
+                $("[name='name']").val(selectedData[0].name);
+                $("[name='pid']").val(selectedData[0].pid);
+                $("[name='status']").val(selectedData[0].status);
+
+                // 打开模态框
+                openModal("addModal");
+            }else{
+                layer.msg('请选择一条数据', {icon: 1});
+            }
+        });
+
+        // 删除
+        $("#delButton").click(function () {
+            var selectedData = $("#table").bootstrapTable('getAllSelections');
+            if(selectedData.length != 0){
+                layer.msg('确定删除？', {
+                    time: 0 //不自动关闭
+                    ,btn: ['确定', '取消']
+                    ,yes: function(index){
+                        layer.close(index);
+                        $.ajax({
+                            url: '/user/'+selectedData[0].account,
+                            type: 'DELETE',
+                            success: function (data) {
+                                layer.msg('删除成功', {icon: 1});
+                                refreshTable("table");
+                            }
+                        });
+                    }
+                });
+            }else{
+                layer.msg('请选择一条数据', {icon: 1});
+            }
+        });
+
+        // 添加/修改 保存
+        $("#saveButton").click(function () {
+            $.ajax({
+                url: '/user',
+                type: type,
+                data: $("#addForm").serializeArray(),
+                success: function (data) {
+                    layer.msg('保存成功', {icon: 1});
+                    refreshTable("table");
+                    $('#addModal').modal('hide');
+                }
+            });
+        });
+    });
+</script>
+

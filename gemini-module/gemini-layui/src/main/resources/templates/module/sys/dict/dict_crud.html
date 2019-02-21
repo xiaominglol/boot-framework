@@ -1,0 +1,83 @@
+<!--添加/修改-->
+<div id="addOrUpdate" style="display: none">
+    <form class="layui-form layui-form-pane" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">字典编码</label>
+            <div class="layui-input-block">
+                <input type="hidden" name="id">
+                <input type="text" name="code" required lay-verify="required" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">上级编码</label>
+            <div class="layui-input-block">
+                <div class="layui-unselect layui-form-select downpanel">
+                    <div class="layui-select-title">
+                        <span class="layui-input layui-unselect" id="treeName">请选择</span>
+                        <input type="hidden" name="parentCode" value="">
+                        <i class="layui-edge"></i>
+                    </div>
+                    <dl class="layui-anim layui-anim-upbit">
+                        <dd>
+                            <ul id="parentCode"></ul>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">字典名称</label>
+            <div class="layui-input-block">
+                <input type="text" id="name" name="name" required lay-verify="required" autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">字典值</label>
+            <div class="layui-input-block">
+                <input type="text" name="value" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">字典类型</label>
+            <div class="layui-input-block">
+                <select name="type" lay-verify="required">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-block">
+                <input type="text" name="sort" required lay-verify="required" value="1" autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item" pane>
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                <input type="radio" name="status" value="1" title="正常" checked>
+                <input type="radio" name="status" value="0" title="停用">
+            </div>
+        </div>
+        <div class="layui-form-item" pane>
+            <label class="layui-form-label">是否默认</label>
+            <div class="layui-input-block">
+                <input type="radio" name="isDefault" value="0" title="否" checked>
+                <input type="radio" name="isDefault" value="1" title="是">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <input type="text" name="remark" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn save" lay-submit lay-filter="saveButton">保存</button>
+                <button type="reset" class="layui-btn layui-btn-primary reset">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
