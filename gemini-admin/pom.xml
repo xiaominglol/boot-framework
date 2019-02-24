@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.gemini</groupId>
+    <artifactId>gemini-admin</artifactId>
+    <version>${gemini.version}</version>
+    <packaging>jar</packaging>
+
+    <name>gemini-admin</name>
+    <description>后台管理模块</description>
+
+    <parent>
+        <groupId>com.gemini</groupId>
+        <artifactId>gemini-plus</artifactId>
+        <version>${gemini.version}</version>
+    </parent>
+
+    <dependencies>
+        <!--前端版本，二选一，如果两个都同时引入，那么首先匹配靠前这个-->
+        <dependency>
+            <groupId>com.gemini</groupId>
+            <artifactId>gemini-layui</artifactId>
+            <version>${gemini.version}</version>
+        </dependency>
+        <!--
+        <dependency>
+            <groupId>com.gemini</groupId>
+            <artifactId>gemini-bootstrap</artifactId>
+            <version>${gemini.version}</version>
+        </dependency>
+        -->
+        <!--common模块-->
+        <dependency>
+            <groupId>com.gemini</groupId>
+            <artifactId>gemini-common</artifactId>
+            <version>${gemini.version}</version>
+        </dependency>
+        <!--引入 thymeleaf-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <!--mysql-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!--mybatis-->
+        <!--<dependency>-->
+        <!--<groupId>org.mybatis.spring.boot</groupId>-->
+        <!--<artifactId>mybatis-spring-boot-starter</artifactId>-->
+        <!--<version>${mybatis.version}</version>-->
+        <!--</dependency>-->
+
+        <!--mybatis-plus-->
+        <!--<dependency>-->
+        <!--<groupId>com.baomidou</groupId>-->
+        <!--<artifactId>mybatis-plus-boot-starter</artifactId>-->
+        <!--<version>${mybatis-plus.version}</version>-->
+        <!--</dependency>-->
+
+        <!--mybatis 分页-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>${pagehelper.version}</version>
+        </dependency>
+
+
+
+        <!--Excel-->
+        <!--<dependency>
+            <groupId>net.sourceforge.jexcelapi</groupId>
+            <artifactId>jxl</artifactId>
+            <version>2.6.12</version>
+        </dependency>-->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${poi-3.14.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi-3.14.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+
+        <!-- 会将src/main/java下的*mapper.xml文件随同java编译后到相应的class目录 -->
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+    </build>
+
+</project>

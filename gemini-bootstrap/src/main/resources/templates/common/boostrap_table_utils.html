@@ -1,0 +1,78 @@
+<!-- bootstrap table（依赖jquery、bootstrap） -->
+<script th:src="@{/plugins/bootstrap-table-1.11.1/js/bootstrap-table.min.js}"></script>
+<script th:src="@{/plugins/bootstrap-table-1.11.1/js/bootstrap-table-zh-CN.min.js}"></script>
+<link th:href="@{/plugins/bootstrap-table-1.11.1/css/bootstrap-table.min.css}" rel="stylesheet">
+<script>
+    function initTable(url, primary_key, columns) {
+        $('#table').bootstrapTable({
+            url: url,		                                    //（必须）请求地址
+            method: 'get', 							            //请求方式
+            contentType: "application/x-www-form-urlencoded",   //（必须）未测试
+            dataType: 'json',						            //服务器返回的数据类型
+            sidePagination: 'server',				            //（必须）分页类型
+            cache: false,							            //设置为 false 禁用 AJAX 数据缓存
+            pagination: true, 						            //（必须）启用分页
+            pageNumber: 1,
+            pageSize: 10,
+            pageList: [10, 20, 50, 100],
+            idField: primary_key,						        //主键列
+            uniqueId: primary_key,					            //每一行的唯一标识，一般为主键列
+            sortName: primary_key, 					            //排序列
+            sortOrder: 'asc',						            //排序方式 'asc' 或者 'desc'
+            paginationPreText: '上一页',
+            paginationNextText: '下一页',
+            clickToSelect: true,					//设置true 将在点击行时，自动选择checkbox或者rediobox
+            height: $(window).height() * 0.85,      //定义表格的高度
+            width: $(window).width() * 0.9,         //定义表格的宽度
+//            toolbar: '#toolbar',					//可以在table上方显示的一条工具栏
+            singleSelect: false, /*设置True 将禁止多选*/
+            searchOnEnterKey: true,					//ENTER键搜索
+            search: false,							//是否启用搜索框
+            showColumns: false,						//是否显示 内容列下拉框
+            showRefresh: false,						//是否显示 刷新按钮
+            maintainSelected: true,					//设置为 true 在点击分页按钮或搜索按钮时，将记住checkbox的选择项
+            sortable: true,							//设置为 false 将禁止所有列的排序
+            silentSort: false,						//设置为 false 将在点击分页按钮时，自动记住排序项。仅在 sidePagination设置为 server时生效.
+//        detailView: true,						//设置为 true 可以显示详细页面模式。
+            //格式化详细页面模式的视图。
+//		detailFormatter: function (index, row) {
+//			return '';
+//       },
+
+            //（必须）查询参数
+            queryParams: function (params) {
+                console.log("查询参数", params);
+                var temp = {
+                    name: $("#name").val(),
+                    pageSize: this.pageSize, 	//页面大小
+                    pageNum: this.pageNumber,	//页码
+                    sort: this.sortName,		//排序列
+                    order: this.sortOrder,		//排序方式
+                    search: params.search		//搜索关键字
+                };
+                for (var col = 0; col < this.columns[0].length; col++) {
+                    if (this.columns[0][col].field == this.sortName) {
+//                  console.log(this.columns[0][col].sortName);
+                        temp.sort = this.columns[0][col].sortName;
+                    }
+                }
+                return temp;
+            },
+            //（必须）获取返回的数据的时候做相应处理，让bootstrap table认识我们的返回格式
+            responseHandler: function (res) {
+                console.log("返回结果集", res);
+                return {
+                    "rows": res.list,
+                    "total": res.total
+                };
+            },
+            columns: columns
+        });
+    }
+
+
+    /*刷新表格*/
+    function refreshTable(table) {
+        $('#' + table).bootstrapTable("refresh", {});
+    }
+</script>

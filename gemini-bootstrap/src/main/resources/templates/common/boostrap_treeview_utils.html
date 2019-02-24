@@ -1,0 +1,69 @@
+<!-- bootstrap table（依赖jquery、bootstrap） -->
+<script th:src="@{/plugins/bootstrap-treeview-1.2.0/src/js/bootstrap-treeview.js}"></script>
+<script>
+
+    /**
+     * 初始化树
+     * @param data
+     */
+    function initTree(dom, data) {
+        $('#' + dom).treeview({
+            data: getTree(data),
+            borderColor: 'green',
+            onNodeSelected: function (event, data) {
+                onNodeSelected(data.value);
+            }
+        });
+    }
+
+    /**
+     * 封装树结构
+     * @param data
+     */
+    function getTree(data) {
+        var tree = [];
+        for (var i in data) {
+            if (data[i].pid == null) {
+                var text = getText(data[i]);
+                tree.push(text);
+            } else {
+                for (var j in tree) {
+                    if (tree[j].value == data[i].pid) {
+                        var text = tree[j];
+                        var childrenText = getText(data[i]);
+                        text.nodes = [childrenText];
+                    } else {
+                        for (var k in tree[j].nodes) {
+                            if (tree[j].nodes[k].value == data[i].pid) {
+                                var text = tree[j].nodes[k];
+                                var childrenText = getText(data[i]);
+                                if (text.nodes) {
+                                    text.nodes.push(childrenText);
+                                } else {
+                                    text.nodes = [childrenText];
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return tree;
+    }
+
+    /**
+     * 获取树配置
+     * @param data
+     */
+    function getText(data) {
+        var text = {
+            text: data.name,
+            value: data.id,
+            icon: "glyphicon glyphicon-stop",
+            selectedIcon: "glyphicon glyphicon-stop"
+        };
+        return text;
+    }
+
+</script>

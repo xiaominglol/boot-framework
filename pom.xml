@@ -14,7 +14,9 @@
 
     <modules>
         <module>gemini-common</module>
-        <module>gemini-module</module>
+        <module>gemini-admin</module>
+        <module>gemini-layui</module>
+        <module>gemini-bootstrap</module>
     </modules>
 
     <parent>

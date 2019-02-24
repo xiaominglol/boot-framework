@@ -1,0 +1,36 @@
+<!-- bootstrap table（依赖jquery、bootstrap） -->
+<script th:src="@{/plugins/bootstrap-multiselect-0.9.15/js/bootstrap-multiselect.js}"></script>
+<link th:href="@{/plugins/bootstrap-multiselect-0.9.15/css/bootstrap-multiselect.css}" rel="stylesheet">
+<script>
+
+    //$('option[value="5"]', $('#pid')).prop('selected', true);
+    //    $('#pid').multiselect('refresh');
+    /**
+     * 初始化下拉框为多选
+     * @param dom   ID选择器
+     * 属性：
+     *      enableClickableOptGroups: true      可以全选某一组的所有数据
+     *      onChange: function(option, checked) {
+ *          option.length   选中数量
+ *          checked         是否选中，true是，false否
+ *      }
+     *      enableCollapsibleOptGroups: true    可以将某一组折叠
+     *
+     */
+    function initMultiselect(dom) {
+        $('#' + dom).multiselect({
+            includeSelectAllOption: true,
+            buttonWidth: '400px',
+            dropRight: true,
+            maxHeight: 200,
+            nonSelectedText: '请选择',
+            allSelectedText: '全部',
+            onChange: function (option, checked) {
+                console.log(option.val())
+                console.log(checked)
+
+            }
+        });
+    }
+
+</script>
