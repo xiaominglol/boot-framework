@@ -38,9 +38,14 @@ public class OptLog implements Serializable {
     private String userName;
 
     /**
-     * 操作类型（1=查询，2=添加，3=修改，4=删除）
+     * 操作类型（1=查询，2=添加，3=修改，4=删除,5=用户登陆）
      */
     private Integer type;
+
+    /**
+     * 操作描述
+     */
+    private String description;
 
     /**
      * 请求地址
@@ -48,18 +53,33 @@ public class OptLog implements Serializable {
     private String url;
 
     /**
+     * 请求方法名称
+     */
+    private String method;
+
+    /**
      * 请求参数
      */
-    private String requestParam;
+    private String params;
 
     /**
      * 返回结果
      */
-    private String responseResult;
+    private String result;
+
+    /**
+     * 耗时
+     */
+    private long time;
+
+    /**
+     * ip地址
+     */
+    private String ip;
 
     /**
      * 操作时间
      */
-    private Date optTime = new Date();
+    private Date optTime;
 
 }

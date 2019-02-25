@@ -1,6 +1,7 @@
 package com.gemini.admin.module.sys.controller;
 
 
+import com.gemini.admin.common.annotation.SysLog;
 import com.gemini.admin.common.mvc.controller.BaseController;
 import com.gemini.admin.common.mvc.model.CommonFailInfo;
 import com.gemini.admin.common.mvc.model.Message;
@@ -41,6 +42,7 @@ public class MenuController extends BaseController {
     /**
      * 树形表格列表
      */
+    @SysLog("查询菜单列表")
     @GetMapping("/menu")
     @ResponseBody
     public Message getTreeTableList(Menu menu) {
@@ -48,10 +50,7 @@ public class MenuController extends BaseController {
             List<Menu> list = menuService.getList(menu);
             return Message.success(list);
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("Menu", menu);
-            excpLogService.save(ExcpLog.addResponseResult("/menu", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -67,8 +66,7 @@ public class MenuController extends BaseController {
             List<Menu> list = menuService.getByAccount(account);
             return Message.success(list);
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.addResponseResult("/menu/list", null, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -89,10 +87,7 @@ public class MenuController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("id", id);
-            excpLogService.save(ExcpLog.addResponseResult("/org", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -102,6 +97,7 @@ public class MenuController extends BaseController {
      *
      * @param menu 菜单
      */
+    @SysLog("添加菜单")
     @PostMapping("/menu")
     @ResponseBody
     public Message add(Menu menu) {
@@ -116,10 +112,7 @@ public class MenuController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("Menu", menu);
-            excpLogService.save(ExcpLog.addResponseResult("/menu", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -130,6 +123,7 @@ public class MenuController extends BaseController {
      * @param menu 菜单
      * @return
      */
+    @SysLog("更新菜单")
     @PutMapping("/menu")
     @ResponseBody
     public Message update(Menu menu) {
@@ -144,10 +138,7 @@ public class MenuController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("Menu", menu);
-            excpLogService.save(ExcpLog.addResponseResult("/menu", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -158,6 +149,7 @@ public class MenuController extends BaseController {
      * @param id 主键
      * @return
      */
+    @SysLog("删除菜单")
     @DeleteMapping("/menu/{id}")
     @ResponseBody
     public Message delete(@PathVariable("id") Integer id) {
@@ -170,10 +162,7 @@ public class MenuController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("id", id);
-            excpLogService.save(ExcpLog.addResponseResult("/menu/{id}", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }

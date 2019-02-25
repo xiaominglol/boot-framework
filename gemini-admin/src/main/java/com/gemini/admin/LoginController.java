@@ -1,5 +1,6 @@
 package com.gemini.admin;
 
+import com.gemini.admin.common.annotation.SysLog;
 import com.gemini.admin.common.mvc.controller.BaseController;
 import com.gemini.admin.module.sys.model.ExcpLog;
 import com.gemini.admin.module.sys.model.User;
@@ -70,6 +71,7 @@ public class LoginController extends BaseController {
      * @param password 密码
      * @return
      */
+    @SysLog("用户登陆")
     @PostMapping("/login")
     public String login(
             @RequestParam("account") String account,
@@ -97,7 +99,7 @@ public class LoginController extends BaseController {
                 //model.addAttribute("msg", "登陆失败:" + e.getMessage());
                 //（bug）第一次登陆失败，比如账号不存在，然后登陆成功，然后不注销，再次测试账号不存在，会出现500，session已存在
                 session.setAttribute("msg", "登陆失败:" + e.getMessage());
-                excpLogService.save(ExcpLog.addResponseResult("/user", map, e.getMessage()));
+                excpLogService.save(ExcpLog.saveExcpLog("/user", map, e.getMessage()));
                 logger.error("登陆失败:" + e.getMessage());
                 // 失败返回登陆页面
                 return "redirect:/";

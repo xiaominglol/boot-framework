@@ -54,6 +54,7 @@ public class ShiroRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         System.out.println("ShiroRealm.doGetAuthenticationInfo()");
         LoginLog loginLog = new LoginLog();
+        SimpleAuthenticationInfo saInfo = new SimpleAuthenticationInfo();
         try {
             // 1.把AuthenticationToken转换为UsernamePasswordToken
             UsernamePasswordToken upToken = (UsernamePasswordToken) token;
@@ -82,9 +83,8 @@ public class ShiroRealm extends AuthorizingRealm {
             ByteSource salt = ByteSource.Util.bytes(account);
 
             // 6.根据用户构建SimpleAuthenticationInfo
-            SimpleAuthenticationInfo saInfo = new SimpleAuthenticationInfo(user, user.getPassword(), salt, this.getName());
+            saInfo = new SimpleAuthenticationInfo(user, user.getPassword(), salt, this.getName());
 
-            return saInfo;
         } catch (Exception e) {
             //java.lang.ClassCastException: com.gemini.core.module.sys.model.User cannot be cast to com.gemini.base.sys.model.User
             //请看上面第2点注释
@@ -95,6 +95,7 @@ public class ShiroRealm extends AuthorizingRealm {
         } finally {
             loginLogService.save(loginLog);
         }
+        return saInfo;
     }
 
     /**

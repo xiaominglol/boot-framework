@@ -10,9 +10,9 @@
                                     <form class="layui-form layui-form-pane queryFrom" action="">
                                         <div class="layui-form-item">
                                             <div class="layui-inline">
-                                                <label class="layui-form-label">名称</label>
+                                                <label class="layui-form-label" style="width: auto">用户名称</label>
                                                 <div class="layui-input-inline">
-                                                    <input type="text" name="userName" placeholder="请输入名称"
+                                                    <input type="text" name="userName" placeholder="请输入用户名称"
                                                            autocomplete="off"
                                                            class="layui-input">
                                                 </div>
@@ -20,7 +20,6 @@
                                                     <select name="status">
                                                         <option value="">请选择登陆状态</option>
                                                         <option value="1">成功</option>
-                                                        <!--(bug)为0的时候查询不了-->
                                                         <option value="0">失败</option>
                                                     </select>
                                                 </div>
@@ -84,7 +83,7 @@
                 , {field: 'status', title: '登陆状态', width: 150, align: 'center', templet: '#statusTpl'}
                 , {field: 'message', title: '登陆消息'}
                 , {
-                    field: 'loginTime', title: '登陆时间', width: 180, sort: true, templet: function (d) {
+                    field: 'loginTime', title: '登陆时间', width: 180, templet: function (d) {
                         return util.toDateString(d.loginTime);
                     }
                 }

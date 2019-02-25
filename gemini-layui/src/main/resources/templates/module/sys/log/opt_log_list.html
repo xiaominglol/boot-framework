@@ -10,9 +10,9 @@
                                     <form class="layui-form layui-form-pane queryFrom" action="">
                                         <div class="layui-form-item">
                                             <div class="layui-inline">
-                                                <label class="layui-form-label">名称</label>
+                                                <label class="layui-form-label" style="width: auto">操作描述</label>
                                                 <div class="layui-input-inline">
-                                                    <input type="text" name="userName" placeholder="请输入名称"
+                                                    <input type="text" name="description" placeholder="请输入操作描述"
                                                            autocomplete="off"
                                                            class="layui-input">
                                                 </div>
@@ -61,6 +61,8 @@
     <span class="layui-badge">修改</span>
     {{#  } else if(d.type == "4"){ }}
     <span class="layui-badge layui-bg-red">删除</span>
+    {{#  } else if(d.type == "5"){ }}
+    <span class="layui-badge layui-bg-green">用户登陆</span>
     {{#  } }}
 </script>
 <script th:inline="none">
@@ -80,11 +82,15 @@
                 , {
                     field: 'type', title: '操作类型', width: 100, align: "center", templet: '#typeTpl'
                 }
-                , {field: 'url', title: '请求地址', width: 240}
-                , {field: 'requestParam', title: '请求参数'}
-                , {field: 'responseResult', title: '返回结果'}
+                , {field: 'description', title: '操作描述', width: 150}
+                , {field: 'url', title: '请求地址', width: 120}
+                , {field: 'method', title: '请求方法名称'}
+                , {field: 'params', title: '请求参数'}
+                , {field: 'result', title: '返回结果'}
+                , {field: 'time', title: '耗时(毫秒)', width: 100}
+                , {field: 'ip', title: 'ip地址', width: 120}
                 , {
-                    field: 'optTime', title: '操作时间', width: 180, sort: true, templet: function (d) {
+                    field: 'optTime', title: '操作时间', width: 160, templet: function (d) {
                         return util.toDateString(d.optTime);
                     }
                 }

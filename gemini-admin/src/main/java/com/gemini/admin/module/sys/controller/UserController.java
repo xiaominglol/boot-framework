@@ -2,6 +2,7 @@ package com.gemini.admin.module.sys.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.gemini.admin.common.annotation.SysLog;
 import com.gemini.admin.common.mvc.controller.BaseController;
 import com.gemini.admin.common.mvc.model.CommonFailInfo;
 import com.gemini.admin.common.mvc.model.LayUiPage;
@@ -59,6 +60,7 @@ public class UserController extends BaseController {
     /**
      * 获取分页列表
      */
+    @SysLog("查询用户列表")
     @GetMapping("/user")
     @ResponseBody
     public Message getPageList(LayUiPage layUiPage, User user) {
@@ -67,11 +69,7 @@ public class UserController extends BaseController {
 
             return Message.success(list);
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("Page", layUiPage);
-            map.put("User", user);
-            excpLogService.save(ExcpLog.addResponseResult("/user", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -92,10 +90,7 @@ public class UserController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("id", id);
-            excpLogService.save(ExcpLog.addResponseResult("/user", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -105,6 +100,7 @@ public class UserController extends BaseController {
      *
      * @param user 用户
      */
+    @SysLog("添加用户")
     @PostMapping("/user")
     @ResponseBody
     public Message save(User user, @RequestParam(value = "ids[]") String[] ids) {
@@ -122,10 +118,7 @@ public class UserController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("User", user);
-            excpLogService.save(ExcpLog.addResponseResult("/user", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -135,6 +128,7 @@ public class UserController extends BaseController {
      *
      * @param userList 用户列表
      */
+    @SysLog("批量添加用户")
     @PostMapping("/user/batchSave")
     @ResponseBody
     public Message batchSave(@RequestBody(required = false) List<User> userList) {
@@ -156,10 +150,7 @@ public class UserController extends BaseController {
                 return Message.fail(CommonFailInfo.USER_LIST_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("UserList", userList);
-            excpLogService.save(ExcpLog.addResponseResult("/user", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -170,6 +161,7 @@ public class UserController extends BaseController {
      * @param user 用户
      * @return
      */
+    @SysLog("更新用户")
     @PutMapping("/user")
     @ResponseBody
     public Message update(User user, @RequestParam(value = "ids[]", required = false) String[] ids) {
@@ -196,11 +188,7 @@ public class UserController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("User", user);
-            map.put("ids[]", ids);
-            excpLogService.save(ExcpLog.addResponseResult("/user", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -211,6 +199,7 @@ public class UserController extends BaseController {
      * @param ids
      * @return
      */
+    @SysLog("删除用户")
     @DeleteMapping("/user/{ids}")
     @ResponseBody
     public Message delete(@PathVariable("ids") String[] ids) {
@@ -225,10 +214,7 @@ public class UserController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("String[]", ids);
-            excpLogService.save(ExcpLog.addResponseResult("/user", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -254,10 +240,7 @@ public class UserController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("account", account);
-            excpLogService.save(ExcpLog.addResponseResult("/user", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -277,10 +260,7 @@ public class UserController extends BaseController {
             picture.transferTo(new File(fileSavePath + pictureName));
             return Message.success(pictureName);
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("picture", picture);
-            excpLogService.save(ExcpLog.addResponseResult("/user/picture/upload", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -292,6 +272,7 @@ public class UserController extends BaseController {
      * @return
      * @throws IOException
      */
+    @SysLog("用户导入")
     @PostMapping("/user/import")
     @ResponseBody
     public Message batchImport(@RequestParam(value = "file") MultipartFile file) {
@@ -367,10 +348,7 @@ public class UserController extends BaseController {
             }
             return Message.success(userList);
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("MultipartFile", file);
-            excpLogService.save(ExcpLog.addResponseResult("/user/import", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -381,6 +359,7 @@ public class UserController extends BaseController {
      *
      * @return
      */
+    @SysLog("用户导出")
     @GetMapping("/user/export")
     public void export(HttpServletResponse response) {
         try {
@@ -408,10 +387,7 @@ public class UserController extends BaseController {
             // 第七步：调用工具类
             Poi314ExcelUtils.exportExcel(fileName, sheetName, headNames, fieldNames, columnWidths, dataList, response, Poi314ExcelUtils.EXCEL_2010, -1);
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("HttpServletResponse", response);
-            excpLogService.save(ExcpLog.addResponseResult("/user/export", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
         }
 
     }
@@ -422,6 +398,7 @@ public class UserController extends BaseController {
      * @param userList 用户列表
      * @return
      */
+    @SysLog("重置密码")
     @PutMapping("/user/restPwd")
     @ResponseBody
     public Message restPwd(@RequestBody List<User> userList) {
@@ -437,10 +414,7 @@ public class UserController extends BaseController {
                 return Message.fail(CommonFailInfo.USER_LIST_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("List<User>", userList);
-            excpLogService.save(ExcpLog.addResponseResult("/user/restPwd", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }

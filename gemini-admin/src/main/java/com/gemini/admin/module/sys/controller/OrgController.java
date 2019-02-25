@@ -1,5 +1,6 @@
 package com.gemini.admin.module.sys.controller;
 
+import com.gemini.admin.common.annotation.SysLog;
 import com.gemini.admin.common.mvc.controller.BaseController;
 import com.gemini.admin.common.mvc.model.CommonFailInfo;
 import com.gemini.admin.common.mvc.model.Message;
@@ -41,6 +42,7 @@ public class OrgController extends BaseController {
     /**
      * 树形表格列表
      */
+    @SysLog("查询组织架构列表")
     @GetMapping("/org")
     @ResponseBody
     public Message getTreeTableList(Org org) {
@@ -48,10 +50,7 @@ public class OrgController extends BaseController {
             List<Org> list = orgService.getList(org);
             return Message.success(list);
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("Org", org);
-            excpLogService.save(ExcpLog.addResponseResult("/org", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -73,10 +72,7 @@ public class OrgController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("id", id);
-            excpLogService.save(ExcpLog.addResponseResult("/org", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -86,6 +82,7 @@ public class OrgController extends BaseController {
      *
      * @param org 组织架构
      */
+    @SysLog("添加组织架构")
     @PostMapping("/org")
     @ResponseBody
     public Message add(Org org) {
@@ -100,10 +97,7 @@ public class OrgController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("Org", org);
-            excpLogService.save(ExcpLog.addResponseResult("/org", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -114,6 +108,7 @@ public class OrgController extends BaseController {
      * @param org 组织架构
      * @return
      */
+    @SysLog("更新组织架构")
     @PutMapping("/org")
     @ResponseBody
     public Message update(Org org) {
@@ -128,10 +123,7 @@ public class OrgController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("Org", org);
-            excpLogService.save(ExcpLog.addResponseResult("/org", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -142,6 +134,7 @@ public class OrgController extends BaseController {
      * @param id 主键
      * @return
      */
+    @SysLog("删除组织架构")
     @DeleteMapping("/org/{id}")
     @ResponseBody
     public Message delete(@PathVariable("id") Integer id) {
@@ -153,10 +146,7 @@ public class OrgController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("id", id);
-            excpLogService.save(ExcpLog.addResponseResult("/org", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -174,8 +164,7 @@ public class OrgController extends BaseController {
             List<Map<String, Object>> list = TreeSelectUtil.getTreeSelect(orgList);
             return Message.success(list);
         } catch (Exception e) {
-            logger.error(e.getMessage());
-            excpLogService.save(ExcpLog.addResponseResult("/org", null, e.getMessage()));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }

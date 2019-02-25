@@ -3,6 +3,7 @@ package com.gemini.admin.module.sys.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.gemini.admin.common.annotation.SysLog;
 import com.gemini.admin.common.mvc.controller.BaseController;
 import com.gemini.admin.common.mvc.model.CommonFailInfo;
 import com.gemini.admin.common.mvc.model.LayUiPage;
@@ -43,6 +44,7 @@ public class RoleController extends BaseController {
     /**
      * 获取分页列表
      */
+    @SysLog("查询角色列表")
     @GetMapping("/role")
     @ResponseBody
     public Message getPageList(LayUiPage layUiPage, Role role) {
@@ -51,11 +53,7 @@ public class RoleController extends BaseController {
 
             return Message.success(list);
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("Page", layUiPage);
-            map.put("Role", role);
-            excpLogService.save(ExcpLog.addResponseResult("/role", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -76,10 +74,7 @@ public class RoleController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("id", id);
-            excpLogService.save(ExcpLog.addResponseResult("/role", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -89,6 +84,7 @@ public class RoleController extends BaseController {
      *
      * @param role 角色
      */
+    @SysLog("添加角色")
     @PostMapping("/role")
     @ResponseBody
     public Message add(Role role, @RequestParam(value = "ids[]", required = false) Integer[] ids) {
@@ -106,10 +102,7 @@ public class RoleController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("Role", role);
-            excpLogService.save(ExcpLog.addResponseResult("/role", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -120,6 +113,7 @@ public class RoleController extends BaseController {
      * @param role
      * @return
      */
+    @SysLog("更新角色")
     @PutMapping("/role")
     @ResponseBody
     public Message update(Role role, @RequestParam(value = "ids[]", required = false) Integer[] ids) {
@@ -138,11 +132,7 @@ public class RoleController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("Role", role);
-            map.put("ids[]", ids);
-            excpLogService.save(ExcpLog.addResponseResult("/role", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -153,6 +143,7 @@ public class RoleController extends BaseController {
      * @param id 角色主键id
      * @return
      */
+    @SysLog("删除角色")
     @DeleteMapping("/role/{id}")
     @ResponseBody
     public Message delete(@PathVariable("id") Integer id) {
@@ -165,10 +156,7 @@ public class RoleController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("id", id);
-            excpLogService.save(ExcpLog.addResponseResult("/role", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -194,10 +182,7 @@ public class RoleController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("id", id);
-            excpLogService.save(ExcpLog.addResponseResult("/role", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }

@@ -1,6 +1,7 @@
 package com.gemini.admin.module.sys.controller;
 
 
+import com.gemini.admin.common.annotation.SysLog;
 import com.gemini.admin.common.mvc.controller.BaseController;
 import com.gemini.admin.common.mvc.model.CommonFailInfo;
 import com.gemini.admin.common.mvc.model.Message;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,17 +43,15 @@ public class DictController extends BaseController {
     /**
      * 树形表格列表
      */
+    @SysLog("查询字典列表")
     @GetMapping("/dict")
     @ResponseBody
-    public Message getTreeTableList(Dict dict) {
+    public Message getTreeTableList(HttpServletRequest request,Dict dict) {
         try {
             List<Dict> list = dictService.getList(dict);
             return Message.success(list);
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("Dict", dict);
-            excpLogService.save(ExcpLog.addResponseResult("/dict", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -72,10 +72,7 @@ public class DictController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("id", id);
-            excpLogService.save(ExcpLog.addResponseResult("/dict/{id}", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -85,6 +82,7 @@ public class DictController extends BaseController {
      *
      * @param dict
      */
+    @SysLog("添加字典")
     @PostMapping("/dict")
     @ResponseBody
     public Message add(Dict dict) {
@@ -100,10 +98,7 @@ public class DictController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("Dict", dict);
-            excpLogService.save(ExcpLog.addResponseResult("/dict", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -114,6 +109,7 @@ public class DictController extends BaseController {
      * @param dict
      * @return
      */
+    @SysLog("更新字典")
     @PutMapping("/dict")
     @ResponseBody
     public Message update(Dict dict) {
@@ -128,10 +124,7 @@ public class DictController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("Dict", dict);
-            excpLogService.save(ExcpLog.addResponseResult("/dict", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -142,6 +135,7 @@ public class DictController extends BaseController {
      * @param id 角色主键id
      * @return
      */
+    @SysLog("删除字典")
     @DeleteMapping("/dict/{id}")
     @ResponseBody
     public Message delete(@PathVariable("id") Integer id) {
@@ -153,10 +147,7 @@ public class DictController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("id", id);
-            excpLogService.save(ExcpLog.addResponseResult("/dict/{id}", map, e.getMessage()));
-            logger.error(e.getMessage());
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
             return Message.fail(e.getMessage());
         }
     }
