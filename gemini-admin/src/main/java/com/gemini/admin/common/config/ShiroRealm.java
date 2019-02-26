@@ -25,7 +25,7 @@ import java.util.Set;
 /**
  * 自定义shiro
  *
- * @author 小明
+ * @author 小明不读书
  * @date 2017-12-11
  */
 public class ShiroRealm extends AuthorizingRealm {

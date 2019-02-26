@@ -1,25 +1,23 @@
 package com.gemini.admin.module.sys.model;
 
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.gemini.admin.module.sys.utils.UserUtils;
 import com.gemini.admin.utils.IPUtils;
-import com.gemini.admin.utils.MethodUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 操作日志    t_sys_excp_log
@@ -144,12 +142,12 @@ public class ExcpLog implements Serializable {
         excpLog.setMethod(methodName);
 
         //请求参数
-        Enumeration enu=request.getParameterNames();
-        Map<String,Object> map = new HashMap<>();
-        while(enu.hasMoreElements()){
-            String paraName=(String)enu.nextElement();
-            map.put(paraName,request.getParameter(paraName));
-            System.out.println(paraName+": "+request.getParameter(paraName));
+        Enumeration enu = request.getParameterNames();
+        Map<String, Object> map = new HashMap<>();
+        while (enu.hasMoreElements()) {
+            String paraName = (String) enu.nextElement();
+            map.put(paraName, request.getParameter(paraName));
+            System.out.println(paraName + ": " + request.getParameter(paraName));
         }
         excpLog.setParams(map == null ? "" : map.toString());
         //设置IP地址

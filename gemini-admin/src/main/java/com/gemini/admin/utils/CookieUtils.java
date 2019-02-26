@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Cookie工具类
  *
- * @author 小明
+ * @author 小明不读书
  */
 public class CookieUtils {
     /**

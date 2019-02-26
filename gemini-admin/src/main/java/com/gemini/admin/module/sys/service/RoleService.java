@@ -1,6 +1,6 @@
 package com.gemini.admin.module.sys.service;
 
-import com.gemini.admin.common.mvc.service.CrudService;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.gemini.admin.module.sys.model.Role;
 
 import java.util.List;
@@ -9,10 +9,10 @@ import java.util.Map;
 /**
  * 角色service层
  *
- * @author 小明
+ * @author 小明不读书
  * @date 2018-02-11
  */
-public interface RoleService extends CrudService<Role> {
+public interface RoleService extends IService<Role> {
 
     /**
      * 通过角色id查询权限

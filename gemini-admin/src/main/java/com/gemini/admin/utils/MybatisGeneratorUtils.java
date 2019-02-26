@@ -11,7 +11,7 @@ package com.gemini.admin.utils;//package com.gemini.geminicommon.utils;
 //
 ///**
 // * Mybatis自动生成代码工具
-// * @author xiaoming
+// * @author 小明不读书
 // *
 // */
 //public class MybatisGeneratorUtils {

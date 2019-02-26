@@ -1,5 +1,6 @@
 package com.gemini.admin.module.sys.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gemini.admin.common.annotation.SysLog;
@@ -9,6 +10,7 @@ import com.gemini.admin.common.mvc.model.LayUiPage;
 import com.gemini.admin.common.mvc.model.Message;
 import com.gemini.admin.common.properties.GeminiProperties;
 import com.gemini.admin.module.sys.model.ExcpLog;
+import com.gemini.admin.module.sys.model.Role;
 import com.gemini.admin.module.sys.model.User;
 import com.gemini.admin.module.sys.service.UserService;
 import com.gemini.admin.module.sys.utils.UserUtils;
@@ -36,7 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * @author 小明
+ * @author 小明不读书
  * @date 2017-11-03
  */
 @Controller
@@ -65,11 +67,17 @@ public class UserController extends BaseController {
     @ResponseBody
     public Message getPageList(LayUiPage layUiPage, User user) {
         try {
-            IPage<User> list = userService.getPage(new Page<User>(layUiPage.getPageNum(), layUiPage.getPageSize()), null);
-
+            QueryWrapper<User> qw = new QueryWrapper<>();
+            if(!StringUtils.isEmpty(user.getName())){
+                qw.like("name",user.getName()).or().like("account",user.getName());
+            }
+            if(!StringUtils.isEmpty(user.getOrgId())){
+                qw.eq("org_id",user.getOrgId());
+            }
+            IPage<User> list = userService.page(new Page<>(layUiPage.getPageNum(), layUiPage.getPageSize()), qw);
             return Message.success(list);
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -90,7 +98,7 @@ public class UserController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -111,14 +119,14 @@ public class UserController extends BaseController {
                 User currentUser = UserUtils.getCurrentUser();
                 user.setOptId(currentUser.getAccount());
                 user.setOptName(currentUser.getName());
-                userService.add(user);
+                userService.save(user);
                 userService.addUserRole(user.getAccount(), ids);
                 return Message.success(user);
             } else {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -143,14 +151,14 @@ public class UserController extends BaseController {
                     user.setOptId(currentUser.getAccount());
                     user.setOptName(currentUser.getName());
                     user.setPicture("/img/icon/64/default_picture.png");
-                    userService.add(user);
+                    userService.save(user);
                 }
                 return Message.success(null);
             } else {
                 return Message.fail(CommonFailInfo.USER_LIST_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -177,8 +185,7 @@ public class UserController extends BaseController {
                     String pwd = MD5Util.encryption(user.getPassword(), user.getAccount());
                     user.setPassword(pwd);
                 }
-
-                userService.update(user);
+                userService.updateById(user);
                 if (ids != null) {
                     userService.deleteUserRole(user.getAccount());
                     userService.addUserRole(user.getAccount(), ids);
@@ -188,7 +195,7 @@ public class UserController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -206,7 +213,7 @@ public class UserController extends BaseController {
         try {
             if (!StringUtils.isEmpty(ids)) {
                 for (String id : ids) {
-                    userService.delete(id);
+                    userService.removeById(id);
                     userService.deleteUserRole(id);
                 }
                 return Message.success(null);
@@ -214,7 +221,7 @@ public class UserController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -240,7 +247,7 @@ public class UserController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -260,7 +267,7 @@ public class UserController extends BaseController {
             picture.transferTo(new File(fileSavePath + pictureName));
             return Message.success(pictureName);
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -348,7 +355,7 @@ public class UserController extends BaseController {
             }
             return Message.success(userList);
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -376,7 +383,7 @@ public class UserController extends BaseController {
             Short[] columnWidths = {5000, 6000, 7000};
             // 第六步：组装数据
             List<Map<String, Object>> dataList = new ArrayList<>();
-            List<User> list = userService.getList(null);
+            List<User> list = userService.list();
             for (User user : list) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("account", user.getAccount());
@@ -387,7 +394,7 @@ public class UserController extends BaseController {
             // 第七步：调用工具类
             Poi314ExcelUtils.exportExcel(fileName, sheetName, headNames, fieldNames, columnWidths, dataList, response, Poi314ExcelUtils.EXCEL_2010, -1);
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
         }
 
     }
@@ -407,14 +414,14 @@ public class UserController extends BaseController {
                 for (User user : userList) {
                     String pwd = MD5Util.encryption(MD5Util.INIT_PASSWORD, user.getAccount());
                     user.setPassword(pwd);
-                    userService.update(user);
+                    userService.updateById(user);
                 }
                 return Message.success(null);
             } else {
                 return Message.fail(CommonFailInfo.USER_LIST_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }

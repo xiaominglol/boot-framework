@@ -1,6 +1,7 @@
 package com.gemini.admin.module.sys.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.gemini.admin.common.annotation.SysLog;
 import com.gemini.admin.common.mvc.controller.BaseController;
 import com.gemini.admin.common.mvc.model.CommonFailInfo;
@@ -15,14 +16,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 菜单控制层
  *
- * @author 小明
+ * @author 小明不读书
  * @date 2017-12-12
  */
 @Controller
@@ -47,10 +46,17 @@ public class MenuController extends BaseController {
     @ResponseBody
     public Message getTreeTableList(Menu menu) {
         try {
-            List<Menu> list = menuService.getList(menu);
+            QueryWrapper<Menu> qw = new QueryWrapper<>();
+            if(!StringUtils.isEmpty(menu.getId())){
+                qw.eq("id",menu.getId()).or().eq("pid",menu.getId());
+            }
+            if(!StringUtils.isEmpty(menu.getName())){
+                qw.like("name",menu.getName());
+            }
+            List<Menu> list = menuService.list(qw);
             return Message.success(list);
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -66,7 +72,7 @@ public class MenuController extends BaseController {
             List<Menu> list = menuService.getByAccount(account);
             return Message.success(list);
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -87,7 +93,7 @@ public class MenuController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -106,13 +112,13 @@ public class MenuController extends BaseController {
                 User currentUser = UserUtils.getCurrentUser();
                 menu.setOptId(currentUser.getAccount());
                 menu.setOptName(currentUser.getName());
-                menuService.add(menu);
+                menuService.save(menu);
                 return Message.success(menu);
             } else {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -132,13 +138,13 @@ public class MenuController extends BaseController {
                 User currentUser = UserUtils.getCurrentUser();
                 menu.setOptId(currentUser.getAccount());
                 menu.setOptName(currentUser.getName());
-                menuService.update(menu);
+                menuService.updateById(menu);
                 return Message.success(menu);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -155,14 +161,14 @@ public class MenuController extends BaseController {
     public Message delete(@PathVariable("id") Integer id) {
         try {
             if (!StringUtils.isEmpty(id)) {
-                menuService.delete(id);
+                menuService.removeById(id);
                 menuService.deleteMenuAut(id);
                 return Message.success(null);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }

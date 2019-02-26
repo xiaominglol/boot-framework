@@ -112,7 +112,10 @@ function getTreeSelect(param) {
  * @param dom   指定某个name选择器
  */
 function getMultiSelect(dom) {
-    var data = getSysData({url: "/role"});
+    var data = getSysData({
+        url: "/role"
+        , isTreeTable: true
+    });
     if (data) {
         var multiSelect = [];
         for (var i in data) {

@@ -1,11 +1,13 @@
 package com.gemini.admin.module.sys.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gemini.admin.common.annotation.SysLog;
 import com.gemini.admin.common.mvc.controller.BaseController;
 import com.gemini.admin.common.mvc.model.CommonFailInfo;
+import com.gemini.admin.common.mvc.model.CommonStatus;
 import com.gemini.admin.common.mvc.model.LayUiPage;
 import com.gemini.admin.common.mvc.model.Message;
 import com.gemini.admin.module.sys.model.ExcpLog;
@@ -19,7 +21,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,11 +50,21 @@ public class RoleController extends BaseController {
     @ResponseBody
     public Message getPageList(LayUiPage layUiPage, Role role) {
         try {
-            IPage<Role> list = roleService.getPage(new Page<Role>(layUiPage.getPageNum(), layUiPage.getPageSize()), null);
-
-            return Message.success(list);
+            QueryWrapper<Role> qw = new QueryWrapper<>();
+            //如果是分页查询
+            if(layUiPage.getPageNum() != 0 && layUiPage.getPageSize() != 0){
+                if(!StringUtils.isEmpty(role.getName())){
+                    qw.like("name",role.getName()).or().like("code",role.getName());
+                }
+                IPage<Role> list = roleService.page(new Page<>(layUiPage.getPageNum(), layUiPage.getPageSize()), qw);
+                return Message.success(list);
+            }else{//否则查询全部有效
+                qw.eq("status", CommonStatus.STATUS_VALIDITY);
+                List<Role> list = roleService.list(qw);
+                return Message.success(list);
+            }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -74,7 +85,7 @@ public class RoleController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -93,7 +104,7 @@ public class RoleController extends BaseController {
                 User currentUser = UserUtils.getCurrentUser();
                 role.setOptId(currentUser.getAccount());
                 role.setOptName(currentUser.getName());
-                roleService.add(role);
+                roleService.save(role);
                 if (!StringUtils.isEmpty(ids)) {
                     roleService.addAut(role.getId(), ids);
                 }
@@ -102,7 +113,7 @@ public class RoleController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -122,7 +133,7 @@ public class RoleController extends BaseController {
                 User currentUser = UserUtils.getCurrentUser();
                 role.setOptId(currentUser.getAccount());
                 role.setOptName(currentUser.getName());
-                roleService.update(role);
+                roleService.updateById(role);
                 roleService.deleteAut(role.getId());
                 if (!StringUtils.isEmpty(ids)) {
                     roleService.addAut(role.getId(), ids);
@@ -132,7 +143,7 @@ public class RoleController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -149,14 +160,14 @@ public class RoleController extends BaseController {
     public Message delete(@PathVariable("id") Integer id) {
         try {
             if (!StringUtils.isEmpty(id)) {
-                roleService.delete(id);
+                roleService.removeById(id);
                 roleService.deleteAut(id);
                 return Message.success(null);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -182,7 +193,7 @@ public class RoleController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }

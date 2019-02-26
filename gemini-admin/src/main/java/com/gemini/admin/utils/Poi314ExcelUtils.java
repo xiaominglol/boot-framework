@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
  * Excel工具类，封装了常用的Excel导入/导出的操作
  * 依赖组件Poi-3.14版本
  *
- * @author gemini
+ * @author 小明不读书
  * @date 2018-10-26
  */
 public class Poi314ExcelUtils {

@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * 增删查改Dao
  *
- * @author 小明
+ * @author 小明不读书
  * @date 2018-02-11
  */
 public interface CrudMapper<T> {

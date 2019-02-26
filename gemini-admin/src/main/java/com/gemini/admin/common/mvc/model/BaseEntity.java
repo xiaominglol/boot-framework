@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * 基础字段
  *
- * @author 小明
+ * @author 小明不读书
  * @date 2017-12-11
  */
 @NoArgsConstructor

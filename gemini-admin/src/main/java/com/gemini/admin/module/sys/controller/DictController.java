@@ -1,6 +1,7 @@
 package com.gemini.admin.module.sys.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.gemini.admin.common.annotation.SysLog;
 import com.gemini.admin.common.mvc.controller.BaseController;
 import com.gemini.admin.common.mvc.model.CommonFailInfo;
@@ -15,10 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 字典控制层
@@ -46,12 +44,26 @@ public class DictController extends BaseController {
     @SysLog("查询字典列表")
     @GetMapping("/dict")
     @ResponseBody
-    public Message getTreeTableList(HttpServletRequest request,Dict dict) {
+    public Message getTreeTableList(Dict dict) {
         try {
-            List<Dict> list = dictService.getList(dict);
+            QueryWrapper<Dict> qw = new QueryWrapper<>();
+            if (!StringUtils.isEmpty(dict.getName())) {
+                qw.like("name", dict.getName());
+            }
+            if (!StringUtils.isEmpty(dict.getCode())) {
+                qw.eq("code", dict.getCode()).or().eq("parent_code", dict.getCode());
+            }
+            if (!StringUtils.isEmpty(dict.getParentCode())) {
+                qw.eq("parent_code", dict.getParentCode());
+            }
+            if (!StringUtils.isEmpty(dict.getStatus())) {
+                qw.eq("status", dict.getStatus());
+            }
+            qw.orderByAsc("sort");
+            List<Dict> list = dictService.list(qw);
             return Message.success(list);
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -72,7 +84,7 @@ public class DictController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -91,14 +103,14 @@ public class DictController extends BaseController {
                 User currentUser = UserUtils.getCurrentUser();
                 dict.setOptId(currentUser.getAccount());
                 dict.setOptName(currentUser.getName());
-                dictService.add(dict);
+                dictService.save(dict);
 
                 return Message.success(dict);
             } else {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -118,13 +130,13 @@ public class DictController extends BaseController {
                 User currentUser = UserUtils.getCurrentUser();
                 dict.setOptId(currentUser.getAccount());
                 dict.setOptName(currentUser.getName());
-                dictService.update(dict);
+                dictService.updateById(dict);
                 return Message.success(dict);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -141,13 +153,13 @@ public class DictController extends BaseController {
     public Message delete(@PathVariable("id") Integer id) {
         try {
             if (!StringUtils.isEmpty(id)) {
-                dictService.delete(id);
+                dictService.removeById(id);
                 return Message.success(null);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }

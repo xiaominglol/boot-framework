@@ -10,7 +10,7 @@ package com.gemini.admin.utils;///**
 //
 ///**
 // * Cache工具类
-// * @author 小明
+// * @author 小明不读书
 // * @date 2019-01-19
 // */
 //public class EhCacheUtils {

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * 基础控制层
  *
- * @author 小明
+ * @author 小明不读书
  * @date 2017-12-12
  */
 public abstract class BaseController {

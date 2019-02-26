@@ -33,7 +33,7 @@
 // * Excel工具类，封装了常用的Excel导入/导出的操作
 // * 依赖组件Jxl(JavaExcelApi)/POI的实现
 // *
-// * @author admin
+// * @author 小明不读书
 // */
 //public class JxlExcelUtils {
 //

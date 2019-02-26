@@ -1,10 +1,12 @@
 package com.gemini.admin.module.sys.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.gemini.admin.common.annotation.SysLog;
 import com.gemini.admin.common.mvc.controller.BaseController;
 import com.gemini.admin.common.mvc.model.CommonFailInfo;
 import com.gemini.admin.common.mvc.model.Message;
 import com.gemini.admin.module.sys.model.ExcpLog;
+import com.gemini.admin.module.sys.model.Menu;
 import com.gemini.admin.module.sys.model.Org;
 import com.gemini.admin.module.sys.model.User;
 import com.gemini.admin.module.sys.service.OrgService;
@@ -15,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,10 +48,17 @@ public class OrgController extends BaseController {
     @ResponseBody
     public Message getTreeTableList(Org org) {
         try {
-            List<Org> list = orgService.getList(org);
+            QueryWrapper<Org> qw = new QueryWrapper<>();
+            if(!StringUtils.isEmpty(org.getId())){
+                qw.eq("id",org.getId()).or().eq("pid",org.getId());
+            }
+            if(!StringUtils.isEmpty(org.getName())){
+                qw.like("name",org.getName());
+            }
+            List<Org> list = orgService.list(qw);
             return Message.success(list);
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -72,7 +80,7 @@ public class OrgController extends BaseController {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -91,13 +99,13 @@ public class OrgController extends BaseController {
                 User currentUser = UserUtils.getCurrentUser();
                 org.setOptId(currentUser.getAccount());
                 org.setOptName(currentUser.getName());
-                orgService.add(org);
+                orgService.save(org);
                 return Message.success(org);
             } else {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -117,13 +125,13 @@ public class OrgController extends BaseController {
                 User currentUser = UserUtils.getCurrentUser();
                 org.setOptId(currentUser.getAccount());
                 org.setOptName(currentUser.getName());
-                orgService.update(org);
+                orgService.updateById(org);
                 return Message.success(org);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -140,13 +148,13 @@ public class OrgController extends BaseController {
     public Message delete(@PathVariable("id") Integer id) {
         try {
             if (!StringUtils.isEmpty(id)) {
-                orgService.delete(id);
+                orgService.removeById(id);
                 return Message.success(null);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
@@ -160,11 +168,11 @@ public class OrgController extends BaseController {
     @ResponseBody
     public Message getOrg() {
         try {
-            List<Org> orgList = orgService.getList(new Org());
+            List<Org> orgList = orgService.list();
             List<Map<String, Object>> list = TreeSelectUtil.getTreeSelect(orgList);
             return Message.success(list);
         } catch (Exception e) {
-            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName()+"()", e.getMessage(),logger));
+            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }

@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 增删查改Service
  *
- * @author 小明
+ * @author 小明不读书
  * @date 2018-02-11
  */
 public interface CrudService<T> {

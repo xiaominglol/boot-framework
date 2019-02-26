@@ -18,6 +18,7 @@ import java.util.Map;
 /**
  * Druid监控配置
  * 由于使用了p6spy插件，导致druid无法识别p6spy驱动，暂时将druid定义为生产启动 @Profile({"prod"})，p6spy为开发测试启动
+ *
  * @author 小明不读书
  * @date 2018-07-17
  */
