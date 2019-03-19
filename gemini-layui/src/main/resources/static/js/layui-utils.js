@@ -80,7 +80,7 @@ function openAddOrUpdate(param) {
                 /*layer.confirm('确定要关闭么？', {
                     btn: ['确定', '取消']
                 }, function (index, layero) {*/
-                layer.closeAll();
+                layer.close(index);
                 $('.reset').click();
                 /*}, function (index) {
                 });*/
