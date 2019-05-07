@@ -162,7 +162,6 @@ public class MenuController extends BaseController {
         try {
             if (!StringUtils.isEmpty(id)) {
                 menuService.removeById(id);
-                menuService.deleteMenuAut(id);
                 return Message.success(null);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);

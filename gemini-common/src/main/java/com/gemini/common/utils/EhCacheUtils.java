@@ -1,4 +1,4 @@
-package com.gemini.admin.utils;///**
+package com.gemini.common.utils;///**
 // * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
 // */
 //package com.gemini.base.utils;

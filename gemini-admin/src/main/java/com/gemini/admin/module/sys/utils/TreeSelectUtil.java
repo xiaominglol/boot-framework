@@ -1,4 +1,4 @@
-package com.gemini.admin.utils;
+package com.gemini.admin.module.sys.utils;
 
 import com.gemini.admin.module.sys.model.Org;
 

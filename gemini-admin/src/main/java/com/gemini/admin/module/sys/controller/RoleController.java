@@ -104,10 +104,7 @@ public class RoleController extends BaseController {
                 User currentUser = UserUtils.getCurrentUser();
                 role.setOptId(currentUser.getAccount());
                 role.setOptName(currentUser.getName());
-                roleService.save(role);
-                if (!StringUtils.isEmpty(ids)) {
-                    roleService.addAut(role.getId(), ids);
-                }
+                roleService.save(role, ids);
                 return Message.success(role);
             } else {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
@@ -133,11 +130,7 @@ public class RoleController extends BaseController {
                 User currentUser = UserUtils.getCurrentUser();
                 role.setOptId(currentUser.getAccount());
                 role.setOptName(currentUser.getName());
-                roleService.updateById(role);
-                roleService.deleteAut(role.getId());
-                if (!StringUtils.isEmpty(ids)) {
-                    roleService.addAut(role.getId(), ids);
-                }
+                roleService.updateById(role, ids);
                 return Message.success(role);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
@@ -161,7 +154,6 @@ public class RoleController extends BaseController {
         try {
             if (!StringUtils.isEmpty(id)) {
                 roleService.removeById(id);
-                roleService.deleteAut(id);
                 return Message.success(null);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);

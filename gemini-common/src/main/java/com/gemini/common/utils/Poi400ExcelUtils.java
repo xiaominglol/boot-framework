@@ -1,19 +1,11 @@
-//package com.gemini.base.utils;
+package com.gemini.common.utils;//package com.gemini.base.utils;
 //
-//import jxl.Workbook;
-//import jxl.biff.DisplayFormat;
-//import jxl.format.Border;
-//import jxl.format.BorderLineStyle;
-//import jxl.format.Colour;
-//import jxl.format.*;
-//import jxl.format.VerticalAlignment;
-//import jxl.write.*;
-//import jxl.write.Number;
 //import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 //import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 //import org.apache.poi.ss.usermodel.Cell;
 //import org.apache.poi.ss.usermodel.CellStyle;
 //import org.apache.poi.ss.usermodel.IndexedColors;
+//import org.apache.poi.ss.usermodel.Workbook;
 //import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 //import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 //import org.springframework.util.StringUtils;
@@ -26,7 +18,6 @@
 //import java.math.BigDecimal;
 //import java.util.*;
 //import java.util.regex.Pattern;
-//import java.util.regex.Pattern;
 //
 //
 ///**
@@ -35,7 +26,7 @@
 // *
 // * @author 小明不读书
 // */
-//public class JxlExcelUtils {
+//public class Poi400ExcelUtils {
 //
 //    public static final int EXCEL_2010 = 2010;
 //    public static final int EXCEL_2003 = 2003;
@@ -69,7 +60,7 @@
 //     * @param exportFieldName 导出的字段名称数组
 //     * @param exportField     数据库中要导出的字段名数组
 //     */
-//    public JxlExcelUtils(String path, String sheetName, String[] exportFieldName, String[] exportField) {
+//    public Poi400ExcelUtils(String path, String sheetName, String[] exportFieldName, String[] exportField) {
 //        this.path = path;
 //        this.sheetName = sheetName;
 //        this.exportFieldName = exportFieldName;
@@ -810,7 +801,7 @@
 //        String sheetName = "代理商信息";
 //        String[] exportName = new String[]{"用户账号", "用户名称", "创建时间"};
 //
-//        JxlExcelUtils excel = new JxlExcelUtils(path, sheetName, exportName, exportFields);
+//        Poi400ExcelUtils excel = new Poi400ExcelUtils(path, sheetName, exportName, exportFields);
 //        ArrayList list = new ArrayList();
 //        for (int i = 0; i < 10; i++) {
 //            Map map = new HashMap();

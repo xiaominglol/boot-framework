@@ -3,7 +3,7 @@ package com.gemini.admin.module.sys.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.gemini.admin.module.sys.utils.UserUtils;
-import com.gemini.admin.utils.IPUtils;
+import com.gemini.common.utils.IPUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

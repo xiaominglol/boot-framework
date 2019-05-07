@@ -26,6 +26,8 @@ mybatis-plus:
   #typeAliasesPackage: com.gemini.admin.*.model
   global-config:
     db-config:
+      #不加这个会报错 Caused by: com.baomidou.mybatisplus.core.exceptions.MybatisPlusException: Error: GlobalConfigUtils setMetaData Fail !  Cause:java.lang.IllegalStateException: dbType not support : null, url jdbc:p6spy:mysql://localhost:3306/gemini_core?useUnicode=true&char
+      db-type: MYSQL
       #主键类型  AUTO(0):"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
       #支持主键自增的数据库插入数据获取主键值
       id-type: AUTO
@@ -136,7 +138,7 @@ server:
 ###################  gemini自定义配置  ####################
 gemini:
   #用户头像上传目录
-  pictureUploadPath: /home/prod/pictrue
+  pictureUploadPath: /home/gemini/prod/pictrue
 
 
 ########################  spring配置  ######################

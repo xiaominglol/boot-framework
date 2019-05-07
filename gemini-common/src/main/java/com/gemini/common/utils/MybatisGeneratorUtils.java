@@ -1,4 +1,4 @@
-package com.gemini.admin.utils;//package com.gemini.geminicommon.utils;
+package com.gemini.common.utils;//package com.gemini.geminicommon.utils;
 //
 //import org.mybatis.generator.api.MyBatisGenerator;
 //import org.mybatis.generator.config.Configuration;

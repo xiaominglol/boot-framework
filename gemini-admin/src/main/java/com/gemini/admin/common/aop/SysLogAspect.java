@@ -7,7 +7,7 @@ import com.gemini.admin.module.sys.model.User;
 import com.gemini.admin.module.sys.service.ExcpLogService;
 import com.gemini.admin.module.sys.service.OptLogService;
 import com.gemini.admin.module.sys.utils.UserUtils;
-import com.gemini.admin.utils.IPUtils;
+import com.gemini.common.utils.IPUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;

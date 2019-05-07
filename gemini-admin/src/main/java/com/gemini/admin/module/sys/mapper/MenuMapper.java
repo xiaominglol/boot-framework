@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.gemini.admin.module.sys.model.Menu;
 import org.springframework.stereotype.Repository;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -28,5 +29,5 @@ public interface MenuMapper extends BaseMapper<Menu> {
      *
      * @param id
      */
-    void deleteMenuAut(Integer id);
+    void deleteMenuAut(Serializable id);
 }

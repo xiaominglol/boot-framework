@@ -46,6 +46,7 @@
         <pagehelper.version>1.2.10</pagehelper.version>
         <shiro.version>1.4.0</shiro.version>
         <druid.version>1.1.8</druid.version>
+        <lombok.version>1.18.4</lombok.version>
         <fastjson.version>1.2.51</fastjson.version>
         <poi-3.14.version>3.14</poi-3.14.version>
         <poi-4.0.0.version>4.0.0</poi-4.0.0.version>

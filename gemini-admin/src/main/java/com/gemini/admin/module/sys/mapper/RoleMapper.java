@@ -5,6 +5,7 @@ import com.gemini.admin.module.sys.model.Role;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +50,6 @@ public interface RoleMapper extends BaseMapper<Role> {
      *
      * @param id
      */
-    void deleteAut(Integer id);
+    void deleteAut(Serializable id);
 
 }

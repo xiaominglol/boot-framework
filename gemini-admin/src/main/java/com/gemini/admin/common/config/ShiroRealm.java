@@ -5,7 +5,7 @@ import com.gemini.admin.module.sys.model.LoginLog;
 import com.gemini.admin.module.sys.model.User;
 import com.gemini.admin.module.sys.service.LoginLogService;
 import com.gemini.admin.module.sys.service.UserService;
-import com.gemini.admin.utils.MD5Util;
+import com.gemini.common.utils.MD5Util;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;

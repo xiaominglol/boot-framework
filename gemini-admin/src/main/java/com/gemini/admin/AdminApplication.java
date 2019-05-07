@@ -11,13 +11,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @author 小明不读书
  * @date 2018-11-04
  */
-@MapperScan("com.gemini.admin.module.sys.mapper")
+
 @ComponentScan("com.gemini")
 @EnableCaching
 @EnableTransactionManagement
 @SpringBootApplication
 public class AdminApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(AdminApplication.class, args);
     }

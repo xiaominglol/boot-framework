@@ -1,37 +1,14 @@
-//package com.gemini.base.utils;
-//
-//import java.io.File;
-//import java.io.IOException;
-//import java.io.OutputStream;
-//import java.io.UnsupportedEncodingException;
-//import java.math.BigDecimal;
-//import java.util.ArrayList;
-//import java.util.Date;
-//import java.util.HashMap;
-//import java.util.Iterator;
-//import java.util.List;
-//import java.util.Map;
-//import java.util.regex.Pattern;
-//
-//import javax.servlet.http.HttpServletResponse;
+package com.gemini.common.utils;//package com.gemini.base.utils;
 //
 //import jxl.Workbook;
 //import jxl.biff.DisplayFormat;
 //import jxl.format.Border;
 //import jxl.format.BorderLineStyle;
 //import jxl.format.Colour;
-//import jxl.format.UnderlineStyle;
+//import jxl.format.*;
 //import jxl.format.VerticalAlignment;
-//import jxl.write.Label;
+//import jxl.write.*;
 //import jxl.write.Number;
-//import jxl.write.NumberFormats;
-//import jxl.write.WritableCell;
-//import jxl.write.WritableCellFormat;
-//import jxl.write.WritableFont;
-//import jxl.write.WritableSheet;
-//import jxl.write.WritableWorkbook;
-//import jxl.write.WriteException;
-//
 //import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 //import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 //import org.apache.poi.ss.usermodel.Cell;
@@ -41,6 +18,16 @@
 //import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 //import org.springframework.util.StringUtils;
 //
+//import javax.servlet.http.HttpServletResponse;
+//import java.io.File;
+//import java.io.IOException;
+//import java.io.OutputStream;
+//import java.io.UnsupportedEncodingException;
+//import java.math.BigDecimal;
+//import java.util.*;
+//import java.util.regex.Pattern;
+//import java.util.regex.Pattern;
+//
 //
 ///**
 // * Excel工具类，封装了常用的Excel导入/导出的操作
@@ -48,7 +35,7 @@
 // *
 // * @author 小明不读书
 // */
-//public class ExcelUtils {
+//public class JxlExcelUtils {
 //
 //    public static final int EXCEL_2010 = 2010;
 //    public static final int EXCEL_2003 = 2003;
@@ -82,7 +69,7 @@
 //     * @param exportFieldName 导出的字段名称数组
 //     * @param exportField     数据库中要导出的字段名数组
 //     */
-//    public ExcelUtils(String path, String sheetName, String[] exportFieldName, String[] exportField) {
+//    public JxlExcelUtils(String path, String sheetName, String[] exportFieldName, String[] exportField) {
 //        this.path = path;
 //        this.sheetName = sheetName;
 //        this.exportFieldName = exportFieldName;
@@ -110,7 +97,7 @@
 //        org.apache.poi.ss.usermodel.Workbook wb;
 //        org.apache.poi.ss.usermodel.Sheet sheet;
 //        org.apache.poi.ss.usermodel.Row row;
-//        org.apache.poi.ss.usermodel.Cell cell;
+//        Cell cell;
 //
 //        if (excelVersion != EXCEL_2003 && excelVersion != EXCEL_2010) {
 //            excelVersion = EXCEL_2010;
@@ -288,7 +275,7 @@
 //        if (_object == null) {
 //            //wc=new Blank(col,row);
 //            WritableFont Bwf = new WritableFont(WritableFont.TAHOMA, 10, WritableFont.NO_BOLD, false);
-//            jxl.write.WritableCellFormat CBwcfF = new jxl.write.WritableCellFormat(Bwf);
+//            WritableCellFormat CBwcfF = new WritableCellFormat(Bwf);
 //            try {
 //                //设置垂直对齐为居中对齐
 //                CBwcfF.setVerticalAlignment(VerticalAlignment.CENTRE);
@@ -304,7 +291,7 @@
 //                DisplayFormat displayFormat = NumberFormats.FLOAT;
 //                WritableCellFormat format = new WritableCellFormat(wf, displayFormat);
 //                format.setAlignment(jxl.format.Alignment.LEFT);
-//                format.setBorder(jxl.format.Border.ALL, jxl.format.BorderLineStyle.THIN);
+//                format.setBorder(Border.ALL, BorderLineStyle.THIN);
 //
 //                wc = new Number(col, row, ((BigDecimal) _object).doubleValue(), format);
 //
@@ -316,7 +303,7 @@
 //                //WritableFont Bwf = new WritableFont(WritableFont.createFont("楷体 _GB2312"), 10, WritableFont.NO_BOLD);
 //                WritableFont Bwf = new WritableFont(WritableFont.TAHOMA, 10, WritableFont.NO_BOLD, false);
 //                //WritableFont  Bwf = new WritableFont(WritableFont.TIMES,10,WritableFont.BOLD,true);
-//                jxl.write.WritableCellFormat CBwcfF = new jxl.write.WritableCellFormat(Bwf);
+//                WritableCellFormat CBwcfF = new WritableCellFormat(Bwf);
 //                try {
 //                    //设置垂直对齐为居中对齐
 //                    CBwcfF.setVerticalAlignment(VerticalAlignment.CENTRE);
@@ -350,7 +337,7 @@
 //        for (int i = 0; i < exportFieldName.length; i++) {
 //            //添加带有字体颜色Formatting的对象
 //            WritableFont wfc = new WritableFont(WritableFont.ARIAL, 10, WritableFont.BOLD, false,
-//                    UnderlineStyle.NO_UNDERLINE, jxl.format.Colour.BLACK);
+//                    UnderlineStyle.NO_UNDERLINE, Colour.BLACK);
 //            WritableCellFormat wcfFC = new WritableCellFormat(wfc);
 //            Label _name = new Label(i, 0, exportFieldName[i], wcfFC);
 //            ws.addCell(_name);
@@ -525,7 +512,7 @@
 //        org.apache.poi.ss.usermodel.Workbook wb;
 //        org.apache.poi.ss.usermodel.Sheet sheet;
 //        org.apache.poi.ss.usermodel.Row row;
-//        org.apache.poi.ss.usermodel.Cell cell;
+//        Cell cell;
 //
 //        if (excelVersion != 2003 && excelVersion != 2010) {
 //            excelVersion = 2010;
@@ -577,7 +564,7 @@
 //            for (int i = 0; i < displayNames.length; i++) {
 //                cell = row.createCell(i);
 //                cell.setCellStyle(headStyle);
-//                cell.setCellType(org.apache.poi.ss.usermodel.Cell.CELL_TYPE_STRING);
+//                cell.setCellType(Cell.CELL_TYPE_STRING);
 //                cell.setCellValue(displayNames[i]); //给表头赋值
 //            }
 //
@@ -592,7 +579,7 @@
 //                for (int j = 0; j < fieldNames.length; j++) {
 //                    cell = row.createCell(j);
 //                    cell.setCellStyle(bodyStyle);
-//                    cell.setCellType(org.apache.poi.ss.usermodel.Cell.CELL_TYPE_STRING);
+//                    cell.setCellType(Cell.CELL_TYPE_STRING);
 //
 //                    Object value = map.get(fieldNames[j]);
 //                    if (value == null) {
@@ -660,7 +647,7 @@
 //        org.apache.poi.ss.usermodel.Workbook wb;
 //        org.apache.poi.ss.usermodel.Sheet sheet;
 //        org.apache.poi.ss.usermodel.Row row;
-//        org.apache.poi.ss.usermodel.Cell cell;
+//        Cell cell;
 //
 //        if (excelVersion != 2003 && excelVersion != 2010) {
 //            excelVersion = 2010;
@@ -723,7 +710,7 @@
 //                        for (int i = 0; i < displayNames.size(); i++) {
 //                            cell = row.createCell(i);
 //                            cell.setCellStyle(headStyle);
-//                            cell.setCellType(org.apache.poi.ss.usermodel.Cell.CELL_TYPE_STRING);
+//                            cell.setCellType(Cell.CELL_TYPE_STRING);
 //                            cell.setCellValue(displayNames.get(i)); //给表头赋值
 //                        }
 //
@@ -738,7 +725,7 @@
 //                            for (int j = 0; j < fieldNames.size(); j++) {
 //                                cell = row.createCell(j);
 //                                cell.setCellStyle(bodyStyle);
-//                                cell.setCellType(org.apache.poi.ss.usermodel.Cell.CELL_TYPE_STRING);
+//                                cell.setCellType(Cell.CELL_TYPE_STRING);
 //
 //                                Object value = map.get(fieldNames.get(j));
 //                                if (value == null) {
@@ -823,7 +810,7 @@
 //        String sheetName = "代理商信息";
 //        String[] exportName = new String[]{"用户账号", "用户名称", "创建时间"};
 //
-//        ExcelUtils excel = new ExcelUtils(path, sheetName, exportName, exportFields);
+//        JxlExcelUtils excel = new JxlExcelUtils(path, sheetName, exportName, exportFields);
 //        ArrayList list = new ArrayList();
 //        for (int i = 0; i < 10; i++) {
 //            Map map = new HashMap();

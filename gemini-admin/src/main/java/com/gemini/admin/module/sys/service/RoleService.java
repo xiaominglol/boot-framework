@@ -24,16 +24,17 @@ public interface RoleService extends IService<Role> {
     /**
      * 添加权限
      *
-     * @param id
+     * @param role
      * @param ids
      */
-    void addAut(Integer id, Integer[] ids);
+    void save(Role role, Integer[] ids);
 
     /**
-     * 删除权限
+     * 更新角色
      *
-     * @param id
+     * @param role
+     * @param ids
      */
-    void deleteAut(Integer id);
+    void updateById(Role role, Integer[] ids);
 
 }

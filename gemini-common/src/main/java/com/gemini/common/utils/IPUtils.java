@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.gemini.admin.utils;
+package com.gemini.common.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

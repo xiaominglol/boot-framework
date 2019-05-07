@@ -1,4 +1,4 @@
-package com.gemini.admin.utils;
+package com.gemini.common.utils;
 
 //import org.apache.commons.lang3.StringUtils;
 

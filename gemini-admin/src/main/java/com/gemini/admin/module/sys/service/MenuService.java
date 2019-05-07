@@ -20,11 +20,4 @@ public interface MenuService extends IService<Menu> {
      * @return
      */
     List<Menu> getByAccount(String account);
-
-    /**
-     * 删除菜单权限
-     *
-     * @param id
-     */
-    void deleteMenuAut(Integer id);
 }

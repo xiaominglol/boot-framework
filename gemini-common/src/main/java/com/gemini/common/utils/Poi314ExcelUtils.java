@@ -1,4 +1,4 @@
-package com.gemini.admin.utils;
+package com.gemini.common.utils;
 
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -692,7 +692,7 @@ public class Poi314ExcelUtils {
      * @return
      */
     private String newRandomFile() {
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyyMMddHHmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String fileName = sdf.format(new Date());
         return fileName;
     }

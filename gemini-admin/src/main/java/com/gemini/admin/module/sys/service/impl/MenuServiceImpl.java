@@ -1,6 +1,7 @@
 package com.gemini.admin.module.sys.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.gemini.admin.module.sys.mapper.MenuMapper;
 import com.gemini.admin.module.sys.model.Menu;
 import com.gemini.admin.module.sys.service.MenuService;
@@ -9,6 +10,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -36,8 +38,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     @Override
-    public void deleteMenuAut(Integer id) {
+    public boolean removeById(Serializable id) {
+        //删除角色权限
         menuMapper.deleteMenuAut(id);
+        //删除角色
+        return SqlHelper.delBool(menuMapper.deleteById(id));
     }
 
 }
