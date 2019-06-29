@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gemini.boot.framework.admin.module.sys.mapper.RoleMapper">
+
+    <resultMap id="AutMap" type="hashmap">
+        <id column="menu_id" jdbcType="TINYINT" property="menuId"/>
+        <result column="permissions_id" jdbcType="TINYINT" property="permissionsId"/>
+        <result column="permissions_type" jdbcType="VARCHAR" property="permissionsType"/>
+    </resultMap>
+
+    <select id="getAut" parameterType="java.lang.Integer" resultMap="AutMap">
+        select
+        menu_id, permissions_id,permissions_type
+        from t_sys_permissions
+        where permissions_id = #{id}
+    </select>
+
+    <insert id="addAut" parameterType="java.util.Map">
+        insert into t_sys_permissions(menu_id, permissions_id,permissions_type) values
+        <foreach collection="ids" item="menuId" index="index" separator=",">
+            ( #{menuId}, #{id},'R' )
+        </foreach>
+    </insert>
+
+    <delete id="deleteAut" parameterType="java.lang.Integer">
+        delete from t_sys_permissions
+        where permissions_id=#{id}
+    </delete>
+
+
+</mapper>

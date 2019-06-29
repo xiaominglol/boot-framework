@@ -19,7 +19,7 @@ function saveOrUpdate(param) {
             if (param.isTreeTable) {
                 saveData = data;
             } else {
-                if (data.status == "success") {
+                if (data.success) {
                     refreshTable({
                         id: param.tableId
                         , where: ""
@@ -61,7 +61,7 @@ function del(param) {
                 , data: param.data
                 , type: 'DELETE'
                 , success: function (data) {
-                    if (data.status == "success") {
+                    if (data.success) {
                         refreshTable({
                             id: param.tableId
                             , where: ""
@@ -96,7 +96,7 @@ function confirmUpdate(param) {
                 , data: param.data
                 , type: 'PUT'
                 , success: function (data) {
-                    if (data.status == "success") {
+                    if (data.success) {
                         refreshTable({
                             id: param.tableId
                             , where: ""

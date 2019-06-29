@@ -162,7 +162,7 @@
                     url: '/userRole/' + selectedData.data[0].account,
                     type: 'GET',
                     success: function (data) {
-                        if (data.status == "success") {
+                        if (data.success) {
                             formSelects.value('roleMultiSelect', data.data);
                         } else {
                             layer.msg(data.message, {icon: 5});
@@ -226,7 +226,7 @@
             before: function (obj) {
             },
             done: function (data) {
-                if (data.status == "success") {
+                if (data.success) {
                     $(".pictureUploadButton").attr("src", data.data);
                     $("[name='picture']").val(data.data);
                     layer.msg(data.message, {icon: 1});
@@ -250,7 +250,7 @@
                             data: JSON.stringify(selectedData.data),
                             contentType: 'application/json;charset=utf-8',
                             success: function (data) {
-                                if (data.status == "success") {
+                                if (data.success) {
                                     refreshTable({
                                         id: "table"
                                         , where: ""

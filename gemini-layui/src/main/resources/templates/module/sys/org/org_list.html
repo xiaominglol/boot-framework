@@ -201,7 +201,7 @@
                 , tableId: 'table'
                 , isTreeTable: true
             });
-            if (data.status == "success") {
+            if (data.success) {
                 renderTable();
                 renderTree({
                     dom: "tree"
@@ -230,7 +230,7 @@
                             url: '/org/' + selectedData.data[0].id
                             , type: 'DELETE'
                             , success: function (data) {
-                                if (data.status == "success") {
+                                if (data.success) {
                                     renderTable();
                                     renderTree({
                                         dom: "tree"

@@ -86,7 +86,7 @@
                     url: '/aut/' + selectedData.data[0].id,
                     type: 'GET',
                     success: function (data) {
-                        if (data.status == "success") {
+                        if (data.success) {
                             initAuthTree({
                                 data: menuData
                                 , checkedKey: data.data
