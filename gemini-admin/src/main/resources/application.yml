@@ -53,7 +53,7 @@ spring:
       #解决方案：将useSSL改为false
       #The server time zone value '�й���׼ʱ��' is unrecognized or represents more than one time zone. You must configure either the server or JDBC driver (via the serverTimezone configuration property) to use a more specifc time zone value if you want to utilize time zone support
       #解决方案：url添加serverTimezone=UTC
-      url: jdbc:p6spy:mysql://localhost:3306/boot_admin?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
+      url: jdbc:p6spy:mysql://47.110.47.45:3306/boot_admin?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
       #      url: jdbc:mysql://localhost:3306/gemini_core?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
       username: root
       password: root
@@ -82,7 +82,7 @@ spring:
   redis:
     ## 单机配置
     host: 47.110.47.45
-    port: 6378
+    port: 6379
     ## 集群配置
     #    cluster:
     #      nodes: 47.110.47.45:6378
@@ -128,7 +128,7 @@ spring:
       #The server time zone value '�й���׼ʱ��' is unrecognized or represents more than one time zone. You must configure either the server or JDBC driver (via the serverTimezone configuration property) to use a more specifc time zone value if you want to utilize time zone support
       #解决方案：url添加serverTimezone=UTC
       #      url: jdbc:p6spy:mysql://localhost:3306/gemini_core?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
-      url: jdbc:mysql://localhost:3306/gemini_core?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
+      url: jdbc:mysql://localhost:3306/boot_admin?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
       username: root
       password: root
       #引入了p6spy模块后，需要指定db-type,不配置否则报错Caused by: java.lang.IllegalStateException: dbType not support : null, url jdbc:p6spy:mysql://localhost:3306/eshop_member?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
@@ -156,7 +156,7 @@ spring:
   redis:
     ## 单机配置
     host: 47.110.47.45
-    port: 6378
+    port: 6379
     ## 集群配置
     #    cluster:
     #      nodes: 47.110.47.45:6378
@@ -200,7 +200,7 @@ spring:
       #The server time zone value '�й���׼ʱ��' is unrecognized or represents more than one time zone. You must configure either the server or JDBC driver (via the serverTimezone configuration property) to use a more specifc time zone value if you want to utilize time zone support
       #解决方案：url添加serverTimezone=UTC
       #      url: jdbc:p6spy:mysql://localhost:3306/gemini_core?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
-      url: jdbc:mysql://localhost:3306/gemini_core?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
+      url: jdbc:mysql://localhost:3306/boot_admin?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
       username: root
       password: root
       #引入了p6spy模块后，需要指定db-type,不配置否则报错Caused by: java.lang.IllegalStateException: dbType not support : null, url jdbc:p6spy:mysql://localhost:3306/eshop_member?useUnicode=true&characterEncoding=UTF-8&useSSL=false
@@ -228,7 +228,7 @@ spring:
   redis:
     ## 单机配置
     host: 47.110.47.45
-    port: 6378
+    port: 6379
     ## 集群配置
     #    cluster:
     #      nodes: 47.110.47.45:6378

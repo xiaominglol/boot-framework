@@ -1,7 +1,7 @@
-create database if not exists gemini_core default character set utf8;
+create database if not exists boot_admin default character set utf8;
 
-CREATE USER 'gemini_core'@'%' IDENTIFIED BY 'gemini_core';
+CREATE USER 'boot_admin'@'%' IDENTIFIED BY 'boot_admin';
 
-grant all privileges on gemini_core.* to 'gemini_core'@'%' identified by 'gemini_core';
+grant all privileges on gemini_core.* to 'boot_admin'@'%' identified by 'boot_admin';
 
 flush privileges;
