@@ -17,10 +17,10 @@
     <name>boot-framework</name>
 
     <modules>
-        <module>gemini-common</module>
-        <module>gemini-admin</module>
-        <module>gemini-layui</module>
-        <module>gemini-bootstrap</module>
+        <module>boot-common</module>
+        <module>boot-core</module>
+        <module>boot-layui</module>
+        <module>boot-bootstrap</module>
     </modules>
 
     <properties>
