@@ -8,7 +8,7 @@
         <version>2.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>gemini-common</artifactId>
+    <artifactId>boot-common</artifactId>
 
     <dependencies>
 <!--        web模块-->
