@@ -15,15 +15,15 @@
         <!--前端版本，二选一，如果两个都同时引入，那么首先匹配靠前这个-->
         <dependency>
             <groupId>com.gemini.boot.framework</groupId>
-            <artifactId>gemini-layui</artifactId>
+            <artifactId>boot-layui</artifactId>
         </dependency>
         <dependency>
             <groupId>com.gemini.boot.framework</groupId>
-            <artifactId>gemini-bootstrap</artifactId>
+            <artifactId>boot-bootstrap</artifactId>
         </dependency>
         <dependency>
             <groupId>com.gemini.boot.framework</groupId>
-            <artifactId>gemini-common</artifactId>
+            <artifactId>boot-common</artifactId>
         </dependency>
     </dependencies>
 
