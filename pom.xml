@@ -3,13 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.6.RELEASE</version>
-        <relativePath/>
+        <artifactId>boot-framework</artifactId>
+        <groupId>com.gemini.boot.framework</groupId>
+        <version>2.0.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.gemini.boot.framework</groupId>
+    <groupId>com.gemini.business.protal</groupId>
     <artifactId>gemini-protal</artifactId>
     <version>2.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -22,108 +21,32 @@
     </modules>
 
     <properties>
-        <java.version>1.8</java.version>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
-        <resource.delimiter>@</resource.delimiter>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
         <!--        业务版本-->
-        <cloud-framework.version>2.0.0-SNAPSHOT</cloud-framework.version>
-        <boot-business.version>2.0.0-SNAPSHOT</boot-business.version>
+        <boot-framework.version>2.0.0-SNAPSHOT</boot-framework.version>
+        <business-protal.version>2.0.0-SNAPSHOT</business-protal.version>
 
-        <!--        框架版本-->
-        <spring-boot.version>2.1.5.RELEASE</spring-boot.version>
-        <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
-        <spring-boot-admin.version>2.1.5</spring-boot-admin.version>
 
-        <!--        第三方版本-->
-        <mybatis.version>2.0.1</mybatis.version>
-        <mybatis-plus.version>3.1.1</mybatis-plus.version>
-        <pagehelper.version>1.2.10</pagehelper.version>
-        <druid.version>1.1.17</druid.version>
-        <p6spy.version>3.8.1</p6spy.version>
-        <redisson.version>3.11.0</redisson.version>
-        <!-- 版本管理工具 -->
-        <versions-maven.version>2.7</versions-maven.version>
-
-        <pagehelper.version>1.2.10</pagehelper.version>
         <shiro.version>1.4.0</shiro.version>
-        <lombok.version>1.18.4</lombok.version>
-        <fastjson.version>1.2.51</fastjson.version>
-        <poi-3.14.version>3.14</poi-3.14.version>
-        <poi-4.0.0.version>4.0.0</poi-4.0.0.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-<!--            自定义模块-->
+            <!--业务模块-->
             <dependency>
-                <groupId>com.gemini.boot.framework</groupId>
-                <artifactId>boot-common</artifactId>
-                <version>${boot-business.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.gemini.boot.framework</groupId>
+                <groupId>com.gemini.business.protal</groupId>
                 <artifactId>boot-layui</artifactId>
-                <version>${boot-business.version}</version>
+                <version>${business-protal.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.gemini.boot.framework</groupId>
+                <groupId>com.gemini.business.protal</groupId>
                 <artifactId>boot-bootstrap</artifactId>
-                <version>${boot-business.version}</version>
+                <version>${business-protal.version}</version>
             </dependency>
             <!--第三方模块-->
-            <dependency>
-                <groupId>org.mybatis.spring.boot</groupId>
-                <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>${mybatis.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper-spring-boot-starter</artifactId>
-                <version>${pagehelper.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid-spring-boot-starter</artifactId>
-                <version>${druid.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>p6spy</groupId>
-                <artifactId>p6spy</artifactId>
-                <version>${p6spy.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.apache.shiro</groupId>
                 <artifactId>shiro-spring</artifactId>
                 <version>${shiro.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.redisson</groupId>
-                <artifactId>redisson-spring-boot-starter</artifactId>
-                <version>${redisson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.poi</groupId>
-                <artifactId>poi</artifactId>
-                <version>${poi-3.14.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.poi</groupId>
-                <artifactId>poi-ooxml</artifactId>
-                <version>${poi-3.14.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -155,14 +78,5 @@
             <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
     </dependencies>
-
-    <!-- 使用aliyun镜像 -->
-    <repositories>
-        <repository>
-            <id>aliyun</id>
-            <name>aliyun</name>
-            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
-        </repository>
-    </repositories>
 
 </project>

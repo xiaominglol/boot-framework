@@ -1,6 +1,7 @@
 package com.gemini.boot.framework.admin;
 
-import org.springframework.boot.SpringApplication;
+import com.gemini.boot.framework.core.CoreApplication;
+import com.gemini.boot.framework.core.exception.CloudCoreException;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,7 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @SpringBootApplication
 public class AdminApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(AdminApplication.class, args);
+    public static void main(String[] args) throws CloudCoreException {
+        CoreApplication.run(AdminApplication.class, args);
     }
 }
