@@ -1,0 +1,163 @@
+登陆日志表
+
+/risk/console/s/login/log/1/10
+
+userAccount:""
+userName:""
+loginStateId:""
+loginStateCode:""
+loginStateName:""
+message:""
+createDatetime:""
+userAccount:""
+userName:""
+loginStateId:""
+loginStateCode:""
+loginStateName:""
+message:""
+createDatetime:""
+
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "userAccount": {
+            "type": "string",
+            "description": "用户账号",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "userName": {
+            "type": "string",
+            "description": "用户名称",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "loginStateId": {
+            "type": "string",
+            "description": "",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "loginStateCode": {
+            "type": "string",
+            "description": "登陆状态（0：失败，1：成功）",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "loginStateName": {
+            "type": "string",
+            "description": "",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "message": {
+            "type": "string",
+            "description": "登陆消息",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "createDatetime": {
+            "type": "string",
+            "description": "登陆时间",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "userAccount": {
+            "type": "string",
+            "description": "用户账号",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "userName": {
+            "type": "string",
+            "description": "用户名称",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "loginStateId": {
+            "type": "string",
+            "description": "",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "loginStateCode": {
+            "type": "string",
+            "description": "登陆状态（0：失败，1：成功）",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "loginStateName": {
+            "type": "string",
+            "description": "",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "message": {
+            "type": "string",
+            "description": "登陆消息",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "createDatetime": {
+            "type": "string",
+            "description": "登陆时间",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "current": {
+            "type": "integer",
+            "description": "頁碼",
+            "mock": {
+                "mock": 1
+            }
+        },
+        "size": {
+            "type": "integer",
+            "description": "每頁記錄數",
+            "mock": {
+                "mock": 10
+            }
+        },
+        "descs[0]": {
+            "type": "string",
+            "description": "降序字段",
+            "mock": {
+                "mock": "id"
+            }
+        }
+    },
+    "required": [
+        "userAccount",
+        "userName",
+        "loginStateId",
+        "loginStateCode",
+        "loginStateName",
+        "message",
+        "createDatetime",
+        "userAccount",
+        "userName",
+        "loginStateId",
+        "loginStateCode",
+        "loginStateName",
+        "message",
+        "createDatetime",
+        "current",
+        "size",
+        "descs[0]"
+    ]
+}

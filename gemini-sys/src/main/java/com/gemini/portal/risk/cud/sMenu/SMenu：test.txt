@@ -1,0 +1,397 @@
+菜单表
+
+/risk/cud/s/menu/1/10
+
+pid:""
+name:""
+url:""
+icon:""
+menuTypeId:""
+menuTypeCode:""
+menuTypeName:""
+targetId:""
+targetCode:""
+targetName:""
+permissionId:""
+permissionCode:""
+permissionName:""
+sort:""
+stateId:""
+stateCode:""
+stateName:""
+modifyId:""
+modifyName:""
+modifyTime:""
+pid:""
+name:""
+url:""
+icon:""
+menuTypeId:""
+menuTypeCode:""
+menuTypeName:""
+targetId:""
+targetCode:""
+targetName:""
+permissionId:""
+permissionCode:""
+permissionName:""
+sort:""
+stateId:""
+stateCode:""
+stateName:""
+modifyId:""
+modifyName:""
+modifyTime:""
+
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "pid": {
+            "type": "string",
+            "description": "主表id（UUID）如果为null，则为顶级",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "name": {
+            "type": "string",
+            "description": "菜单名称",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "url": {
+            "type": "string",
+            "description": "菜单url",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "icon": {
+            "type": "string",
+            "description": "菜单icon",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "menuTypeId": {
+            "type": "string",
+            "description": "菜单类型id",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "menuTypeCode": {
+            "type": "string",
+            "description": "菜单类型编码",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "menuTypeName": {
+            "type": "string",
+            "description": "菜单类型名称",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "targetId": {
+            "type": "string",
+            "description": "打开方式id",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "targetCode": {
+            "type": "string",
+            "description": "打开方式编码",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "targetName": {
+            "type": "string",
+            "description": "打开方式名称",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "permissionId": {
+            "type": "string",
+            "description": "权限id",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "permissionCode": {
+            "type": "string",
+            "description": "权限编码",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "permissionName": {
+            "type": "string",
+            "description": "权限名称",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "sort": {
+            "type": "string",
+            "description": "排序",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "stateId": {
+            "type": "string",
+            "description": "状态id",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "stateCode": {
+            "type": "string",
+            "description": "状态编码（Enable：启用，Disable：禁用）",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "stateName": {
+            "type": "string",
+            "description": "状态名称",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "modifyId": {
+            "type": "string",
+            "description": "修改人id",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "modifyName": {
+            "type": "string",
+            "description": "修改人名称",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "modifyTime": {
+            "type": "string",
+            "description": "修改时间(YYYY-MM-DD HH:MM:SS)",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "pid": {
+            "type": "string",
+            "description": "主表id（UUID）如果为null，则为顶级",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "name": {
+            "type": "string",
+            "description": "菜单名称",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "url": {
+            "type": "string",
+            "description": "菜单url",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "icon": {
+            "type": "string",
+            "description": "菜单icon",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "menuTypeId": {
+            "type": "string",
+            "description": "菜单类型id",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "menuTypeCode": {
+            "type": "string",
+            "description": "菜单类型编码",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "menuTypeName": {
+            "type": "string",
+            "description": "菜单类型名称",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "targetId": {
+            "type": "string",
+            "description": "打开方式id",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "targetCode": {
+            "type": "string",
+            "description": "打开方式编码",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "targetName": {
+            "type": "string",
+            "description": "打开方式名称",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "permissionId": {
+            "type": "string",
+            "description": "权限id",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "permissionCode": {
+            "type": "string",
+            "description": "权限编码",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "permissionName": {
+            "type": "string",
+            "description": "权限名称",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "sort": {
+            "type": "string",
+            "description": "排序",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "stateId": {
+            "type": "string",
+            "description": "状态id",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "stateCode": {
+            "type": "string",
+            "description": "状态编码（Enable：启用，Disable：禁用）",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "stateName": {
+            "type": "string",
+            "description": "状态名称",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "modifyId": {
+            "type": "string",
+            "description": "修改人id",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "modifyName": {
+            "type": "string",
+            "description": "修改人名称",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "modifyTime": {
+            "type": "string",
+            "description": "修改时间(YYYY-MM-DD HH:MM:SS)",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "current": {
+            "type": "integer",
+            "description": "頁碼",
+            "mock": {
+                "mock": 1
+            }
+        },
+        "size": {
+            "type": "integer",
+            "description": "每頁記錄數",
+            "mock": {
+                "mock": 10
+            }
+        },
+        "descs[0]": {
+            "type": "string",
+            "description": "降序字段",
+            "mock": {
+                "mock": "id"
+            }
+        }
+    },
+    "required": [
+        "pid",
+        "name",
+        "url",
+        "icon",
+        "menuTypeId",
+        "menuTypeCode",
+        "menuTypeName",
+        "targetId",
+        "targetCode",
+        "targetName",
+        "permissionId",
+        "permissionCode",
+        "permissionName",
+        "sort",
+        "stateId",
+        "stateCode",
+        "stateName",
+        "modifyId",
+        "modifyName",
+        "modifyTime",
+        "pid",
+        "name",
+        "url",
+        "icon",
+        "menuTypeId",
+        "menuTypeCode",
+        "menuTypeName",
+        "targetId",
+        "targetCode",
+        "targetName",
+        "permissionId",
+        "permissionCode",
+        "permissionName",
+        "sort",
+        "stateId",
+        "stateCode",
+        "stateName",
+        "modifyId",
+        "modifyName",
+        "modifyTime",
+        "current",
+        "size",
+        "descs[0]"
+    ]
+}

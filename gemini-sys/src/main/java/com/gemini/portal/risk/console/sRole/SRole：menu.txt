@@ -1,0 +1,8 @@
+INSERT INTO s_r_identity_mgr_options
+(id,pid,code,name,alias,source,path,http_method,sort,category,is_open,icon,action,remark,modify_date,modify_type)
+VALUES
+(101062030300200,null,'sRole','角色表：列表','角色表：列表','/risk/console/s/role/*/*','/sRole','GET',1,1,0,'setting',3,'角色表：列表',1563241615210,'Insert'),
+(101062030300201,101062030300200,'sRole','角色表：詳情','角色表：詳情','/risk/console/s/role/*','/sRole','GET',2,2,0,'setting',3,'角色表：詳情',1563241615210,'Insert'),
+(101062030300202,101062030300200,'sRole','角色表：新增','角色表：新增','/risk/console/s/role','/sRole','POST',3,2,0,'setting',3,'角色表：新增',1563241615210,'Insert'),
+(101062030300203,101062030300200,'sRole','角色表：修改','角色表：修改','/risk/console/s/role','/sRole','PUT',4,2,0,'setting',3,'角色表：修改',1563241615210,'Insert'),
+(101062030300204,101062030300200,'sRole','角色表：刪除','角色表：刪除','/risk/console/s/role/*','/sRole','DELETE',5,2,0,'setting',3,'角色表：刪除',1563241615210,'Insert');

@@ -1,0 +1,8 @@
+INSERT INTO s_r_identity_mgr_options
+(id,pid,code,name,alias,source,path,http_method,sort,category,is_open,icon,action,remark,modify_date,modify_type)
+VALUES
+(10106201500200,null,'sErrorLog','错误日志表：列表','错误日志表：列表','/risk/console/s/error/log/*/*','/sErrorLog','GET',1,1,0,'setting',3,'错误日志表：列表',1563241615210,'Insert'),
+(10106201500201,10106201500200,'sErrorLog','错误日志表：詳情','错误日志表：詳情','/risk/console/s/error/log/*','/sErrorLog','GET',2,2,0,'setting',3,'错误日志表：詳情',1563241615210,'Insert'),
+(10106201500202,10106201500200,'sErrorLog','错误日志表：新增','错误日志表：新增','/risk/console/s/error/log','/sErrorLog','POST',3,2,0,'setting',3,'错误日志表：新增',1563241615210,'Insert'),
+(10106201500203,10106201500200,'sErrorLog','错误日志表：修改','错误日志表：修改','/risk/console/s/error/log','/sErrorLog','PUT',4,2,0,'setting',3,'错误日志表：修改',1563241615210,'Insert'),
+(10106201500204,10106201500200,'sErrorLog','错误日志表：刪除','错误日志表：刪除','/risk/console/s/error/log/*','/sErrorLog','DELETE',5,2,0,'setting',3,'错误日志表：刪除',1563241615210,'Insert');

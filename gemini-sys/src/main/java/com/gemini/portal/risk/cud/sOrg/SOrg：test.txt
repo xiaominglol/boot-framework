@@ -1,0 +1,253 @@
+组织架构表
+
+/risk/cud/s/org/1/10
+
+pid:""
+name:""
+orgTypeId:""
+orgTypeCode:""
+orgTypeName:""
+sort:""
+stateId:""
+stateCode:""
+stateName:""
+modifyId:""
+modifyName:""
+modifyTime:""
+pid:""
+name:""
+orgTypeId:""
+orgTypeCode:""
+orgTypeName:""
+sort:""
+stateId:""
+stateCode:""
+stateName:""
+modifyId:""
+modifyName:""
+modifyTime:""
+
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "pid": {
+            "type": "string",
+            "description": "主表id（UUID）如果为null，则为顶级",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "name": {
+            "type": "string",
+            "description": "组织架构名称",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "orgTypeId": {
+            "type": "string",
+            "description": "组织架构类型id",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "orgTypeCode": {
+            "type": "string",
+            "description": "组织架构类型编码",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "orgTypeName": {
+            "type": "string",
+            "description": "组织架构类型名称",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "sort": {
+            "type": "string",
+            "description": "排序",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "stateId": {
+            "type": "string",
+            "description": "状态id",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "stateCode": {
+            "type": "string",
+            "description": "状态编码（Enable：启用，Disable：禁用）",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "stateName": {
+            "type": "string",
+            "description": "状态名称",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "modifyId": {
+            "type": "string",
+            "description": "修改人id",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "modifyName": {
+            "type": "string",
+            "description": "修改人名称",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "modifyTime": {
+            "type": "string",
+            "description": "修改时间(YYYY-MM-DD HH:MM:SS)",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "pid": {
+            "type": "string",
+            "description": "主表id（UUID）如果为null，则为顶级",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "name": {
+            "type": "string",
+            "description": "组织架构名称",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "orgTypeId": {
+            "type": "string",
+            "description": "组织架构类型id",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "orgTypeCode": {
+            "type": "string",
+            "description": "组织架构类型编码",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "orgTypeName": {
+            "type": "string",
+            "description": "组织架构类型名称",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "sort": {
+            "type": "string",
+            "description": "排序",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "stateId": {
+            "type": "string",
+            "description": "状态id",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "stateCode": {
+            "type": "string",
+            "description": "状态编码（Enable：启用，Disable：禁用）",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "stateName": {
+            "type": "string",
+            "description": "状态名称",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "modifyId": {
+            "type": "string",
+            "description": "修改人id",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "modifyName": {
+            "type": "string",
+            "description": "修改人名称",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "modifyTime": {
+            "type": "string",
+            "description": "修改时间(YYYY-MM-DD HH:MM:SS)",
+            "mock": {
+                "mock": ""
+            }
+        },
+        "current": {
+            "type": "integer",
+            "description": "頁碼",
+            "mock": {
+                "mock": 1
+            }
+        },
+        "size": {
+            "type": "integer",
+            "description": "每頁記錄數",
+            "mock": {
+                "mock": 10
+            }
+        },
+        "descs[0]": {
+            "type": "string",
+            "description": "降序字段",
+            "mock": {
+                "mock": "id"
+            }
+        }
+    },
+    "required": [
+        "pid",
+        "name",
+        "orgTypeId",
+        "orgTypeCode",
+        "orgTypeName",
+        "sort",
+        "stateId",
+        "stateCode",
+        "stateName",
+        "modifyId",
+        "modifyName",
+        "modifyTime",
+        "pid",
+        "name",
+        "orgTypeId",
+        "orgTypeCode",
+        "orgTypeName",
+        "sort",
+        "stateId",
+        "stateCode",
+        "stateName",
+        "modifyId",
+        "modifyName",
+        "modifyTime",
+        "current",
+        "size",
+        "descs[0]"
+    ]
+}

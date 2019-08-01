@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.gemini.business.protal</groupId>
+        <artifactId>gemini-portal</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>gemini-sys</artifactId>
+
+    <dependencies>
+        <!--业务模块-->
+        <!--前端版本，二选一，如果两个都同时引入，那么首先匹配靠前这个-->
+        <dependency>
+            <groupId>com.gemini.business.protal</groupId>
+            <artifactId>gemini-layui</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.gemini.business.protal</groupId>
+            <artifactId>gemini-bootstrap</artifactId>
+        </dependency>
+        <!--框架模块-->
+        <dependency>
+            <groupId>com.gemini.boot.framework</groupId>
+            <artifactId>boot-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.gemini.boot.framework</groupId>
+            <artifactId>boot-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-webflux</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.gemini.boot.framework</groupId>
+            <artifactId>boot-mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.gemini.boot.framework</groupId>
+            <artifactId>boot-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--第三方-->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+
+        <!-- 会将src/main/java下的*mapper.xml文件随同java编译后到相应的class目录 -->
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+    </build>
+
+</project>

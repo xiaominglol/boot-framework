@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uepay.corebusiness.risk.console.mapper.SErrorLogMapper">
+
+    <resultMap id="resultMap" type="com.uepay.corebusiness.risk.console.po.SErrorLogPo">
+        <id column="id" property="id" javaType="Long"/>
+        <result column="user_account" property="userAccount" javaType="String"/>
+        <result column="user_name" property="userName" javaType="String"/>
+        <result column="opt_type_id" property="optTypeId" javaType="Long"/>
+        <result column="opt_type_code" property="optTypeCode" javaType="String"/>
+        <result column="opt_type_name" property="optTypeName" javaType="String"/>
+        <result column="description" property="description" javaType="String"/>
+        <result column="url" property="url" javaType="String"/>
+        <result column="method" property="method" javaType="String"/>
+        <result column="params" property="params" javaType="String"/>
+        <result column="result" property="result" javaType="String"/>
+        <result column="ip" property="ip" javaType="String"/>
+        <result column="create_datetime" property="createDatetime" javaType="Date"/>
+        <id column="id" property="id" javaType="Long"/>
+        <result column="user_account" property="userAccount" javaType="String"/>
+        <result column="user_name" property="userName" javaType="String"/>
+        <result column="opt_type_id" property="optTypeId" javaType="Long"/>
+        <result column="opt_type_code" property="optTypeCode" javaType="String"/>
+        <result column="opt_type_name" property="optTypeName" javaType="String"/>
+        <result column="description" property="description" javaType="String"/>
+        <result column="url" property="url" javaType="String"/>
+        <result column="method" property="method" javaType="String"/>
+        <result column="params" property="params" javaType="String"/>
+        <result column="result" property="result" javaType="String"/>
+        <result column="ip" property="ip" javaType="String"/>
+        <result column="create_datetime" property="createDatetime" javaType="Date"/>
+    </resultMap>
+
+</mapper>

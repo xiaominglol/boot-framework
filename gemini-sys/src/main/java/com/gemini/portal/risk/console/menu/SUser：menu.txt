@@ -1,0 +1,8 @@
+INSERT INTO s_r_identity_mgr_options
+(id,pid,code,name,alias,source,path,http_method,sort,category,is_open,icon,action,remark,modify_date,modify_type)
+VALUES
+(101062036900200,null,'sUser','用户表：列表','用户表：列表','/risk/console/s/user/*/*','/sUser','GET',1,1,0,'setting',3,'用户表：列表',1563241615210,'Insert'),
+(101062036900201,101062036900200,'sUser','用户表：詳情','用户表：詳情','/risk/console/s/user/*','/sUser','GET',2,2,0,'setting',3,'用户表：詳情',1563241615210,'Insert'),
+(101062036900202,101062036900200,'sUser','用户表：新增','用户表：新增','/risk/console/s/user','/sUser','POST',3,2,0,'setting',3,'用户表：新增',1563241615210,'Insert'),
+(101062036900203,101062036900200,'sUser','用户表：修改','用户表：修改','/risk/console/s/user','/sUser','PUT',4,2,0,'setting',3,'用户表：修改',1563241615210,'Insert'),
+(101062036900204,101062036900200,'sUser','用户表：刪除','用户表：刪除','/risk/console/s/user/*','/sUser','DELETE',5,2,0,'setting',3,'用户表：刪除',1563241615210,'Insert');

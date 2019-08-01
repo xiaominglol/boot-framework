@@ -1,0 +1,8 @@
+INSERT INTO s_r_identity_mgr_options
+(id,pid,code,name,alias,source,path,http_method,sort,category,is_open,icon,action,remark,modify_date,modify_type)
+VALUES
+(101062014600200,null,'sMenu','菜单表：列表','菜单表：列表','/risk/console/s/menu/*/*','/sMenu','GET',1,1,0,'setting',3,'菜单表：列表',1563241615210,'Insert'),
+(101062014600201,101062014600200,'sMenu','菜单表：詳情','菜单表：詳情','/risk/console/s/menu/*','/sMenu','GET',2,2,0,'setting',3,'菜单表：詳情',1563241615210,'Insert'),
+(101062014600202,101062014600200,'sMenu','菜单表：新增','菜单表：新增','/risk/console/s/menu','/sMenu','POST',3,2,0,'setting',3,'菜单表：新增',1563241615210,'Insert'),
+(101062014600203,101062014600200,'sMenu','菜单表：修改','菜单表：修改','/risk/console/s/menu','/sMenu','PUT',4,2,0,'setting',3,'菜单表：修改',1563241615210,'Insert'),
+(101062014600204,101062014600200,'sMenu','菜单表：刪除','菜单表：刪除','/risk/console/s/menu/*','/sMenu','DELETE',5,2,0,'setting',3,'菜单表：刪除',1563241615210,'Insert');

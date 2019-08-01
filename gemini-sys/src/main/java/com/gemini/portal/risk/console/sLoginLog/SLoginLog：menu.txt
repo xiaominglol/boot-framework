@@ -1,0 +1,8 @@
+INSERT INTO s_r_identity_mgr_options
+(id,pid,code,name,alias,source,path,http_method,sort,category,is_open,icon,action,remark,modify_date,modify_type)
+VALUES
+(101062042700200,null,'sLoginLog','登陆日志表：列表','登陆日志表：列表','/risk/console/s/login/log/*/*','/sLoginLog','GET',1,1,0,'setting',3,'登陆日志表：列表',1563241615210,'Insert'),
+(101062042700201,101062042700200,'sLoginLog','登陆日志表：詳情','登陆日志表：詳情','/risk/console/s/login/log/*','/sLoginLog','GET',2,2,0,'setting',3,'登陆日志表：詳情',1563241615210,'Insert'),
+(101062042700202,101062042700200,'sLoginLog','登陆日志表：新增','登陆日志表：新增','/risk/console/s/login/log','/sLoginLog','POST',3,2,0,'setting',3,'登陆日志表：新增',1563241615210,'Insert'),
+(101062042700203,101062042700200,'sLoginLog','登陆日志表：修改','登陆日志表：修改','/risk/console/s/login/log','/sLoginLog','PUT',4,2,0,'setting',3,'登陆日志表：修改',1563241615210,'Insert'),
+(101062042700204,101062042700200,'sLoginLog','登陆日志表：刪除','登陆日志表：刪除','/risk/console/s/login/log/*','/sLoginLog','DELETE',5,2,0,'setting',3,'登陆日志表：刪除',1563241615210,'Insert');
