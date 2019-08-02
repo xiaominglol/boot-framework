@@ -1,11 +1,11 @@
 package com.gemini.portal.common.config;
 
-import com.gemini.portal.module.sys.model.LoginLog;
-import com.gemini.portal.module.sys.model.User;
-import com.gemini.portal.module.sys.service.LoginLogService;
-import com.gemini.portal.module.sys.service.UserService;
+import com.gemini.boot.framework.mybatis.entity.CommonStatus;
 import com.gemini.portal.MD5Util;
-import com.gemini.boot.framework.web.mvc.model.CommonStatus;
+import com.gemini.portal.module.sys.po.SysLoginLogPo;
+import com.gemini.portal.module.sys.po.SysUserPo;
+import com.gemini.portal.module.sys.service.SysLoginLogService;
+import com.gemini.portal.module.sys.service.SysUserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -43,17 +43,17 @@ public class ShiroRealm extends AuthorizingRealm {
      */
     @Lazy
     @Autowired
-    UserService userService;
+    SysUserService userService;
     @Autowired
-    LoginLogService loginLogService;
+    SysLoginLogService loginLogService;
 
     /**
      * 认证
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        System.out.println("ShiroRealm.doGetAuthenticationInfo()");
-        LoginLog loginLog = new LoginLog();
+        SysLoginLogPo loginLog = new SysLoginLogPo();
+
         SimpleAuthenticationInfo saInfo = new SimpleAuthenticationInfo();
         try {
             // 1.把AuthenticationToken转换为UsernamePasswordToken
@@ -61,7 +61,7 @@ public class ShiroRealm extends AuthorizingRealm {
             // 2.从UsernamePasswordToken获取account
             String account = upToken.getUsername();
             // 3.调用数据库方法,从数据库中查询account的用户
-            User user = userService.getByAccount(account);
+            SysUserPo user = userService.getByAccount(account);
             loginLog.setUserAccount(account);
             if (user != null) {
                 loginLog.setUserName(user.getName());
@@ -74,10 +74,14 @@ public class ShiroRealm extends AuthorizingRealm {
             if (!user.getPassword().equals(MD5Util.encryption(String.valueOf(upToken.getPassword()), user.getAccount()))) {
                 throw new AuthenticationException("用户账号或者密码错误.");
             }
-            if (user.getStatus() == CommonStatus.STATUS_NULLITY) {
+            if (user.getStateCode().equals(CommonStatus.STATUS_NULLITY)) {
                 throw new LockedAccountException("用户已禁用.");
             }
-            loginLog.setStatus(CommonStatus.STATUS_VALIDITY);
+            loginLog.setId(123L);
+            loginLog.setLoginStateId(123213L);
+            loginLog.setLoginStateCode(String.valueOf(CommonStatus.STATUS_VALIDITY));
+            loginLog.setLoginStateName("启用");
+            loginLog.setMessage("登陆成功");
 
             // 盐值
             ByteSource salt = ByteSource.Util.bytes(account);
@@ -88,12 +92,14 @@ public class ShiroRealm extends AuthorizingRealm {
         } catch (Exception e) {
             //java.lang.ClassCastException: com.gemini.core.module.sys.model.User cannot be cast to com.gemini.base.sys.model.User
             //请看上面第2点注释
-            loginLog.setStatus(CommonStatus.STATUS_NULLITY);
+            loginLog.setLoginStateId(123213L);
+            loginLog.setLoginStateCode(String.valueOf(CommonStatus.STATUS_NULLITY));
+            loginLog.setLoginStateName("禁用");
             loginLog.setMessage(e.getMessage());
             logger.error(e.getMessage());
             throw e;
         } finally {
-            loginLogService.save(loginLog);
+            loginLogService.insert(loginLog);
         }
         return saInfo;
     }
@@ -103,7 +109,6 @@ public class ShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        System.out.println("ShiroRealm.doGetAuthorizationInfo()");
         // 1. 从 PrincipalCollection 中来获取登录用户的信息
         Object account = principals.getPrimaryPrincipal();
 

@@ -1,8 +1,0 @@
-INSERT INTO s_r_identity_mgr_options
-(id,pid,code,name,alias,source,path,http_method,sort,category,is_open,icon,action,remark,modify_date,modify_type)
-VALUES
-(10106207100200,null,'sDict','字典表：列表','字典表：列表','/risk/console/s/dict/*/*','/sDict','GET',1,1,0,'setting',3,'字典表：列表',1563241615210,'Insert'),
-(10106207100201,10106207100200,'sDict','字典表：詳情','字典表：詳情','/risk/console/s/dict/*','/sDict','GET',2,2,0,'setting',3,'字典表：詳情',1563241615210,'Insert'),
-(10106207100202,10106207100200,'sDict','字典表：新增','字典表：新增','/risk/console/s/dict','/sDict','POST',3,2,0,'setting',3,'字典表：新增',1563241615210,'Insert'),
-(10106207100203,10106207100200,'sDict','字典表：修改','字典表：修改','/risk/console/s/dict','/sDict','PUT',4,2,0,'setting',3,'字典表：修改',1563241615210,'Insert'),
-(10106207100204,10106207100200,'sDict','字典表：刪除','字典表：刪除','/risk/console/s/dict/*','/sDict','DELETE',5,2,0,'setting',3,'字典表：刪除',1563241615210,'Insert');

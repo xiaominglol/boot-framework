@@ -1,15 +1,14 @@
 package com.gemini.portal;
 
 import com.gemini.portal.common.annotation.SysLog;
-import com.gemini.portal.module.sys.model.User;
-import com.gemini.portal.module.sys.service.ExcpLogService;
-import com.gemini.portal.module.sys.service.UserService;
+import com.gemini.portal.module.sys.po.SysUserPo;
+import com.gemini.portal.module.sys.service.SysErrorLogService;
+import com.gemini.portal.module.sys.service.SysUserService;
 import com.gemini.portal.module.sys.utils.UserUtils;
-import com.gemini.portal.module.sys.model.ExcpLog;
-import com.gemini.boot.framework.web.mvc.controller.BaseController;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,12 +26,12 @@ import java.util.Map;
  * @time 2017-10-27
  */
 @Controller
-public class LoginController extends BaseController {
+public class LoginController {
 
     @Autowired
-    ExcpLogService excpLogService;
+    SysErrorLogService errorLogService;
     @Autowired
-    UserService userService;
+    SysUserService userService;
 
     /**
      * 跳转到登陆页面
@@ -50,9 +49,9 @@ public class LoginController extends BaseController {
      * @return
      */
     @GetMapping("/index")
-    public String index() {
+    public String index(Session session) {
         //（优化）待解决更好的清除session
-//        session.removeAttribute("msg");
+        session.removeAttribute("msg");
         return "index";
     }
 
@@ -78,7 +77,7 @@ public class LoginController extends BaseController {
     public String login(
             @RequestParam("account") String account,
             @RequestParam("password") String password,
-            @RequestParam(value = "remember", required = false) String remember) {
+            @RequestParam(value = "remember", required = false) String remember, Session session) {
         //获取当前用户
         Subject currentUser = SecurityUtils.getSubject();
         //是否认证通过,即是否已经登录
@@ -89,8 +88,8 @@ public class LoginController extends BaseController {
                 currentUser.login(token);
                 //设置有效时间为15分钟
                 SecurityUtils.getSubject().getSession().setTimeout(900000);
-                User user = UserUtils.getCurrentUser();
-//                session.setAttribute("user", user);
+                SysUserPo user = UserUtils.getCurrentUser();
+                session.setAttribute("user", user);
                 // 成功跳转到主页，防止表单重复提交，应用重定向
                 return "redirect:/index";
             } catch (AuthenticationException e) {
@@ -99,19 +98,19 @@ public class LoginController extends BaseController {
                 //(bug)页面获取不了
                 //model.addAttribute("msg", "登陆失败:" + e.getMessage());
                 //（bug）第一次登陆失败，比如账号不存在，然后登陆成功，然后不注销，再次测试账号不存在，会出现500，session已存在
-//                session.setAttribute("msg", "登陆失败:" + e.getMessage());
-                excpLogService.save(ExcpLog.saveExcpLog("/user", map, e.getMessage()));
-                logger.error("登陆失败:" + e.getMessage());
+                session.setAttribute("msg", "登陆失败:" + e.getMessage());
+//                errorLogService.save(ExcpLog.saveExcpLog("/user", map, e.getMessage()));
+//                logger.error("登陆失败:" + e.getMessage());
                 // 失败返回登陆页面
                 return "redirect:/";
             }
         } else {
-            User user = UserUtils.getCurrentUser();
+            SysUserPo user = UserUtils.getCurrentUser();
 
             //如果不是同一个用户，则先退出再登陆
             if (!account.equals(user.getAccount())) {
                 currentUser.logout();
-                this.login(account, password, remember);
+                this.login(account, password, remember,session);
             }
             //如果再次登陆的是同一个用户直接跳转到主页
             //(bug)我输入任意密码都能登陆

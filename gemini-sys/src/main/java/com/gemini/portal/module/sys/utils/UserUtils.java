@@ -1,6 +1,6 @@
 package com.gemini.portal.module.sys.utils;
 
-import com.gemini.portal.module.sys.model.User;
+import com.gemini.portal.module.sys.po.SysUserPo;
 import org.apache.shiro.SecurityUtils;
 
 /**
@@ -17,7 +17,7 @@ public class UserUtils {
      *
      * @return user
      */
-    public static User getCurrentUser() {
-        return (User) SecurityUtils.getSubject().getPrincipal();
+    public static SysUserPo getCurrentUser() {
+        return (SysUserPo) SecurityUtils.getSubject().getPrincipal();
     }
 }

@@ -1,6 +1,6 @@
 package com.gemini.portal.module.sys.utils;
 
-import com.gemini.portal.module.sys.model.Org;
+import com.gemini.portal.module.sys.po.SysOrgPo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,9 +19,9 @@ public class TreeSelectUtil {
      * @param orgList
      * @return
      */
-    public static List<Map<String, Object>> getTreeSelect(List<Org> orgList) {
+    public static List<Map<String, Object>> getTreeSelect(List<SysOrgPo> orgList) {
         List<Map<String, Object>> list = new ArrayList<>();
-        for (Org org : orgList) {
+        for (SysOrgPo org : orgList) {
             if (org.getPid() == 0) {
                 List<Map<String, Object>> childrenList = getChildTreeSelect(org.getId(), orgList);
                 Map<String, Object> map = new HashMap<>();
@@ -45,9 +45,9 @@ public class TreeSelectUtil {
      * @param orgList
      * @return
      */
-    public static List<Map<String, Object>> getChildTreeSelect(Integer id, List<Org> orgList) {
+    public static List<Map<String, Object>> getChildTreeSelect(Long id, List<SysOrgPo> orgList) {
         List<Map<String, Object>> childrenList = new ArrayList<>();
-        for (Org org : orgList) {
+        for (SysOrgPo org : orgList) {
             if (id.equals(org.getPid())) {
                 List<Map<String, Object>> childList = getChildTreeSelect(org.getId(), orgList);
                 Map<String, Object> childrenMap = new HashMap<>();

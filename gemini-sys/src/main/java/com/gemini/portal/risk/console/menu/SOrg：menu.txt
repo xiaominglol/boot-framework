@@ -1,8 +1,0 @@
-INSERT INTO s_r_identity_mgr_options
-(id,pid,code,name,alias,source,path,http_method,sort,category,is_open,icon,action,remark,modify_date,modify_type)
-VALUES
-(101062022500200,null,'sOrg','组织架构表：列表','组织架构表：列表','/risk/console/s/org/*/*','/sOrg','GET',1,1,0,'setting',3,'组织架构表：列表',1563241615210,'Insert'),
-(101062022500201,101062022500200,'sOrg','组织架构表：詳情','组织架构表：詳情','/risk/console/s/org/*','/sOrg','GET',2,2,0,'setting',3,'组织架构表：詳情',1563241615210,'Insert'),
-(101062022500202,101062022500200,'sOrg','组织架构表：新增','组织架构表：新增','/risk/console/s/org','/sOrg','POST',3,2,0,'setting',3,'组织架构表：新增',1563241615210,'Insert'),
-(101062022500203,101062022500200,'sOrg','组织架构表：修改','组织架构表：修改','/risk/console/s/org','/sOrg','PUT',4,2,0,'setting',3,'组织架构表：修改',1563241615210,'Insert'),
-(101062022500204,101062022500200,'sOrg','组织架构表：刪除','组织架构表：刪除','/risk/console/s/org/*','/sOrg','DELETE',5,2,0,'setting',3,'组织架构表：刪除',1563241615210,'Insert');

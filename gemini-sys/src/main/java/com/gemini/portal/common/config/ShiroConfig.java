@@ -29,7 +29,6 @@ public class ShiroConfig {
      */
     @Bean
     public ShiroFilterFactoryBean shirFilter(DefaultWebSecurityManager securityManager) {
-        System.out.println("ShiroConfig.shirFilter()");
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
@@ -79,7 +78,6 @@ public class ShiroConfig {
      */
     @Bean
     public ShiroRealm shiroRealm() {
-        System.out.println("ShiroConfig.shiroRealm()");
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
         // 加密类型
         hashedCredentialsMatcher.setHashAlgorithmName("MD5");
@@ -99,7 +97,6 @@ public class ShiroConfig {
      */
     @Bean
     public DefaultWebSecurityManager securityManager() {
-        System.out.println("ShiroConfig.securityManager()");
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(shiroRealm());
         return securityManager;

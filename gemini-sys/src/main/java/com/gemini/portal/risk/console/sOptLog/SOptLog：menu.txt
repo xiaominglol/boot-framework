@@ -1,8 +1,0 @@
-INSERT INTO s_r_identity_mgr_options
-(id,pid,code,name,alias,source,path,http_method,sort,category,is_open,icon,action,remark,modify_date,modify_type)
-VALUES
-(101062091400100,null,'sOptLog','操作日志表：列表','操作日志表：列表','/risk/console/s/opt/log/*/*','/sOptLog','GET',1,1,0,'setting',3,'操作日志表：列表',1563241615210,'Insert'),
-(101062091400101,101062091400100,'sOptLog','操作日志表：詳情','操作日志表：詳情','/risk/console/s/opt/log/*','/sOptLog','GET',2,2,0,'setting',3,'操作日志表：詳情',1563241615210,'Insert'),
-(101062091400102,101062091400100,'sOptLog','操作日志表：新增','操作日志表：新增','/risk/console/s/opt/log','/sOptLog','POST',3,2,0,'setting',3,'操作日志表：新增',1563241615210,'Insert'),
-(101062091400103,101062091400100,'sOptLog','操作日志表：修改','操作日志表：修改','/risk/console/s/opt/log','/sOptLog','PUT',4,2,0,'setting',3,'操作日志表：修改',1563241615210,'Insert'),
-(101062091400104,101062091400100,'sOptLog','操作日志表：刪除','操作日志表：刪除','/risk/console/s/opt/log/*','/sOptLog','DELETE',5,2,0,'setting',3,'操作日志表：刪除',1563241615210,'Insert');

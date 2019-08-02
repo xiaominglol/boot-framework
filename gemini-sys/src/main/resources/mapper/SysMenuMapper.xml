@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gemini.portal.module.sys.mapper.SysMenuMapper">
+
+    <resultMap id="resultMap" type="com.gemini.portal.module.sys.po.SysMenuPo">
+        <id column="id" property="id" javaType="Long"/>
+        <result column="pid" property="pid" javaType="Long"/>
+        <result column="name" property="name" javaType="String"/>
+        <result column="url" property="url" javaType="String"/>
+        <result column="icon" property="icon" javaType="String"/>
+        <result column="menu_type_id" property="menuTypeId" javaType="Long"/>
+        <result column="menu_type_code" property="menuTypeCode" javaType="String"/>
+        <result column="menu_type_name" property="menuTypeName" javaType="String"/>
+        <result column="target_id" property="targetId" javaType="Long"/>
+        <result column="target_code" property="targetCode" javaType="String"/>
+        <result column="target_name" property="targetName" javaType="String"/>
+        <result column="permission_id" property="permissionId" javaType="Long"/>
+        <result column="permission_code" property="permissionCode" javaType="String"/>
+        <result column="permission_name" property="permissionName" javaType="String"/>
+        <result column="sort" property="sort" javaType="String"/>
+        <result column="state_id" property="stateId" javaType="Long"/>
+        <result column="state_code" property="stateCode" javaType="String"/>
+        <result column="state_name" property="stateName" javaType="String"/>
+        <result column="modify_id" property="modifyId" javaType="Long"/>
+        <result column="modify_name" property="modifyName" javaType="String"/>
+        <result column="modify_time" property="modifyTime" javaType="String"/>
+    </resultMap>
+
+    <select id="getByAccount" parameterType="java.lang.String"
+            resultType="com.gemini.portal.module.sys.po.SysMenuPo">
+        SELECT DISTINCT t2.*
+        FROM t_sys_user_role t
+        LEFT JOIN t_sys_permissions t1
+        ON t.role_id = t1.permissions_id
+        LEFT JOIN t_sys_menu t2
+        ON t1.menu_id = t2.id
+        WHERE t2.type != 'button' AND t.user_account = #{account,jdbcType=VARCHAR}
+        ORDER BY t2.pid,t2.sort
+    </select>
+
+    <delete id="deleteMenuAut" parameterType="java.lang.Integer">
+        delete from t_sys_permissions
+        where menu_id=#{id}
+    </delete>
+</mapper>
