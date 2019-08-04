@@ -20,8 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 /**
  * 字典控制层
  *
@@ -37,20 +35,14 @@ public class SysDictController {
     @Autowired
     SysDictService dictService;
 
-    /**
-     * 跳转到列表
-     */
     @GetMapping("/gotoList")
     public String gotoList() {
         return "module/sys/dict/dict_list";
     }
 
-    /**
-     * 树形表格列表
-     */
     @GetMapping
     @ResponseBody
-    public Message list(SysDictPo dictPo) {
+    public Message list(LayUiPage layUiPage, SysDictPo dictPo) {
         try {
             QueryWrapper<SysDictPo> qw = new QueryWrapper<>();
             if (!StringUtils.isEmpty(dictPo.getName())) {
@@ -59,42 +51,9 @@ public class SysDictController {
             if (!StringUtils.isEmpty(dictPo.getCode())) {
                 qw.eq("code", dictPo.getCode());
             }
-            if (!StringUtils.isEmpty(dictPo.getStateId())) {
-                qw.eq("state_id", dictPo.getStateId());
-            }
             if (!StringUtils.isEmpty(dictPo.getPid())) {
                 qw.eq("pid", dictPo.getPid());
             }
-//            qw.orderByAsc("sort");
-            List<SysDictPo> list = dictService.list(qw);
-            return Message.success(list);
-        } catch (Exception e) {
-//            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
-            return Message.fail(e.getMessage());
-        }
-    }
-
-    /**
-     * 树形表格列表
-     */
-    @GetMapping("/detail")
-    @ResponseBody
-    public Message detail(LayUiPage layUiPage, SysDictPo dictPo) {
-        try {
-            QueryWrapper<SysDictPo> qw = new QueryWrapper<>();
-            if (!StringUtils.isEmpty(dictPo.getName())) {
-                qw.like("name", dictPo.getName());
-            }
-            if (!StringUtils.isEmpty(dictPo.getCode())) {
-                qw.eq("code", dictPo.getCode());
-            }
-            if (!StringUtils.isEmpty(dictPo.getStateId())) {
-                qw.eq("state_id", dictPo.getStateId());
-            }
-            if (!StringUtils.isEmpty(dictPo.getPid())) {
-                qw.eq("pid", dictPo.getPid());
-            }
-//            qw.orderByAsc("sort");
             IPage<SysDictPo> list = dictService.page(new Page<>(layUiPage.getPageNum(), layUiPage.getPageSize()), qw);
             return Message.success(list);
         } catch (Exception e) {
@@ -103,11 +62,6 @@ public class SysDictController {
         }
     }
 
-    /**
-     * 通过ID获取获取详细页面
-     *
-     * @param id 主键ID
-     */
     @GetMapping("/{id}")
     @ResponseBody
     public Message detail(@PathVariable("id") Long id) {
@@ -124,11 +78,6 @@ public class SysDictController {
         }
     }
 
-    /**
-     * 添加
-     *
-     * @param dict
-     */
     @SysLog("添加字典")
     @PostMapping
     @ResponseBody
@@ -159,12 +108,6 @@ public class SysDictController {
         }
     }
 
-    /**
-     * 更新
-     *
-     * @param dict
-     * @return
-     */
     @SysLog("更新字典")
     @PutMapping
     @ResponseBody
@@ -185,12 +128,6 @@ public class SysDictController {
         }
     }
 
-    /**
-     * 删除
-     *
-     * @param id 角色主键id
-     * @return
-     */
     @SysLog("删除字典")
     @DeleteMapping("/{id}")
     @ResponseBody

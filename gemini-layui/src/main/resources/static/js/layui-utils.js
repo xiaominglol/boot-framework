@@ -142,7 +142,7 @@ function buildTree(nodes, id, pid, name) {
         for (var i = 0; i < nodes.length; i++) {
             var nodeItem = nodes[i];
             var json = nodeItem;
-            if (nodeItem[pid] == 0) {
+            if (!nodeItem[pid]) {
                 var child = buildChildTree(nodeItem[id], nodes, id, pid, name);
                 // 递归增加子节点
                 if (child.length > 0) {

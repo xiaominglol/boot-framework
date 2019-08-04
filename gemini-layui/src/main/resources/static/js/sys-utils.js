@@ -21,13 +21,9 @@ function getSysData(param) {
         url: param.url,
         type: 'GET',
         async: false,
+        data: param.data,
         success: function (result) {
-            //树形表格和分页表格返回的数据格式不一样
-            if (param.isTreeTable) {
-                data = result.data;
-            } else {
-                data = result.data.records;
-            }
+            data = result.data.records;
         }
     });
     return data;

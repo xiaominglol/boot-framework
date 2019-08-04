@@ -89,13 +89,13 @@
         function renderTree(param) {
             var data = getSysData({
                 url: "/sys/dict"
-                , isTreeTable: true
+                , data: {pageNum: 1, pageSize: 100000000}
             });
             initTree({
                 dom: param.dom
                 , data: data
-                , id: "code"
-                , pid: "parentCode"
+                , id: "id"
+                , pid: "pid"
                 , name: "name"
                 , click: param.click
             });
@@ -106,6 +106,9 @@
         renderTable();
 
         function renderTable(whereParam) {
+            if (!whereParam) {
+                whereParam = {pageNum: 1, pageSize: 100000000};
+            }
             treetable.render({
                 treeColIndex: 1,            // 树形图标显示在第几列（必填）
                 treeSpid: null,                // 顶级pid（必填）
@@ -143,8 +146,6 @@
         $(".addButton").click(function () {
             type = 'POST';
             $("[name='id']").val("");
-            $("[name='parentCode']").val("0");
-            $("#treeName").text("请选择");
             layerOpen("添加");
 
             table.render({
@@ -165,20 +166,20 @@
         // 修改
         $(".editButton").click(function () {
             type = 'PUT';
-            var selectedData = table.checkStatus('table');
+            let selectedData = table.checkStatus('table');
             if (selectedData.data.length == 1) {
                 $("[name='id']").val(selectedData.data[0].id);
                 $("[name='code']").val(selectedData.data[0].code);
                 $("[name='name']").val(selectedData.data[0].name);
-                $("#name").val(selectedData.data[0].name);
                 $("[name='description']").val(selectedData.data[0].description);
 
                 initTable({
                     dom: "detailTable"
-                    , url: "/sys/dict/detail"
+                    , url: "/sys/dict"
                     , where: {"pid": selectedData.data[0].id}
                     , cols: [
                         {type: 'checkbox', width: 35},
+                        {field: 'id', hide: true},
                         {field: 'code', title: '字典编码', width: 200, align: 'left', edit: 'text'},
                         {field: 'name', title: '字典名称', width: 200, align: 'left', edit: 'text'},
                         {field: 'description', title: '描述', align: 'left', edit: 'text'}
@@ -203,8 +204,6 @@
         // 添加/修改 保存
         form.on('submit(saveButton)', function (data) {
             data.field.detailList = table.cache.detailTable;
-            console.log("data.field", JSON.stringify(data.field));
-            // console.log("data.field",JSON.parse(data.field));
             let result = saveOrUpdate({
                 url: '/sys/dict'
                 , type: type
@@ -232,7 +231,9 @@
 
         // 删除
         $(".delButton").click(function () {
-            var selectedData = table.checkStatus('table');
+            let selectedData = table.checkStatus('table');
+            console.log("selectedData", selectedData)
+            return false;
             if (selectedData.data.length != 0) {
                 layer.msg('确定删除？', {
                     time: 0
@@ -271,7 +272,7 @@
 
         // 新增 明细
         $(".add_detail").click(function () {
-            var data = {code: "", name: "", description: ""};
+            let data = {code: "", name: "", description: ""};
             addRowButton({
                 table: "detailTable"
                 , id: "code"
@@ -284,14 +285,6 @@
                 table: "detailTable"
                 , id: "code"
             })
-        });
-
-
-        //获取字典类型
-        getDictByCode({
-            parentCode: "dict_type"
-            , dom: "[name='type']"
-            , isParent: true
         });
     });
 

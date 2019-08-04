@@ -125,7 +125,6 @@
                 type: "GET",
                 success: function (data) {
                     menuData = data.data;
-                    console.log("menuData",menuData)
                     loadMainMenu(menuData);
                 }
             });
@@ -198,7 +197,6 @@
                     //三级菜单
                     var third_menu_html = "<dl class='layui-nav-child'>";
                     for (var j in menuData) {
-                        console.log("menuData",menuData[i].id,menuData[j].pid)
                         if (menuData[i].id == menuData[j].pid) {
                             //如果是目录
                             if (menuData[j].menuTypeCode == "directory") {
