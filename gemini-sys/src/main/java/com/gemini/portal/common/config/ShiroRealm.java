@@ -77,7 +77,6 @@ public class ShiroRealm extends AuthorizingRealm {
             if (user.getStateCode().equals(CommonStatus.STATUS_NULLITY)) {
                 throw new LockedAccountException("用户已禁用.");
             }
-            loginLog.setId(123L);
             loginLog.setLoginStateId(123213L);
             loginLog.setLoginStateCode(String.valueOf(CommonStatus.STATUS_VALIDITY));
             loginLog.setLoginStateName("启用");

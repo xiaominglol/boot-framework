@@ -1,6 +1,5 @@
 package com.gemini.portal;
 
-import com.gemini.portal.common.annotation.SysLog;
 import com.gemini.portal.module.sys.po.SysUserPo;
 import com.gemini.portal.module.sys.service.SysErrorLogService;
 import com.gemini.portal.module.sys.service.SysUserService;
@@ -8,7 +7,6 @@ import com.gemini.portal.module.sys.utils.UserUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,7 +48,7 @@ public class LoginController {
      * @return
      */
     @GetMapping("/index")
-    public String index(Session session) {
+    public String index(HttpSession session) {
         //（优化）待解决更好的清除session
         session.removeAttribute("msg");
         return "index";
@@ -72,12 +71,11 @@ public class LoginController {
      * @param password 密码
      * @return
      */
-    @SysLog("用户登陆")
     @PostMapping("/login")
     public String login(
             @RequestParam("account") String account,
             @RequestParam("password") String password,
-            @RequestParam(value = "remember", required = false) String remember, Session session) {
+            @RequestParam(value = "remember", required = false) String remember, HttpSession session) {
         //获取当前用户
         Subject currentUser = SecurityUtils.getSubject();
         //是否认证通过,即是否已经登录

@@ -52,7 +52,7 @@ public interface SysUserService extends BootCrudService<SysUserPo, SysUserMapper
      * @param account
      * @param ids
      */
-    void addUserRole(String account, String[] ids);
+    void addUserRole(Long userId, Long[] roleIds);
 
     /**
      * 删除权用户角色

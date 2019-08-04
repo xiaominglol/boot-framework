@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gemini.boot.framework.mybatis.entity.CommonFailInfo;
-import com.gemini.boot.framework.mybatis.entity.CommonStatus;
 import com.gemini.boot.framework.mybatis.entity.LayUiPage;
 import com.gemini.boot.framework.mybatis.entity.Message;
 import com.gemini.portal.common.annotation.SysLog;
@@ -28,6 +27,7 @@ import java.util.Map;
  * @date 2017-11-03
  */
 @Controller
+@RequestMapping("/sys/role")
 public class SysRoleController {
 
     @Autowired
@@ -38,7 +38,7 @@ public class SysRoleController {
     /**
      * 跳转到列表
      */
-    @RequestMapping("/role/gotoList")
+    @RequestMapping("/gotoList")
     public String gotoList() {
         return "module/sys/role/role_list";
     }
@@ -46,10 +46,9 @@ public class SysRoleController {
     /**
      * 获取分页列表
      */
-    @SysLog("查询角色列表")
-    @GetMapping("/role")
+    @GetMapping
     @ResponseBody
-    public Message getPageList(LayUiPage layUiPage, SysRolePo rolePo) {
+    public Message list(LayUiPage layUiPage, SysRolePo rolePo) {
         try {
             QueryWrapper<SysRolePo> qw = new QueryWrapper<>();
             //如果是分页查询
@@ -60,7 +59,7 @@ public class SysRoleController {
                 IPage<SysRolePo> list = roleService.page(new Page<>(layUiPage.getPageNum(), layUiPage.getPageSize()), qw);
                 return Message.success(list);
             } else {//否则查询全部有效
-                qw.eq("status", CommonStatus.STATUS_VALIDITY);
+                qw.eq("state_code", "Enable");
                 List<SysRolePo> list = roleService.list(qw);
                 return Message.success(list);
             }

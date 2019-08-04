@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gemini.boot.framework.mybatis.entity.LayUiPage;
 import com.gemini.boot.framework.mybatis.entity.Message;
-import com.gemini.portal.common.annotation.SysLog;
 import com.gemini.portal.module.sys.po.SysErrorLogPo;
 import com.gemini.portal.module.sys.po.SysLoginLogPo;
 import com.gemini.portal.module.sys.po.SysOptLogPo;
@@ -45,7 +44,6 @@ public class SysLogController {
     /**
      * 登陆日志分页列表
      */
-    @SysLog("查询登陆日志列表")
     @GetMapping("/loginLog")
     @ResponseBody
     public Message getLoginLog(LayUiPage layUiPage, SysLoginLogPo loginLog) {
@@ -77,7 +75,6 @@ public class SysLogController {
     /**
      * 操作日志分页列表
      */
-    @SysLog("查询操作日志列表")
     @GetMapping("/optLog")
     @ResponseBody
     public Message getOptLog(LayUiPage layUiPage, SysOptLogPo optLogPo) {
@@ -106,7 +103,6 @@ public class SysLogController {
     /**
      * 异常日志分页列表
      */
-    @SysLog("查询异常日志列表")
     @GetMapping("/excpLog")
     @ResponseBody
     public Message getExcpLog(LayUiPage layUiPage, SysErrorLogPo errorLogPo) {

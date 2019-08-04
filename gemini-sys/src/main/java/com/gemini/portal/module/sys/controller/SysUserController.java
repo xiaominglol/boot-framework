@@ -38,20 +38,20 @@ import java.util.Map;
  * @date 2017-11-03
  */
 @Controller
+@RequestMapping("/sys/user")
 public class SysUserController {
 
     @Autowired
     SysErrorLogService errorLogService;
     @Autowired
     SysUserService userService;
-
     @Autowired
-    private GeminiProperties geminiProperties;
+    GeminiProperties geminiProperties;
 
     /**
      * 跳转到列表
      */
-    @GetMapping("/user/gotoList")
+    @GetMapping("/gotoList")
     //@RequiresPermissions("3333")
     public String gotoList() {
         return "module/sys/user/user_list";
@@ -60,10 +60,9 @@ public class SysUserController {
     /**
      * 获取分页列表
      */
-    @SysLog("查询用户列表")
-    @GetMapping("/user")
+    @GetMapping
     @ResponseBody
-    public Message getPageList(LayUiPage layUiPage, SysUserPo userPo) {
+    public Message list(LayUiPage layUiPage, SysUserPo userPo) {
         try {
             QueryWrapper<SysUserPo> qw = new QueryWrapper<>();
             if (!StringUtils.isEmpty(userPo.getName())) {
@@ -107,18 +106,21 @@ public class SysUserController {
      * @param user 用户
      */
     @SysLog("添加用户")
-    @PostMapping("/user")
+    @PostMapping
     @ResponseBody
-    public Message save(SysUserPo userPo, @RequestParam(value = "ids[]") String[] ids) {
+    public Message save(SysUserPo userPo, @RequestParam(value = "ids[]") Long[] ids) {
         try {
             if (StringUtils.isEmpty(userPo.getId())) {
                 String pwd = MD5Util.encryption(userPo.getPassword(), userPo.getAccount());
                 userPo.setPassword(pwd);
                 SysUserPo currentUser = UserUtils.getCurrentUser();
+                userPo.setStateId(123L);
+                userPo.setStateCode("Enable");
+                userPo.setStateName("启用");
                 userPo.setModifyId(currentUser.getId());
                 userPo.setModifyName(currentUser.getName());
                 userService.insert(userPo);
-                userService.addUserRole(userPo.getAccount(), ids);
+                userService.addUserRole(userPo.getId(), ids);
                 return Message.success(userPo);
             } else {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
@@ -170,7 +172,7 @@ public class SysUserController {
     @SysLog("更新用户")
     @PutMapping("/user")
     @ResponseBody
-    public Message update(SysUserPo user, @RequestParam(value = "ids[]", required = false) String[] ids) {
+    public Message update(SysUserPo user, @RequestParam(value = "ids[]", required = false) Long[] ids) {
         try {
             if (!StringUtils.isEmpty(user.getAccount())) {
                 SysUserPo currentUser = UserUtils.getCurrentUser();
@@ -186,7 +188,7 @@ public class SysUserController {
                 userService.update(user);
                 if (ids != null) {
                     userService.deleteUserRole(user.getAccount());
-                    userService.addUserRole(user.getAccount(), ids);
+                    userService.addUserRole(user.getId(), ids);
                 }
                 return Message.success(user);
             } else {

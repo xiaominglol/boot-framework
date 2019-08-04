@@ -61,8 +61,8 @@ public class SysUserServiceImpl extends BootCrudServiceImpl<SysUserPo, SysUserMa
     }
 
     @Override
-    public void addUserRole(String account, String[] ids) {
-        mapper.addUserRole(account, ids);
+    public void addUserRole(Long userId, Long[] roleIds) {
+        mapper.addUserRole(userId, roleIds);
     }
 
     @Override

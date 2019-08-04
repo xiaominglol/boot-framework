@@ -4,7 +4,6 @@ import com.gemini.boot.framework.mybatis.service.BootCrudService;
 import com.gemini.portal.module.sys.mapper.SysMenuMapper;
 import com.gemini.portal.module.sys.po.SysMenuPo;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -19,7 +18,7 @@ public interface SysMenuService extends BootCrudService<SysMenuPo, SysMenuMapper
      * @param account
      * @return
      */
-    List<SysMenuPo> getByAccount(String account);
+    List<SysMenuPo> getByAccount(Long account);
 
     boolean removeById(Long id);
 }

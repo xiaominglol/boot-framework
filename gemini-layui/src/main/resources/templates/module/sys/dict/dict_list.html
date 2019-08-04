@@ -88,7 +88,7 @@
 
         function renderTree(param) {
             var data = getSysData({
-                url: "/dict"
+                url: "/sys/dict"
                 , isTreeTable: true
             });
             initTree({
@@ -108,37 +108,23 @@
         function renderTable(whereParam) {
             treetable.render({
                 treeColIndex: 1,            // 树形图标显示在第几列（必填）
-                treeSpid: 0,                // 顶级pid（必填）
-                treeIdName: 'code',           // id字段名
-                treePidName: 'parentCode',         // pid字段名
+                treeSpid: null,                // 顶级pid（必填）
+                treeIdName: 'id',           // id字段名
+                treePidName: 'pid',         // pid字段名
                 treeDefaultClose: true,     // 是否默认折叠
                 treeLinkage: false,          // 父级展开时是否自动展开所有子级
                 elem: '#table',
-                url: '/dict',
+                url: '/sys/dict',
                 where: whereParam,
                 cols: [[
                     {checkbox: true}
                     , {field: 'code', title: '字典编码', width: 160}
-                    , {field: 'parentCode', title: '上级字典编码', width: 120}
-                    , {field: 'name', title: '字典名称'}
-                    , {field: 'value', title: '字典值', width: 140}
+                    , {field: 'name', title: '字典名称', width: 160}
+                    , {field: 'description', title: '描述'}
                     , {
-                        field: 'type', title: '字典类型', width: 120, templet: function (d) {
-                            return d.type == '1' ? '系统' : ''
-                        }
+                        field: 'stateName', title: '状态', width: 80
                     }
-                    , {
-                        field: 'isDefault', title: '是否默认', width: 120, templet: function (d) {
-                            return d.isDefault == '1' ? '是' : '否'
-                        }
-                    }
-                    , {field: 'remark', title: '备注'}
-                    , {field: 'sort', title: '排序', width: 80}
-                    , {
-                        field: 'status', title: '状态', width: 80, templet: function (d) {
-                            return d.status == 1 ? '<span class="layui-color-green">正常</span>' : '<span class="layui-color-red">禁用</span>'
-                        }
-                    }
+                    , {title: '操作', width: 120, toolbar: '#optToolBar'}
                 ]]
                 , done: function (res, curr, count) {
                     checkboxRadio($, "table");
@@ -159,8 +145,21 @@
             $("[name='id']").val("");
             $("[name='parentCode']").val("0");
             $("#treeName").text("请选择");
-            getDictTreeSelect();
             layerOpen("添加");
+
+            table.render({
+                elem: '#detailTable'
+                , data: []
+                , id: 'detailTable'
+                , cols: [[
+                    {type: 'checkbox', width: 35},
+                    {field: 'code', title: '字典编码', width: 200, align: 'left', edit: 'text'},
+                    {field: 'name', title: '字典名称', width: 200, align: 'left', edit: 'text'},
+                    {field: 'description', title: '描述', align: 'left', edit: 'text'}
+                ]]
+                , done: function (res, curr, count) {
+                }
+            });
         });
 
         // 修改
@@ -168,18 +167,24 @@
             type = 'PUT';
             var selectedData = table.checkStatus('table');
             if (selectedData.data.length == 1) {
-                getDictTreeSelect();
                 $("[name='id']").val(selectedData.data[0].id);
                 $("[name='code']").val(selectedData.data[0].code);
-                $("[name='parentCode']").val(selectedData.data[0].parentCode);
-                $("#treeName").text($("#treeId_" + selectedData.data[0].parentCode).val());
+                $("[name='name']").val(selectedData.data[0].name);
                 $("#name").val(selectedData.data[0].name);
-                $("[name='value']").val(selectedData.data[0].value);
-                $("[name='type']").val(selectedData.data[0].type);
-                $("[name='isDefault'][value='" + selectedData.data[0].isDefault + "']").prop("checked", true);
-                $("[name='remark']").val(selectedData.data[0].remark);
-                $("[name='sort']").val(selectedData.data[0].sort);
-                $("[name='status'][value='" + selectedData.data[0].status + "']").prop("checked", true);
+                $("[name='description']").val(selectedData.data[0].description);
+
+                initTable({
+                    dom: "detailTable"
+                    , url: "/sys/dict/detail"
+                    , where: {"pid": selectedData.data[0].id}
+                    , cols: [
+                        {type: 'checkbox', width: 35},
+                        {field: 'code', title: '字典编码', width: 200, align: 'left', edit: 'text'},
+                        {field: 'name', title: '字典名称', width: 200, align: 'left', edit: 'text'},
+                        {field: 'description', title: '描述', align: 'left', edit: 'text'}
+                    ]
+                });
+
                 form.render();
                 layerOpen("修改");
             } else {
@@ -197,14 +202,18 @@
 
         // 添加/修改 保存
         form.on('submit(saveButton)', function (data) {
-            var data = saveOrUpdate({
-                url: '/dict'
+            data.field.detailList = table.cache.detailTable;
+            console.log("data.field", JSON.stringify(data.field));
+            // console.log("data.field",JSON.parse(data.field));
+            let result = saveOrUpdate({
+                url: '/sys/dict'
                 , type: type
-                , data: data.field
+                , data: JSON.stringify(data.field)
+                , contentType: 'application/json;charset=utf-8'
                 , tableId: 'table'
                 , isTreeTable: true
             });
-            if (data.success) {
+            if (result.success) {
                 renderTable();
                 renderTree({
                     dom: "tree"
@@ -216,7 +225,7 @@
                 layer.msg('保存成功', {icon: 1});
                 layer.closeAll('page');
             } else {
-                layer.msg(data.message, {icon: 5});
+                layer.msg(result.message, {icon: 5});
             }
             return false;
         });
@@ -230,7 +239,7 @@
                     , btn: ['确定', '取消']
                     , yes: function (index) {
                         $.ajax({
-                            url: '/dict/' + selectedData.data[0].id
+                            url: '/sys/dict/' + selectedData.data[0].id
                             , type: 'DELETE'
                             , success: function (data) {
                                 if (data.success) {
@@ -260,27 +269,39 @@
         });
 
 
+        // 新增 明细
+        $(".add_detail").click(function () {
+            var data = {code: "", name: "", description: ""};
+            addRowButton({
+                table: "detailTable"
+                , id: "code"
+                , data: data
+            })
+        });
+        // 批量删除 明细
+        $(".delete_detail").click(function () {
+            batchDelButton({
+                table: "detailTable"
+                , id: "code"
+            })
+        });
+
+
         //获取字典类型
         getDictByCode({
             parentCode: "dict_type"
             , dom: "[name='type']"
             , isParent: true
         });
-
-        //获取字典下拉树
-        function getDictTreeSelect() {
-            renderTree({
-                dom: "parentCode"
-                , click: function (node) {
-                    var $select = $($(this)[0].elem).parents(".layui-form-select");
-                    $select.removeClass("layui-form-selected").find(".layui-select-title span").html(node.name);
-                    $("[name='parentCode']").val(node.id);
-                }
-            });
-        }
-
-        downpanel();
     });
 
 </script>
 
+<script type="text/html" id="optToolBar">
+    {{#  if(d.status == 1){ }}
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="disable"><i
+            class="layui-icon layui-icon-password"></i>禁用</a>
+    {{#  } else { }}
+    <a class="layui-btn layui-btn-sm layui-btn-rest" lay-event="enabled"><i class="layui-icon layui-icon-auz"></i>启用</a>
+    {{#  } }}
+</script>

@@ -20,8 +20,8 @@
     </resultMap>
 
     <resultMap id="userRoleMap" type="hashmap">
-        <result column="user_account" jdbcType="VARCHAR" property="userAccount"/>
-        <result column="role_id" jdbcType="INTEGER" property="roleId"/>
+        <result column="user_id" property="userId" javaType="Long"/>
+        <result column="role_id" property="roleId" javaType="Long"/>
     </resultMap>
 
 
@@ -48,9 +48,9 @@
     </select>
 
     <insert id="addUserRole" parameterType="java.util.Map">
-        insert into t_sys_user_role(user_account, role_id) values
-        <foreach collection="ids" item="id" index="index" separator=",">
-            ( #{account}, #{id} )
+        insert into f_sys_user_role(user_account, role_id) values
+        <foreach collection="roleIds" item="roleId" index="index" separator=",">
+            ( #{userId}, #{roleId} )
         </foreach>
     </insert>
 

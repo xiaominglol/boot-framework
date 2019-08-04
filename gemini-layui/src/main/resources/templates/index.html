@@ -46,10 +46,10 @@
                 </a>
             </li>
             <li class="layui-nav-item">
-<!--                <p style="color: red" th:text="${session.msg}" th:if="${not #strings.isEmpty(session.msg)}"></p>-->
+                <p style="color: red" th:text="${session.msg}" th:if="${not #strings.isEmpty(session.msg)}"></p>
                 <a href="javascript:;" style="margin-bottom: 5px;">
-<!--                    <img th:src="${session.user.picture}" class="layui-nav-img">-->
-<!--                    [[${session.user.name}]]-->
+                    <img th:src="${session.user.picture}" class="layui-nav-img">
+                    [[${session.user.name}]]
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="">基本资料</a></dd>
@@ -121,7 +121,7 @@
 
         function initMenu() {
             $.ajax({
-                url: "/menu/list",
+                url: "/sys/menu/list",
                 type: "GET",
                 success: function (data) {
                     menuData = data.data;
@@ -137,17 +137,17 @@
             var main_menu_html = "<li class='layui-nav-item'><a href='javascript:;' onclick='loadBody(\"/home\");'><i class='layui-icon layui-icon-home'></i>主页</a></li>";
             for (var i in menuData) {
                 //先渲染一级菜单
-                if (menuData[i].pid == 0) {
+                if (!menuData[i].pid) {
                     //如果是目录
-                    if (menuData[i].type == "directory") {
+                    if (menuData[i].menuTypeCode == "directory") {
                         main_menu_html += "<li class='layui-nav-item'><a href='javascript:void(0);' onclick='loadSubMenu(" + menuData[i].id + ");'>" +
                             "<i class='layui-icon " + menuData[i].icon + "'></i>" + menuData[i].name + "</a></li>";
                     } else {
                         //否则是菜单
                         main_menu_html += "<li class='layui-nav-item'>";
-                        if (menuData[i].target == "_blank") {//新窗口
-                            main_menu_html += "<a href='" + menuData[i].url + "' target='" + menuData[i].target + "'>";
-                        } else if (menuData[i].target == "_self") {//当前窗口
+                        if (menuData[i].targetCode == "_blank") {//新窗口
+                            main_menu_html += "<a href='" + menuData[i].url + "' target='" + menuData[i].targetCode + "'>";
+                        } else if (menuData[i].targetCode == "_self") {//当前窗口
                             main_menu_html += "<a href='javascript:void(0);' onclick='loadBody(\"" + menuData[i].url + "\");'>";
                         }
                         main_menu_html += "<i class='layui-icon " + menuData[i].icon + "'></i>" + menuData[i].name + "</a></li>";
@@ -183,13 +183,13 @@
                         sub_menu_html += "<li class='layui-nav-item'>";
                     }
                     //如果是目录
-                    if (menuData[i].type == "directory") {
+                    if (menuData[i].menuTypeCode == "directory") {
                         sub_menu_html += "<a href='javascript:;'><i class='layui-icon " + menuData[i].icon + "'></i>" + menuData[i].name + "</a>";
                     } else {
                         //否则是菜单
-                        if (menuData[i].target == "_blank") {//新窗口
-                            sub_menu_html += "<a href='" + menuData[i].url + "' target='" + menuData[i].target + "'>";
-                        } else if (menuData[i].target == "_self") {//当前窗口
+                        if (menuData[i].targetCode == "_blank") {//新窗口
+                            sub_menu_html += "<a href='" + menuData[i].url + "' target='" + menuData[i].targetCode + "'>";
+                        } else if (menuData[i].targetCode == "_self") {//当前窗口
                             sub_menu_html += "<a href='javascript:void(0);' onclick='loadBody(\"" + menuData[i].url + "\");'>";
                         }
                         sub_menu_html += "<i class='layui-icon " + menuData[i].icon + "'></i>" + menuData[i].name + "</a>";
@@ -201,14 +201,14 @@
                         console.log("menuData",menuData[i].id,menuData[j].pid)
                         if (menuData[i].id == menuData[j].pid) {
                             //如果是目录
-                            if (menuData[j].type == "directory") {
+                            if (menuData[j].menuTypeCode == "directory") {
                                 third_menu_html += "<dd><a href='javascript:;'><i class='layui-icon " + menuData[j].icon + "'></i>" + menuData[j].name + "</a></dd>";
                             } else {
                                 //否则是菜单
                                 third_menu_html += "<dd>";
-                                if (menuData[j].target == "_blank") {//新窗口
-                                    third_menu_html += "<a href='" + menuData[j].url + "' target='" + menuData[j].target + "'>";
-                                } else if (menuData[j].target == "_self") {//当前窗口
+                                if (menuData[j].targetCode == "_blank") {//新窗口
+                                    third_menu_html += "<a href='" + menuData[j].url + "' target='" + menuData[j].targetCode + "'>";
+                                } else if (menuData[j].targetCode == "_self") {//当前窗口
                                     third_menu_html += "<a href='javascript:void(0);' onclick='loadBody(\"" + menuData[j].url + "\");'>";
                                 }
                                 third_menu_html += "<i class='layui-icon " + menuData[j].icon + "'></i>" + menuData[j].name + "</a></dd>";

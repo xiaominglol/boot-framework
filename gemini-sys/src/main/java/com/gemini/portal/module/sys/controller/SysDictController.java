@@ -2,10 +2,14 @@ package com.gemini.portal.module.sys.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gemini.boot.framework.mybatis.entity.CommonFailInfo;
+import com.gemini.boot.framework.mybatis.entity.LayUiPage;
 import com.gemini.boot.framework.mybatis.entity.Message;
+import com.gemini.boot.framework.mybatis.utils.BeanUtils;
 import com.gemini.portal.common.annotation.SysLog;
-import com.gemini.portal.module.sys.dto.SysDictDto;
+import com.gemini.portal.enums.StateEnum;
 import com.gemini.portal.module.sys.po.SysDictPo;
 import com.gemini.portal.module.sys.po.SysUserPo;
 import com.gemini.portal.module.sys.service.SysDictService;
@@ -25,6 +29,7 @@ import java.util.List;
  * @date 2018-10-24
  */
 @Controller
+@RequestMapping("/sys/dict")
 public class SysDictController {
 
     @Autowired
@@ -35,7 +40,7 @@ public class SysDictController {
     /**
      * 跳转到列表
      */
-    @RequestMapping("/dict/gotoList")
+    @GetMapping("/gotoList")
     public String gotoList() {
         return "module/sys/dict/dict_list";
     }
@@ -43,10 +48,9 @@ public class SysDictController {
     /**
      * 树形表格列表
      */
-    @SysLog("查询字典列表")
-    @GetMapping("/dict")
+    @GetMapping
     @ResponseBody
-    public Message getTreeTableList(SysDictPo dictPo) {
+    public Message list(SysDictPo dictPo) {
         try {
             QueryWrapper<SysDictPo> qw = new QueryWrapper<>();
             if (!StringUtils.isEmpty(dictPo.getName())) {
@@ -58,7 +62,10 @@ public class SysDictController {
             if (!StringUtils.isEmpty(dictPo.getStateId())) {
                 qw.eq("state_id", dictPo.getStateId());
             }
-            qw.orderByAsc("sort");
+            if (!StringUtils.isEmpty(dictPo.getPid())) {
+                qw.eq("pid", dictPo.getPid());
+            }
+//            qw.orderByAsc("sort");
             List<SysDictPo> list = dictService.list(qw);
             return Message.success(list);
         } catch (Exception e) {
@@ -68,13 +75,42 @@ public class SysDictController {
     }
 
     /**
-     * 通过ID获取
+     * 树形表格列表
+     */
+    @GetMapping("/detail")
+    @ResponseBody
+    public Message detail(LayUiPage layUiPage, SysDictPo dictPo) {
+        try {
+            QueryWrapper<SysDictPo> qw = new QueryWrapper<>();
+            if (!StringUtils.isEmpty(dictPo.getName())) {
+                qw.like("name", dictPo.getName());
+            }
+            if (!StringUtils.isEmpty(dictPo.getCode())) {
+                qw.eq("code", dictPo.getCode());
+            }
+            if (!StringUtils.isEmpty(dictPo.getStateId())) {
+                qw.eq("state_id", dictPo.getStateId());
+            }
+            if (!StringUtils.isEmpty(dictPo.getPid())) {
+                qw.eq("pid", dictPo.getPid());
+            }
+//            qw.orderByAsc("sort");
+            IPage<SysDictPo> list = dictService.page(new Page<>(layUiPage.getPageNum(), layUiPage.getPageSize()), qw);
+            return Message.success(list);
+        } catch (Exception e) {
+//            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
+            return Message.fail(e.getMessage());
+        }
+    }
+
+    /**
+     * 通过ID获取获取详细页面
      *
      * @param id 主键ID
      */
-    @GetMapping("/dict/{id}")
+    @GetMapping("/{id}")
     @ResponseBody
-    public Message getById(@PathVariable("id") Long id) {
+    public Message detail(@PathVariable("id") Long id) {
         try {
             if (!StringUtils.isEmpty(id)) {
                 SysDictPo dictPo = dictService.getById(id);
@@ -94,16 +130,25 @@ public class SysDictController {
      * @param dict
      */
     @SysLog("添加字典")
-    @PostMapping("/dict")
+    @PostMapping
     @ResponseBody
-    public Message add(SysDictPo dict) {
+    public Message add(@RequestBody SysDictPo dict) {
         try {
             if (StringUtils.isEmpty(dict.getId())) {
                 SysUserPo currentUser = UserUtils.getCurrentUser();
+                BeanUtils.setDict(StateEnum.Enable, dict);
                 dict.setModifyId(currentUser.getId());
                 dict.setModifyName(currentUser.getName());
                 dictService.insert(dict);
-
+                if (null != dict.getDetailList() && 0 < dict.getDetailList().size()) {
+                    for (SysDictPo dictPo : dict.getDetailList()) {
+                        dictPo.setPid(dict.getId());
+                        BeanUtils.setDict(StateEnum.Enable, dictPo);
+                        dictPo.setModifyId(currentUser.getId());
+                        dictPo.setModifyName(currentUser.getName());
+                        dictService.insert(dictPo);
+                    }
+                }
                 return Message.success(dict);
             } else {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
@@ -121,7 +166,7 @@ public class SysDictController {
      * @return
      */
     @SysLog("更新字典")
-    @PutMapping("/dict")
+    @PutMapping
     @ResponseBody
     public Message update(SysDictPo dict) {
         try {
@@ -147,7 +192,7 @@ public class SysDictController {
      * @return
      */
     @SysLog("删除字典")
-    @DeleteMapping("/dict/{id}")
+    @DeleteMapping("/{id}")
     @ResponseBody
     public Message delete(@PathVariable("id") Long id) {
         try {

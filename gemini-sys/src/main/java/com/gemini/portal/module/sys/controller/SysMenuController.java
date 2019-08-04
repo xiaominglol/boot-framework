@@ -24,6 +24,7 @@ import java.util.List;
  * @date 2017-12-12
  */
 @Controller
+@RequestMapping("/sys/menu")
 public class SysMenuController {
 
     @Autowired
@@ -34,7 +35,7 @@ public class SysMenuController {
     /**
      * 跳转到列表
      */
-    @GetMapping("/menu/gotoList")
+    @GetMapping("/gotoList")
     public String gotoList() {
         return "module/sys/menu/menu_list";
     }
@@ -42,7 +43,6 @@ public class SysMenuController {
     /**
      * 树形表格列表
      */
-    @SysLog("查询菜单列表")
     @GetMapping("/menu")
     @ResponseBody
     public Message getTreeTableList(SysMenuPo menuPo) {
@@ -65,12 +65,12 @@ public class SysMenuController {
     /**
      * 菜单列表（不带分页）
      */
-    @GetMapping("/menu/list")
+    @GetMapping("/list")
     @ResponseBody
     public Message list() {
         try {
-            String account = UserUtils.getCurrentUser().getAccount();
-            List<SysMenuPo> list = menuService.getByAccount(account);
+            Long sysUserId = UserUtils.getCurrentUser().getId();
+            List<SysMenuPo> list = menuService.getByAccount(sysUserId);
             return Message.success(list);
         } catch (Exception e) {
 //            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));

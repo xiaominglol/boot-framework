@@ -120,7 +120,7 @@
         //右侧表格
         initTable({
             dom: "table"
-            , url: "/user"
+            , url: "/sys/user"
             , cols: [
                 {checkbox: true}
                 , {field: 'account', title: '用户账号', width: 160}
@@ -130,14 +130,15 @@
                     }
                 }
                 , {
-                    field: 'createDate', title: '创建日期', width: 180, sort: true, templet: function (d) {
-                        return util.toDateString(d.createDate);
+                    field: 'orgName', title: '所属组织'
+                }
+                , {
+                    field: 'createDateTime', title: '创建日期', width: 180, sort: true, templet: function (d) {
+                        return util.toDateString(d.createDateTime);
                     }
                 }
                 , {
-                    field: 'status', title: '状态', width: 80, templet: function (d) {
-                        return d.status == 1 ? '<span class="layui-color-green">正常</span>' : '<span class="layui-color-red">禁用</span>'
-                    }
+                    field: 'stateName', title: '状态', width: 80
                 }
 
                 , {title: '操作', width: 120, toolbar: '#optToolBar'}

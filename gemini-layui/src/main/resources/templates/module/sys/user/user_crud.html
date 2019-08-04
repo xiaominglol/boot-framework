@@ -44,6 +44,7 @@
                     <div class="layui-select-title">
                         <span class="layui-input layui-unselect" id="treeName">请选择</span>
                         <input type="hidden" name="orgId" required lay-verify="required" value="">
+                        <input type="hidden" name="orgName" required lay-verify="required" value="">
                         <i class="layui-edge"></i>
                     </div>
                     <dl class="layui-anim layui-anim-upbit">
@@ -61,20 +62,6 @@
                 </select>
             </div>
         </div>
-        <!--<div class="layui-form-item">
-            <label class="layui-form-label">用户头像</label>
-            <div class="layui-input-block">
-                <input type="text" name="picture" placeholder="请输入名称"
-                       autocomplete="off" class="layui-input">
-            </div>
-        </div>-->
-        <!--<div class="layui-form-item" pane>
-            <label class="layui-form-label">状态</label>
-            <div class="layui-input-block">
-                <input type="radio" name="status" value="1" title="有效" checked>
-                <input type="radio" name="status" value="0" title="无效">
-            </div>
-        </div>-->
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn save" lay-submit lay-filter="saveButton">保存</button>
@@ -105,6 +92,7 @@
                     var $select = $($(this)[0].elem).parents(".layui-form-select");
                     $select.removeClass("layui-form-selected").find(".layui-select-title span").html(node.name);
                     $("[name='orgId']").val(node.id);
+                    $("[name='orgName']").val(node.name);
                 }
             });
         }
@@ -192,7 +180,7 @@
         form.on('submit(saveButton)', function (data) {
             data.field.ids = data.field.ids.split(",");
             saveOrUpdate({
-                url: '/user'
+                url: '/sys/user'
                 , type: type
                 , data: data.field
                 , tableId: 'table'

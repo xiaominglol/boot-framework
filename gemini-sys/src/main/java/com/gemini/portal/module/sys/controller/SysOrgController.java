@@ -43,7 +43,6 @@ public class SysOrgController {
     /**
      * 树形表格列表
      */
-    @SysLog("查询组织架构列表")
     @GetMapping("/org")
     @ResponseBody
     public Message getTreeTableList(SysOrgPo orgPo) {

@@ -7,6 +7,7 @@ import com.gemini.portal.module.sys.po.SysUserPo;
 import com.gemini.portal.module.sys.service.SysErrorLogService;
 import com.gemini.portal.module.sys.service.SysOptLogService;
 import com.gemini.portal.module.sys.utils.UserUtils;
+import com.gemini.portal.utils.IPUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -68,7 +69,7 @@ public class SysLogAspect {
         // 处理完请求，返回内容
         optLogPoPo.setResult(ret == null ? "" : ret.toString());
         //保存操作日志
-//        optLogPoService.insert(optLogPoPo);
+        optLogPoService.insert(optLogPoPo);
     }
 
     /**
@@ -133,7 +134,7 @@ public class SysLogAspect {
         optLogPoPo.setParams(Arrays.toString(joinPoint.getArgs()));
 
         //设置IP地址
-//        optLogPo.setIp(IPUtils.getIpAddr(request));
+        optLogPoPo.setIp(IPUtils.getIpAddr(request));
 
         //执行时长(毫秒)
         long time = System.currentTimeMillis() - beginTime;

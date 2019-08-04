@@ -113,7 +113,7 @@ function getTreeSelect(param) {
  */
 function getMultiSelect(dom) {
     var data = getSysData({
-        url: "/role"
+        url: "/sys/role"
         , isTreeTable: true
     });
     if (data) {

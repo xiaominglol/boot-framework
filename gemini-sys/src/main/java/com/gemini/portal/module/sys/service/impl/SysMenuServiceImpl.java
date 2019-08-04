@@ -10,7 +10,6 @@ import com.gemini.portal.module.sys.service.SysMenuService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -46,7 +45,7 @@ public class SysMenuServiceImpl extends BootCrudServiceImpl<SysMenuPo, SysMenuMa
     }
 
     @Override
-    public List<SysMenuPo> getByAccount(String account) {
+    public List<SysMenuPo> getByAccount(Long account) {
         return mapper.getByAccount(account);
     }
 

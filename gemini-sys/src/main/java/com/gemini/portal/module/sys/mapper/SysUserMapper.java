@@ -46,7 +46,7 @@ public interface SysUserMapper extends BaseMapper<SysUserPo> {
      * @param account
      * @param ids
      */
-    void addUserRole(@Param(value = "account") String account, @Param(value = "ids") String[] ids);
+    void addUserRole(@Param(value = "userId") Long userId, @Param(value = "roleIds") Long[] roleIds);
 
     /**
      * 删除用户角色

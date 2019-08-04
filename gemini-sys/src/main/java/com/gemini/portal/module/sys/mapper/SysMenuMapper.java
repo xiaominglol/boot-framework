@@ -20,7 +20,7 @@ public interface SysMenuMapper extends BaseMapper<SysMenuPo> {
      * @param account
      * @return
      */
-    List<SysMenuPo> getByAccount(String account);
+    List<SysMenuPo> getByAccount(Long account);
 
     /**
      * 删除菜单权限

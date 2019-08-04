@@ -1,76 +1,43 @@
 <!--添加/修改-->
 <div id="addOrUpdate" style="display: none">
     <form class="layui-form layui-form-pane" action="">
-        <div class="layui-form-item">
-            <label class="layui-form-label">字典编码</label>
-            <div class="layui-input-block">
-                <input type="hidden" name="id">
-                <input type="text" name="code" required lay-verify="required" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">上级编码</label>
-            <div class="layui-input-block">
-                <div class="layui-unselect layui-form-select downpanel">
-                    <div class="layui-select-title">
-                        <span class="layui-input layui-unselect" id="treeName">请选择</span>
-                        <input type="hidden" name="parentCode" value="">
-                        <i class="layui-edge"></i>
+        <div class="layui-row">
+            <div class="layui-col-md6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="require">*</span>字典编码</label>
+                    <div class="layui-input-block">
+                        <input type="hidden" name="id">
+                        <input type="text" name="code" required lay-verify="required" autocomplete="off"
+                               class="layui-input">
                     </div>
-                    <dl class="layui-anim layui-anim-upbit">
-                        <dd>
-                            <ul id="parentCode"></ul>
-                        </dd>
-                    </dl>
+                </div>
+            </div>
+            <div class="layui-col-md6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="require">*</span>字典名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="name" name="name" required lay-verify="required" autocomplete="off"
+                               class="layui-input">
+                    </div>
                 </div>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">字典名称</label>
+            <label class="layui-form-label">描述</label>
             <div class="layui-input-block">
-                <input type="text" id="name" name="name" required lay-verify="required" autocomplete="off"
-                       class="layui-input">
+                <input type="text" name="description" autocomplete="off" class="layui-input">
             </div>
+        </div>
+        <div class="layui-form-item" align="right" style="float: right;margin-right: 35px">
+            <span class="layui-btn layui-btn-sm add_detail" style="margin-right: 10px;">
+                新增一行
+            </span>
+            <span class="layui-btn layui-btn-sm layui-btn-danger delete_detail" style="margin-right: 20px;">
+                批量删除
+            </span>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">字典值</label>
-            <div class="layui-input-block">
-                <input type="text" name="value" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">字典类型</label>
-            <div class="layui-input-block">
-                <select name="type" lay-verify="required">
-                </select>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">排序</label>
-            <div class="layui-input-block">
-                <input type="text" name="sort" required lay-verify="required" value="1" autocomplete="off"
-                       class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item" pane>
-            <label class="layui-form-label">状态</label>
-            <div class="layui-input-block">
-                <input type="radio" name="status" value="1" title="正常" checked>
-                <input type="radio" name="status" value="0" title="停用">
-            </div>
-        </div>
-        <div class="layui-form-item" pane>
-            <label class="layui-form-label">是否默认</label>
-            <div class="layui-input-block">
-                <input type="radio" name="isDefault" value="0" title="否" checked>
-                <input type="radio" name="isDefault" value="1" title="是">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">备注</label>
-            <div class="layui-input-block">
-                <input type="text" name="remark" autocomplete="off" class="layui-input">
-            </div>
+            <table id="detailTable" lay-filter="detailTable"></table>
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
