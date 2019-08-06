@@ -10,6 +10,7 @@ import java.util.Set;
 
 /**
  * 用户表
+ *
  * @author wenge.cai
  */
 public interface SysUserService extends BootCrudService<SysUserPo, SysUserMapper> {

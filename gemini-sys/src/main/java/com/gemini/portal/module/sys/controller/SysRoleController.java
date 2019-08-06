@@ -102,8 +102,8 @@ public class SysRoleController {
         try {
             if (StringUtils.isEmpty(rolePo.getId())) {
                 SysUserPo currentUser = UserUtils.getCurrentUser();
-                rolePo.setModifyId(currentUser.getId());
-                rolePo.setModifyName(currentUser.getName());
+                rolePo.setModifyUserId(currentUser.getId());
+                rolePo.setModifyUserName(currentUser.getName());
                 roleService.save(rolePo, ids);
                 return Message.success(rolePo);
             } else {
@@ -128,8 +128,8 @@ public class SysRoleController {
         try {
             if (!StringUtils.isEmpty(rolePo.getId())) {
                 SysUserPo currentUser = UserUtils.getCurrentUser();
-                rolePo.setModifyId(currentUser.getId());
-                rolePo.setModifyName(currentUser.getName());
+                rolePo.setModifyUserId(currentUser.getId());
+                rolePo.setModifyUserName(currentUser.getName());
                 roleService.updateById(rolePo, ids);
                 return Message.success(rolePo);
             } else {

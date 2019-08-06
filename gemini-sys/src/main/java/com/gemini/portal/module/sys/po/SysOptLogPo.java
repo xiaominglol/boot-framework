@@ -8,6 +8,7 @@ import java.util.Date;
 
 /**
  * 操作日志表
+ *
  * @author wenge.cai
  */
 @Data
@@ -30,17 +31,17 @@ public class SysOptLogPo extends BasePo {
     private String userName;
 
     /**
-     * 
+     * 操作类型id
      */
     private Long optTypeId;
 
     /**
-     * 操作类型（1=查询，2=添加，3=修改，4=删除，5=用户登陆）
+     * 操作类型编码
      */
     private String optTypeCode;
 
     /**
-     * 
+     * 操作类型名称
      */
     private String optTypeName;
 

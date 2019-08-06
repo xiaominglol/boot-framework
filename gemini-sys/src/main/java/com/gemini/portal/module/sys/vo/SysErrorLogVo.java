@@ -7,6 +7,7 @@ import java.util.Date;
 
 /**
  * 错误日志表
+ *
  * @author wenge.cai
  */
 @Data
@@ -28,7 +29,7 @@ public class SysErrorLogVo extends BaseVo {
     private String userName;
 
     /**
-     * 
+     *
      */
     private Long optTypeId;
 
@@ -38,7 +39,7 @@ public class SysErrorLogVo extends BaseVo {
     private String optTypeCode;
 
     /**
-     * 
+     *
      */
     private String optTypeName;
 

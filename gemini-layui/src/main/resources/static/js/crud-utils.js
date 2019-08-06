@@ -16,7 +16,6 @@ function saveOrUpdate(param) {
         , async: param.isTreeTable == true ? false : true
         , contentType: param.contentType == null ? 'application/x-www-form-urlencoded' : param.contentType
         , success: function (data) {
-            console.log("333333", data)
             if (param.isTreeTable) {
                 saveData = data;
             } else {

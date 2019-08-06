@@ -15,6 +15,7 @@ import java.util.Set;
 
 /**
  * 用户表
+ *
  * @author wenge.cai
  */
 @Service
@@ -33,8 +34,8 @@ public class SysUserServiceImpl extends BootCrudServiceImpl<SysUserPo, SysUserMa
                 .eq(!StringUtils.isEmpty(po.getStateId()), "state_id", po.getStateId())
                 .eq(!StringUtils.isEmpty(po.getStateCode()), "state_code", po.getStateCode())
                 .eq(!StringUtils.isEmpty(po.getStateName()), "state_name", po.getStateName())
-                .eq(!StringUtils.isEmpty(po.getModifyId()), "modify_id", po.getModifyId())
-                .eq(!StringUtils.isEmpty(po.getModifyName()), "modify_name", po.getModifyName())
+                .eq(!StringUtils.isEmpty(po.getModifyUserId()), "modify_user_id", po.getModifyUserId())
+                .eq(!StringUtils.isEmpty(po.getModifyUserName()), "modify_user_name", po.getModifyUserName())
                 .eq(!StringUtils.isEmpty(po.getModifyTime()), "modify_time", po.getModifyTime());
     }
 

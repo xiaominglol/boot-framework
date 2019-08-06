@@ -31,7 +31,6 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shirFilter(DefaultWebSecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-
         // 默认的登陆url
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
         shiroFilterFactoryBean.setLoginUrl("/");
@@ -39,6 +38,9 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSuccessUrl("/index");
         // 未授权界面;
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
+//        shiroFilterFactoryBean.setFilters();
+
+
 
         /*
             配置哪些页面需要受保护.
@@ -68,6 +70,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/**", "authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+//        shiroFilterFactoryBean.setFilterChainDefinitions();
         return shiroFilterFactoryBean;
     }
 
@@ -81,11 +84,12 @@ public class ShiroConfig {
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
         // 加密类型
         hashedCredentialsMatcher.setHashAlgorithmName("MD5");
-        // 加密次数
-        hashedCredentialsMatcher.setHashIterations(1024);
         // 待测试
         hashedCredentialsMatcher.setStoredCredentialsHexEncoded(true);
+        // 加密次数
+        hashedCredentialsMatcher.setHashIterations(1024);
         ShiroRealm shiroRealm = new ShiroRealm();
+
         shiroRealm.setCredentialsMatcher(hashedCredentialsMatcher);
         return shiroRealm;
     }

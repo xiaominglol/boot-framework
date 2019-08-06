@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * 菜单表
+ *
  * @author wenge.cai
  */
 @Mapper

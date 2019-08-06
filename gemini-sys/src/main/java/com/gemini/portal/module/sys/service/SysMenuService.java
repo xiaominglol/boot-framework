@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * 菜单表
+ *
  * @author wenge.cai
  */
 public interface SysMenuService extends BootCrudService<SysMenuPo, SysMenuMapper> {

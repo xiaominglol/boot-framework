@@ -96,8 +96,8 @@ public class SysOrgController {
         try {
             if (orgPo.getId() == null) {
                 SysUserPo currentUser = UserUtils.getCurrentUser();
-                orgPo.setModifyId(currentUser.getId());
-                orgPo.setModifyName(currentUser.getName());
+                orgPo.setModifyUserId(currentUser.getId());
+                orgPo.setModifyUserName(currentUser.getName());
                 orgService.insert(orgPo);
                 return Message.success(orgPo);
             } else {
@@ -122,8 +122,8 @@ public class SysOrgController {
         try {
             if (!StringUtils.isEmpty(orgPo.getId())) {
                 SysUserPo currentUser = UserUtils.getCurrentUser();
-                orgPo.setModifyId(currentUser.getId());
-                orgPo.setModifyName(currentUser.getName());
+                orgPo.setModifyUserId(currentUser.getId());
+                orgPo.setModifyUserName(currentUser.getName());
                 orgService.update(orgPo);
                 return Message.success(orgPo);
             } else {

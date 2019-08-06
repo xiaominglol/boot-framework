@@ -108,7 +108,7 @@ public class LoginController {
             //如果不是同一个用户，则先退出再登陆
             if (!account.equals(user.getAccount())) {
                 currentUser.logout();
-                this.login(account, password, remember,session);
+                this.login(account, password, remember, session);
             }
             //如果再次登陆的是同一个用户直接跳转到主页
             //(bug)我输入任意密码都能登陆

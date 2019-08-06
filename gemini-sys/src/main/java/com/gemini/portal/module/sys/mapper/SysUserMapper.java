@@ -11,6 +11,7 @@ import java.util.Set;
 
 /**
  * 用户表
+ *
  * @author wenge.cai
  */
 @Mapper

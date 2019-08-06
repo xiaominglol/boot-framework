@@ -7,6 +7,7 @@ import java.util.Date;
 
 /**
  * 操作日志表
+ *
  * @author wenge.cai
  */
 @Data
@@ -28,7 +29,7 @@ public class SysOptLogDto extends BaseDto {
     private String userName;
 
     /**
-     * 
+     *
      */
     private Long optTypeId;
 
@@ -38,7 +39,7 @@ public class SysOptLogDto extends BaseDto {
     private String optTypeCode;
 
     /**
-     * 
+     *
      */
     private String optTypeName;
 

@@ -9,7 +9,7 @@ function initTable(param) {
         var table = layui.table;
         table.render({
             elem: '#' + param.dom
-            , height: 'full-220'
+            , height: param.height == null ? 'full-220' : param.height
             , url: param.url
             , data: param.data
             , page: param.page == null ? true : param.page      //默认开启分页

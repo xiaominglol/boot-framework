@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * 字典表
+ *
  * @author wenge.cai
  */
 @Data
@@ -37,7 +38,7 @@ public class SysDictPo extends BasePo {
     private String name;
 
     /**
-     * 描述
+     * 备注
      */
     private String description;
 
@@ -47,7 +48,7 @@ public class SysDictPo extends BasePo {
     private Long stateId;
 
     /**
-     * 状态编码（Enable：启用，Disable：禁用）
+     * 状态编码
      */
     private String stateCode;
 
@@ -59,12 +60,12 @@ public class SysDictPo extends BasePo {
     /**
      * 修改人id
      */
-    private Long modifyId;
+    private Long modifyUserId;
 
     /**
      * 修改人名称
      */
-    private String modifyName;
+    private String modifyUserName;
 
     /**
      * 修改时间(YYYY-MM-DD HH:MM:SS)

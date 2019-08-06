@@ -5,6 +5,7 @@ import lombok.Data;
 
 /**
  * 菜单表
+ *
  * @author wenge.cai
  */
 @Data

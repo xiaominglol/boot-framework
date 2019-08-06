@@ -6,6 +6,7 @@ import com.gemini.portal.module.sys.po.SysErrorLogPo;
 
 /**
  * 错误日志表
+ *
  * @author wenge.cai
  */
 public interface SysErrorLogService extends BootCrudService<SysErrorLogPo, SysErrorLogMapper> {

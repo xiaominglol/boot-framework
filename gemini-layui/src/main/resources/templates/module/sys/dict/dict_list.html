@@ -176,6 +176,8 @@
                 initTable({
                     dom: "detailTable"
                     , url: "/sys/dict"
+                    , height: ''
+                    , page: false
                     , where: {"pid": selectedData.data[0].id}
                     , cols: [
                         {type: 'checkbox', width: 35},
@@ -232,8 +234,6 @@
         // 删除
         $(".delButton").click(function () {
             let selectedData = table.checkStatus('table');
-            console.log("selectedData", selectedData)
-            return false;
             if (selectedData.data.length != 0) {
                 layer.msg('确定删除？', {
                     time: 0
@@ -270,7 +270,7 @@
         });
 
 
-        // 新增 明细
+        // 新增一行 明细
         $(".add_detail").click(function () {
             let data = {code: "", name: "", description: ""};
             addRowButton({

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 字典表
+ *
  * @author wenge.cai
  */
 @Mapper

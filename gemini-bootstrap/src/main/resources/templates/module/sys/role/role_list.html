@@ -83,21 +83,20 @@
 </div>
 
 
-
 <script>
     $(function () {
         var data = getOrg();
-        initTree("tree",data);
+        initTree("tree", data);
 
         var columns = [
-            {field: '',checkbox: true},
-            {field: 'id',title: '角色ID',align: 'center',sortable: true,sortName: 'id'},
-            {field: 'name',title: '角色名称',align: 'center',sortable: true,sortName: 'name'},
-            {field: 'sort',title: '排序',width: '80px',align: 'center',sortable: true,sortName: 'sort'},
-            {field: 'status',title: '状态',width: '80px',align: 'center',sortable: true,sortName: 'status'},
-            {title: '操作',width: '250px',formatter: 'operateButon',events: 'operateEvents'}];
+            {field: '', checkbox: true},
+            {field: 'id', title: '角色ID', align: 'center', sortable: true, sortName: 'id'},
+            {field: 'name', title: '角色名称', align: 'center', sortable: true, sortName: 'name'},
+            {field: 'sort', title: '排序', width: '80px', align: 'center', sortable: true, sortName: 'sort'},
+            {field: 'status', title: '状态', width: '80px', align: 'center', sortable: true, sortName: 'status'},
+            {title: '操作', width: '250px', formatter: 'operateButon', events: 'operateEvents'}];
         //初始化表格
-        initTable('/role','id',columns);
+        initTable('/role', 'id', columns);
 
         /*查询*/
         $("#queryButton").click(function () {
@@ -117,7 +116,6 @@
 
 
     });
-
 
 
     //操作列按钮

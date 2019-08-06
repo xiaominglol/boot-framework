@@ -111,8 +111,8 @@ public class SysMenuController {
         try {
             if (StringUtils.isEmpty(menuPo.getId())) {
                 SysUserPo currentUser = UserUtils.getCurrentUser();
-                menuPo.setModifyId(currentUser.getId());
-                menuPo.setModifyName(currentUser.getName());
+                menuPo.setModifyUserId(currentUser.getId());
+                menuPo.setModifyUserName(currentUser.getName());
                 menuService.insert(menuPo);
                 return Message.success(menuPo);
             } else {
@@ -137,8 +137,8 @@ public class SysMenuController {
         try {
             if (!StringUtils.isEmpty(menuPo.getId())) {
                 SysUserPo currentUser = UserUtils.getCurrentUser();
-                menuPo.setModifyId(currentUser.getId());
-                menuPo.setModifyName(currentUser.getName());
+                menuPo.setModifyUserId(currentUser.getId());
+                menuPo.setModifyUserName(currentUser.getName());
                 menuService.update(menuPo);
                 return Message.success(menuPo);
             } else {

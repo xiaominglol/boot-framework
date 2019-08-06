@@ -8,6 +8,7 @@ import java.util.Date;
 
 /**
  * 登陆日志表
+ *
  * @author wenge.cai
  */
 @Data
@@ -30,17 +31,17 @@ public class SysLoginLogPo extends BasePo {
     private String userName;
 
     /**
-     * 
+     * 登陆状态id
      */
     private Long loginStateId;
 
     /**
-     * 登陆状态（0：失败，1：成功）
+     * 登陆状态编码
      */
     private String loginStateCode;
 
     /**
-     * 
+     * 登陆状态名称
      */
     private String loginStateName;
 

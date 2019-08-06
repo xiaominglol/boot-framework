@@ -83,27 +83,26 @@
 </div>
 
 
-
 <script>
     $(function () {
         var data = getOrg();
-        initTree("tree",data);
+        initTree("tree", data);
 
         var columns = [
             {checkbox: true},
-            {field: 'account',title: '用户账号',align: 'center',sortable: true,sortName: 'account'},
-            {field: 'name',title: '用户名称',align: 'center',sortable: true,sortName: 'name'},
-            {field: 'id',title: '所属部门',align: 'center',sortable: true,sortName: 'id'},
-            {field: 'status',title: '状态',width: '80px',align: 'center',sortable: true,sortName: 'status'},
-            {title: '操作',width: '250px',formatter: 'operateButon',events: 'operateEvents'}];
+            {field: 'account', title: '用户账号', align: 'center', sortable: true, sortName: 'account'},
+            {field: 'name', title: '用户名称', align: 'center', sortable: true, sortName: 'name'},
+            {field: 'id', title: '所属部门', align: 'center', sortable: true, sortName: 'id'},
+            {field: 'status', title: '状态', width: '80px', align: 'center', sortable: true, sortName: 'status'},
+            {title: '操作', width: '250px', formatter: 'operateButon', events: 'operateEvents'}];
         //初始化表格
-        initTable('/user','account',columns);
+        initTable('/user', 'account', columns);
 
         /*查询*/
         $("#queryButton").click(function () {
             //刷新表格
             refreshTable("table");
-            $('#table').bootstrapTable("refresh",{
+            $('#table').bootstrapTable("refresh", {
                 name: $("#name").val()
             });
         });
@@ -120,7 +119,6 @@
 
 
     });
-
 
 
     //操作列按钮

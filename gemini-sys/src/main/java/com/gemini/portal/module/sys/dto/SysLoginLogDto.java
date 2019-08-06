@@ -7,6 +7,7 @@ import java.util.Date;
 
 /**
  * 登陆日志表
+ *
  * @author wenge.cai
  */
 @Data
@@ -28,7 +29,7 @@ public class SysLoginLogDto extends BaseDto {
     private String userName;
 
     /**
-     * 
+     *
      */
     private Long loginStateId;
 
@@ -38,7 +39,7 @@ public class SysLoginLogDto extends BaseDto {
     private String loginStateCode;
 
     /**
-     * 
+     *
      */
     private String loginStateName;
 

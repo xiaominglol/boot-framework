@@ -6,6 +6,7 @@ import com.gemini.portal.module.sys.po.SysOptLogPo;
 
 /**
  * 操作日志表
+ *
  * @author wenge.cai
  */
 public interface SysOptLogService extends BootCrudService<SysOptLogPo, SysOptLogMapper> {

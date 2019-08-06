@@ -2,12 +2,14 @@
 <div id="addOrUpdate" style="display: none">
     <form class="layui-form layui-form-pane" action="">
         <div class="layui-form-item" pane>
-            <label class="layui-form-label"><span class="require">*</span>类型</label>
+            <label class="layui-form-label"><span class="require">*</span>类型
+            </label>
             <div id="statusRadio" class="layui-input-block">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label"><span class="require">*</span>菜单名称</label>
+            <label class="layui-form-label"><span class="require">*</span>菜单名称
+            </label>
             <div class="layui-input-block">
                 <input type="hidden" name="id">
                 <input type="text" id="name" name="name" required lay-verify="required" placeholder="名称"
@@ -32,13 +34,15 @@
             </div>
         </div>
         <div id="urlDiv" class="layui-form-item">
-            <label class="layui-form-label"><span class="require">*</span>菜单URL</label>
+            <label class="layui-form-label"><span class="require">*</span>菜单URL
+            </label>
             <div class="layui-input-block">
                 <input type="text" name="url" placeholder="菜单URL" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div id="targetDiv" class="layui-form-item">
-            <label class="layui-form-label"><span class="require">*</span>打开方式</label>
+            <label class="layui-form-label"><span class="require">*</span>打开方式
+            </label>
             <div class="layui-input-block">
                 <select name="target">
                 </select>
@@ -52,21 +56,24 @@
             </div>
         </div>
         <div id="permissionsCodeDiv" class="layui-form-item">
-            <label class="layui-form-label"><span class="require">*</span>权限编码</label>
+            <label class="layui-form-label"><span class="require">*</span>权限编码
+            </label>
             <div class="layui-input-block">
                 <input type="text" name="permissionsCode" placeholder="多个用逗号分隔，如：user:add,user:update"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label"><span class="require">*</span>排序</label>
+            <label class="layui-form-label"><span class="require">*</span>排序
+            </label>
             <div class="layui-input-block">
                 <input type="text" name="sort" required lay-verify="required" value="1" autocomplete="off"
                        class="layui-input">
             </div>
         </div>
         <div class="layui-form-item" pane>
-            <label class="layui-form-label"><span class="require">*</span>状态</label>
+            <label class="layui-form-label"><span class="require">*</span>状态
+            </label>
             <div class="layui-input-block">
                 <input type="radio" name="status" value="1" title="显示" checked>
                 <input type="radio" name="status" value="0" title="隐藏">

@@ -117,8 +117,8 @@ public class SysUserController {
                 userPo.setStateId(123L);
                 userPo.setStateCode("Enable");
                 userPo.setStateName("启用");
-                userPo.setModifyId(currentUser.getId());
-                userPo.setModifyName(currentUser.getName());
+                userPo.setModifyUserId(currentUser.getId());
+                userPo.setModifyUserName(currentUser.getName());
                 userService.insert(userPo);
                 userService.addUserRole(userPo.getId(), ids);
                 return Message.success(userPo);
@@ -142,16 +142,16 @@ public class SysUserController {
     public Message batchSave(@RequestBody(required = false) List<SysUserPo> userList) {
         try {
             if (userList != null && userList.size() > 0) {
-                for (SysUserPo user : userList) {
+                for (SysUserPo userPo : userList) {
                     //初始化密码123456
-                    user.setPassword("123456");
-                    String pwd = MD5Util.encryption(user.getPassword(), user.getAccount());
-                    user.setPassword(pwd);
+                    userPo.setPassword("123456");
+                    String pwd = MD5Util.encryption(userPo.getPassword(), userPo.getAccount());
+                    userPo.setPassword(pwd);
                     SysUserPo currentUser = UserUtils.getCurrentUser();
-                    user.setModifyId(currentUser.getId());
-                    user.setModifyName(currentUser.getName());
-                    user.setPicture("/img/icon/64/default_picture.png");
-                    userService.insert(user);
+                    userPo.setModifyUserId(currentUser.getId());
+                    userPo.setModifyUserName(currentUser.getName());
+                    userPo.setPicture("/img/icon/64/default_picture.png");
+                    userService.insert(userPo);
                 }
                 return Message.success(null);
             } else {
@@ -172,25 +172,25 @@ public class SysUserController {
     @SysLog("更新用户")
     @PutMapping("/user")
     @ResponseBody
-    public Message update(SysUserPo user, @RequestParam(value = "ids[]", required = false) Long[] ids) {
+    public Message update(SysUserPo userPo, @RequestParam(value = "ids[]", required = false) Long[] ids) {
         try {
-            if (!StringUtils.isEmpty(user.getAccount())) {
+            if (!StringUtils.isEmpty(userPo.getAccount())) {
                 SysUserPo currentUser = UserUtils.getCurrentUser();
-                user.setModifyId(currentUser.getId());
-                user.setModifyName(currentUser.getName());
+                userPo.setModifyUserId(currentUser.getId());
+                userPo.setModifyUserName(currentUser.getName());
 
-                SysUserPo oldUser = userService.getById(user.getId());
+                SysUserPo oldUser = userService.getById(userPo.getId());
                 //如果密码不一样，证明在修改密码，所以要加密保存，如果密码一样，则不需要再加密
-                if (!user.getPassword().equals(oldUser.getPassword())) {
-                    String pwd = MD5Util.encryption(user.getPassword(), user.getAccount());
-                    user.setPassword(pwd);
+                if (!userPo.getPassword().equals(oldUser.getPassword())) {
+                    String pwd = MD5Util.encryption(userPo.getPassword(), userPo.getAccount());
+                    userPo.setPassword(pwd);
                 }
-                userService.update(user);
+                userService.update(userPo);
                 if (ids != null) {
-                    userService.deleteUserRole(user.getAccount());
-                    userService.addUserRole(user.getId(), ids);
+                    userService.deleteUserRole(userPo.getAccount());
+                    userService.addUserRole(userPo.getId(), ids);
                 }
-                return Message.success(user);
+                return Message.success(userPo);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }

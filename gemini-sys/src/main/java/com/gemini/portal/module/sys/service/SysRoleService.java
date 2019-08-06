@@ -4,12 +4,12 @@ import com.gemini.boot.framework.mybatis.service.BootCrudService;
 import com.gemini.portal.module.sys.mapper.SysRoleMapper;
 import com.gemini.portal.module.sys.po.SysRolePo;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 /**
  * 角色表
+ *
  * @author wenge.cai
  */
 public interface SysRoleService extends BootCrudService<SysRolePo, SysRoleMapper> {

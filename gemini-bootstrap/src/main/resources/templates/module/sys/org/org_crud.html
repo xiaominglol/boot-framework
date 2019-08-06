@@ -72,7 +72,7 @@
         $("#editButton").click(function () {
             type = 'PUT';
             var selectedData = $("#table").bootstrapTable('getAllSelections');
-            if(selectedData.length == 1){
+            if (selectedData.length == 1) {
                 // 获取组织架构
                 getOrgSelect("pid");
 
@@ -85,7 +85,7 @@
 
                 // 打开模态框
                 openModal("addModal");
-            }else{
+            } else {
                 layer.msg('请选择一条数据', {icon: 1});
             }
         });
@@ -93,14 +93,14 @@
         // 删除
         $("#delButton").click(function () {
             var selectedData = $("#table").bootstrapTable('getAllSelections');
-            if(selectedData.length != 0){
+            if (selectedData.length != 0) {
                 layer.msg('确定删除？', {
                     time: 0 //不自动关闭
-                    ,btn: ['确定', '取消']
-                    ,yes: function(index){
+                    , btn: ['确定', '取消']
+                    , yes: function (index) {
                         layer.close(index);
                         $.ajax({
-                            url: '/org/'+selectedData[0].id,
+                            url: '/org/' + selectedData[0].id,
                             type: 'DELETE',
                             success: function (data) {
                                 layer.msg('删除成功', {icon: 1});
@@ -109,7 +109,7 @@
                         });
                     }
                 });
-            }else{
+            } else {
                 layer.msg('请选择一条数据', {icon: 1});
             }
         });

@@ -86,18 +86,9 @@ public class SysDictController {
             if (StringUtils.isEmpty(dict.getId())) {
                 SysUserPo currentUser = UserUtils.getCurrentUser();
                 BeanUtils.setDict(StateEnum.Enable, dict);
-                dict.setModifyId(currentUser.getId());
-                dict.setModifyName(currentUser.getName());
+                dict.setModifyUserId(currentUser.getId());
+                dict.setModifyUserName(currentUser.getName());
                 dictService.insert(dict);
-                if (null != dict.getDetailList() && 0 < dict.getDetailList().size()) {
-                    for (SysDictPo dictPo : dict.getDetailList()) {
-                        dictPo.setPid(dict.getId());
-                        BeanUtils.setDict(StateEnum.Enable, dictPo);
-                        dictPo.setModifyId(currentUser.getId());
-                        dictPo.setModifyName(currentUser.getName());
-                        dictService.insert(dictPo);
-                    }
-                }
                 return Message.success(dict);
             } else {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
@@ -111,12 +102,12 @@ public class SysDictController {
     @SysLog("更新字典")
     @PutMapping
     @ResponseBody
-    public Message update(SysDictPo dict) {
+    public Message update(@RequestBody SysDictPo dict) {
         try {
             if (!StringUtils.isEmpty(dict.getId())) {
                 SysUserPo currentUser = UserUtils.getCurrentUser();
-                dict.setModifyId(currentUser.getId());
-                dict.setModifyName(currentUser.getName());
+                dict.setModifyUserId(currentUser.getId());
+                dict.setModifyUserName(currentUser.getName());
                 dictService.update(dict);
                 return Message.success(dict);
             } else {
