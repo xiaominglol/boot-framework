@@ -1,10 +1,12 @@
 package com.gemini.portal.module.sys.po;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.gemini.boot.framework.mybatis.po.BasePo;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * 组织架构表
@@ -79,4 +81,7 @@ public class SysOrgPo extends BasePo {
      * 修改时间(YYYY-MM-DD HH:MM:SS)
      */
     private Timestamp modifyTime;
+
+    @TableField(exist = false)
+    List<SysOrgPo> detailList;
 }

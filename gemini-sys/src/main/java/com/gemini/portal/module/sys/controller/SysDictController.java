@@ -46,13 +46,14 @@ public class SysDictController {
         try {
             QueryWrapper<SysDictPo> qw = new QueryWrapper<>();
             if (!StringUtils.isEmpty(dictPo.getName())) {
-                qw.like("name", dictPo.getName());
-            }
-            if (!StringUtils.isEmpty(dictPo.getCode())) {
-                qw.eq("code", dictPo.getCode());
+                qw.like("name", dictPo.getName()).or().like("code", dictPo.getCode());
             }
             if (!StringUtils.isEmpty(dictPo.getPid())) {
                 qw.eq("pid", dictPo.getPid());
+            }
+            if (!StringUtils.isEmpty(dictPo.getCode())) {
+                qw.eq("code", dictPo.getCode());
+                qw.eq("state_code", "Enable");
             }
             IPage<SysDictPo> list = dictService.page(new Page<>(layUiPage.getPageNum(), layUiPage.getPageSize()), qw);
             return Message.success(list);
@@ -81,15 +82,15 @@ public class SysDictController {
     @SysLog("添加字典")
     @PostMapping
     @ResponseBody
-    public Message add(@RequestBody SysDictPo dict) {
+    public Message add(@RequestBody SysDictPo dictPo) {
         try {
-            if (StringUtils.isEmpty(dict.getId())) {
+            if (StringUtils.isEmpty(dictPo.getId())) {
                 SysUserPo currentUser = UserUtils.getCurrentUser();
-                BeanUtils.setDict(StateEnum.Enable, dict);
-                dict.setModifyUserId(currentUser.getId());
-                dict.setModifyUserName(currentUser.getName());
-                dictService.insert(dict);
-                return Message.success(dict);
+                BeanUtils.setDict(StateEnum.Enable, dictPo);
+                dictPo.setModifyUserId(currentUser.getId());
+                dictPo.setModifyUserName(currentUser.getName());
+                dictService.insert(dictPo);
+                return Message.success(dictPo);
             } else {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
             }
@@ -102,14 +103,14 @@ public class SysDictController {
     @SysLog("更新字典")
     @PutMapping
     @ResponseBody
-    public Message update(@RequestBody SysDictPo dict) {
+    public Message update(@RequestBody SysDictPo dictPo) {
         try {
-            if (!StringUtils.isEmpty(dict.getId())) {
+            if (!StringUtils.isEmpty(dictPo.getId())) {
                 SysUserPo currentUser = UserUtils.getCurrentUser();
-                dict.setModifyUserId(currentUser.getId());
-                dict.setModifyUserName(currentUser.getName());
-                dictService.update(dict);
-                return Message.success(dict);
+                dictPo.setModifyUserId(currentUser.getId());
+                dictPo.setModifyUserName(currentUser.getName());
+                dictService.update(dictPo);
+                return Message.success(dictPo);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
             }

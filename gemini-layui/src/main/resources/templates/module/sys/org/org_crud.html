@@ -10,23 +10,6 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">上级组织</label>
-            <div class="layui-input-block">
-                <div class="layui-unselect layui-form-select downpanel">
-                    <div class="layui-select-title">
-                        <span class="layui-input layui-unselect" id="treeName">请选择</span>
-                        <input type="hidden" name="pid" value="">
-                        <i class="layui-edge"></i>
-                    </div>
-                    <dl class="layui-anim layui-anim-upbit">
-                        <dd>
-                            <ul id="pid"></ul>
-                        </dd>
-                    </dl>
-                </div>
-            </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label"><span class="require">*</span>组织类型</label>
             <div class="layui-input-block">
                 <select name="type" lay-verify="required">
@@ -40,12 +23,16 @@
                        class="layui-input">
             </div>
         </div>
-        <div class="layui-form-item" pane>
-            <label class="layui-form-label"><span class="require">*</span>状态</label>
-            <div class="layui-input-block">
-                <input type="radio" name="status" value="1" title="有效" checked>
-                <input type="radio" name="status" value="0" title="无效">
-            </div>
+        <div class="layui-form-item" align="right" style="float: right;margin-right: 35px">
+            <span class="layui-btn layui-btn-sm add_detail" style="margin-right: 10px;">
+                新增一行
+            </span>
+            <span class="layui-btn layui-btn-sm layui-btn-danger delete_detail" style="margin-right: 20px;">
+                批量删除
+            </span>
+        </div>
+        <div class="layui-form-item">
+            <table id="detailTable" lay-filter="detailTable"></table>
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">

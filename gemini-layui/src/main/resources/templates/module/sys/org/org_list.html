@@ -74,15 +74,6 @@
     </div>
 </div>
 
-<script type="text/html" id="typeTpl">
-    {{#  if(d.type == "G"){ }}
-    <span class="layui-badge layui-bg-blue">集团</span>
-    {{#  } else if(d.type == "C"){ }}
-    <span class="layui-badge layui-bg-green">公司</span>
-    {{#  } else if(d.type == "D"){ }}
-    <span class="layui-badge">部门</span>
-    {{#  } }}
-</script>
 <script th:inline="none">
 
     layui.use(['form', 'table', 'treetable'], function () {
@@ -101,8 +92,8 @@
 
         function renderTree(param) {
             var data = getSysData({
-                url: "/org"
-                , isTreeTable: true
+                url: "/sys/org"
+                , data: {pageNum: 1, pageSize: 100000000}
             });
             initTree({
                 dom: param.dom
@@ -118,26 +109,26 @@
         renderTable();
 
         function renderTable(whereParam) {
+            if (!whereParam) {
+                whereParam = {pageNum: 1, pageSize: 100000000};
+            }
             treetable.render({
                 treeColIndex: 1,            // 树形图标显示在第几列（必填）
-                treeSpid: 0,                // 顶级pid（必填）
+                treeSpid: null,             // 顶级pid（必填）
                 treeIdName: 'id',           // id字段名
                 treePidName: 'pid',         // pid字段名
                 treeDefaultClose: true,     // 是否默认折叠
-                treeLinkage: false,          // 父级展开时是否自动展开所有子级
+                treeLinkage: false,         // 父级展开时是否自动展开所有子级
                 elem: '#table',
-                url: '/org',
+                url: '/sys/org',
                 where: whereParam,
                 cols: [[
                     {checkbox: true}
                     , {field: 'name', title: '架构名称'}
-                    , {field: 'type', title: '类型', width: 80, align: 'center', templet: '#typeTpl'}
+                    , {field: 'orgTypeName', title: '类型', width: 80, align: 'center', templet: '#typeTpl'}
                     , {field: 'sort', title: '排序', width: 80}
-                    , {
-                        field: 'status', title: '状态', width: 80, templet: function (d) {
-                            return d.status == 1 ? '<span class="layui-color-green">正常</span>' : '<span class="layui-color-red">禁用</span>'
-                        }
-                    }
+                    , {field: 'stateName', title: '状态', width: 80}
+                    , {title: '操作', width: 120, toolbar: '#optToolBar'}
                 ]]
                 , done: function (res, curr, count) {
                     checkboxRadio($, "table");
@@ -155,10 +146,21 @@
         $(".addButton").click(function () {
             type = 'POST';
             $("[name='id']").val("");
-            $("[name='pid']").val("0");
-            $("#treeName").text("请选择");
-            getOrgTreeSelect();
             layerOpen("添加");
+
+            table.render({
+                elem: '#detailTable'
+                , data: []
+                , id: 'detailTable'
+                , cols: [[
+                    {type: 'checkbox', width: 35},
+                    {field: 'name', title: '架构名称', width: 200, align: 'left', edit: 'text'},
+                    {field: 'orgTypeName', title: '类型', width: 200, align: 'left', edit: 'text'},
+                    {field: 'sort', title: '排序', align: 'left', edit: 'text'}
+                ]]
+                , done: function (res, curr, count) {
+                }
+            });
         });
 
 
@@ -167,15 +169,25 @@
             type = 'PUT';
             var selectedData = table.checkStatus('table');
             if (selectedData.data.length == 1) {
-                getOrgTreeSelect();
-
                 $("[name='id']").val(selectedData.data[0].id);
-                $("[name='pid']").val(selectedData.data[0].pid);
-                $("#treeName").text($("#treeId_" + selectedData.data[0].pid).val());
-                $("#name").val(selectedData.data[0].name);
-                $("[name='type']").val(selectedData.data[0].type);
+                $("[name='name']").val(selectedData.data[0].name);
+                $("[name='orgTypeName']").val(selectedData.data[0].orgTypeName);
                 $("[name='sort']").val(selectedData.data[0].sort);
-                $("[name='status'][value='" + selectedData.data[0].status + "']").prop("checked", true);
+
+                initTable({
+                    dom: "detailTable"
+                    , url: "/sys/org"
+                    , height: ''
+                    , page: false
+                    , where: {"pid": selectedData.data[0].id}
+                    , cols: [
+                        {type: 'checkbox', width: 35},
+                        {field: 'name', title: '架构名称', width: 200, align: 'left', edit: 'text'},
+                        {field: 'orgTypeName', title: '类型', width: 200, align: 'left', edit: 'text'},
+                        {field: 'sort', title: '排序', align: 'left', edit: 'text'}
+                    ]
+                });
+
                 form.render();
                 layerOpen("修改");
             } else {
@@ -194,14 +206,16 @@
 
         // 添加/修改 保存
         form.on('submit(saveButton)', function (data) {
-            var data = saveOrUpdate({
-                url: '/org'
+            data.field.detailList = table.cache.detailTable;
+            var result = saveOrUpdate({
+                url: '/sys/org'
                 , type: type
-                , data: data.field
+                , data: JSON.stringify(data.field)
+                , contentType: 'application/json;charset=utf-8'
                 , tableId: 'table'
                 , isTreeTable: true
             });
-            if (data.success) {
+            if (result.success) {
                 renderTable();
                 renderTree({
                     dom: "tree"
@@ -227,7 +241,7 @@
                     , btn: ['确定', '取消']
                     , yes: function (index) {
                         $.ajax({
-                            url: '/org/' + selectedData.data[0].id
+                            url: '/sys/org/' + selectedData.data[0].id
                             , type: 'DELETE'
                             , success: function (data) {
                                 if (data.success) {
@@ -256,29 +270,29 @@
             }
         });
 
-        // 获取组织架构下拉树
-        function getOrgTreeSelect() {
-            renderTree({
-                dom: "pid"
-                , click: function (node) {
-                    var $select = $($(this)[0].elem).parents(".layui-form-select");
-                    $select.removeClass("layui-form-selected").find(".layui-select-title span").html(node.name);
-                    $("[name='pid']").val(node.id);
-                }
-            });
-        }
+        // 新增一行 明细
+        $(".add_detail").click(function () {
+            let data = {name: "", orgTypeName: "", sort: ""};
+            addRowButton({
+                table: "detailTable"
+                , id: "name"
+                , data: data
+            })
+        });
+        // 批量删除 明细
+        $(".delete_detail").click(function () {
+            batchDelButton({
+                table: "detailTable"
+                , id: "name"
+            })
+        });
 
-        downpanel();
-
-
-        //获取组织类型
+        //获取字典类型
         getDictByCode({
-            parentCode: "org_type"
+            code: "OrgType"
             , dom: "[name='type']"
             , isParent: true
         });
-
-
     });
 
 </script>

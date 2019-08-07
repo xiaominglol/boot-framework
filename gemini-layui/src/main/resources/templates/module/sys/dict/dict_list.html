@@ -111,11 +111,11 @@
             }
             treetable.render({
                 treeColIndex: 1,            // 树形图标显示在第几列（必填）
-                treeSpid: null,                // 顶级pid（必填）
+                treeSpid: null,             // 顶级pid（必填）
                 treeIdName: 'id',           // id字段名
                 treePidName: 'pid',         // pid字段名
                 treeDefaultClose: true,     // 是否默认折叠
-                treeLinkage: false,          // 父级展开时是否自动展开所有子级
+                treeLinkage: false,         // 父级展开时是否自动展开所有子级
                 elem: '#table',
                 url: '/sys/dict',
                 where: whereParam,
@@ -124,9 +124,7 @@
                     , {field: 'code', title: '字典编码', width: 160}
                     , {field: 'name', title: '字典名称', width: 160}
                     , {field: 'description', title: '描述'}
-                    , {
-                        field: 'stateName', title: '状态', width: 80
-                    }
+                    , {field: 'stateName', title: '状态', width: 80}
                     , {title: '操作', width: 120, toolbar: '#optToolBar'}
                 ]]
                 , done: function (res, curr, count) {

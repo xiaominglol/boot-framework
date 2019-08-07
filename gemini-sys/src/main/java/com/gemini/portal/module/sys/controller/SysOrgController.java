@@ -1,9 +1,14 @@
 package com.gemini.portal.module.sys.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gemini.boot.framework.mybatis.entity.CommonFailInfo;
+import com.gemini.boot.framework.mybatis.entity.LayUiPage;
 import com.gemini.boot.framework.mybatis.entity.Message;
+import com.gemini.boot.framework.mybatis.utils.BeanUtils;
 import com.gemini.portal.common.annotation.SysLog;
+import com.gemini.portal.enums.StateEnum;
 import com.gemini.portal.module.sys.po.SysOrgPo;
 import com.gemini.portal.module.sys.po.SysUserPo;
 import com.gemini.portal.module.sys.service.SysErrorLogService;
@@ -25,6 +30,7 @@ import java.util.Map;
  * @date 2018-06-09
  */
 @Controller
+@RequestMapping("/sys/org")
 public class SysOrgController {
 
     @Autowired
@@ -32,29 +38,26 @@ public class SysOrgController {
     @Autowired
     SysOrgService orgService;
 
-    /**
-     * 跳转到列表
-     */
-    @GetMapping("/org/gotoList")
+    @GetMapping("/gotoList")
     public String gotoList() {
         return "module/sys/org/org_list";
     }
 
-    /**
-     * 树形表格列表
-     */
-    @GetMapping("/org")
+    @GetMapping
     @ResponseBody
-    public Message getTreeTableList(SysOrgPo orgPo) {
+    public Message list(LayUiPage layUiPage, SysOrgPo orgPo) {
         try {
             QueryWrapper<SysOrgPo> qw = new QueryWrapper<>();
-            if (!StringUtils.isEmpty(orgPo.getId())) {
-                qw.eq("id", orgPo.getId()).or().eq("pid", orgPo.getId());
-            }
             if (!StringUtils.isEmpty(orgPo.getName())) {
                 qw.like("name", orgPo.getName());
             }
-            List<SysOrgPo> list = orgService.list(qw);
+            if (!StringUtils.isEmpty(orgPo.getOrgTypeCode())) {
+                qw.like("org_type_code", orgPo.getOrgTypeCode());
+            }
+            if (!StringUtils.isEmpty(orgPo.getPid())) {
+                qw.eq("pid", orgPo.getPid());
+            }
+            IPage<SysOrgPo> list = orgService.page(new Page<>(layUiPage.getPageNum(), layUiPage.getPageSize()), qw);
             return Message.success(list);
         } catch (Exception e) {
 //            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
@@ -62,15 +65,9 @@ public class SysOrgController {
         }
     }
 
-
-    /**
-     * 通过ID获取
-     *
-     * @param id 主键ID
-     */
-    @GetMapping("/org/{id}")
+    @GetMapping("/{id}")
     @ResponseBody
-    public Message getById(@PathVariable("id") Long id) {
+    public Message detail(@PathVariable("id") Long id) {
         try {
             if (!StringUtils.isEmpty(id)) {
                 SysOrgPo orgPo = orgService.getById(id);
@@ -84,18 +81,14 @@ public class SysOrgController {
         }
     }
 
-    /**
-     * 添加
-     *
-     * @param orgPo 组织架构
-     */
     @SysLog("添加组织架构")
-    @PostMapping("/org")
+    @PostMapping
     @ResponseBody
-    public Message add(SysOrgPo orgPo) {
+    public Message add(@RequestBody SysOrgPo orgPo) {
         try {
-            if (orgPo.getId() == null) {
+            if (StringUtils.isEmpty(orgPo.getId())) {
                 SysUserPo currentUser = UserUtils.getCurrentUser();
+                BeanUtils.setDict(StateEnum.Enable, orgPo);
                 orgPo.setModifyUserId(currentUser.getId());
                 orgPo.setModifyUserName(currentUser.getName());
                 orgService.insert(orgPo);
@@ -109,16 +102,10 @@ public class SysOrgController {
         }
     }
 
-    /**
-     * 更新
-     *
-     * @param orgPo 组织架构
-     * @return
-     */
     @SysLog("更新组织架构")
-    @PutMapping("/org")
+    @PutMapping
     @ResponseBody
-    public Message update(SysOrgPo orgPo) {
+    public Message update(@RequestBody SysOrgPo orgPo) {
         try {
             if (!StringUtils.isEmpty(orgPo.getId())) {
                 SysUserPo currentUser = UserUtils.getCurrentUser();
@@ -135,14 +122,8 @@ public class SysOrgController {
         }
     }
 
-    /**
-     * 删除
-     *
-     * @param id 主键
-     * @return
-     */
     @SysLog("删除组织架构")
-    @DeleteMapping("/org/{id}")
+    @DeleteMapping("/{id}")
     @ResponseBody
     public Message delete(@PathVariable("id") Long id) {
         try {
@@ -158,14 +139,9 @@ public class SysOrgController {
         }
     }
 
-    /**
-     * 获取组织架构下拉树
-     *
-     * @return
-     */
-    @GetMapping("/org/treeSelect")
+    @GetMapping("/treeSelect")
     @ResponseBody
-    public Message getOrg() {
+    public Message treeSelect() {
         try {
             QueryWrapper<SysOrgPo> qw = new QueryWrapper<>();
             List<SysOrgPo> orgList = orgService.list(qw);

@@ -136,14 +136,16 @@ function getDictByCode(param) {
     layui.use(['form'], function () {
         var form = layui.form;
         $.ajax({
-            url: '/dict'
+            url: '/sys/dict'
             , type: 'GET'
             , data: {
-                parentCode: param.parentCode
-                , status: 1
+                code: param.code
+                , pageNum: 1
+                , pageSize: 100000000
             }
             , success: function (result) {
-                var data = result.data;
+                var data = result.data.records;
+                console.log("123", data)
                 if (data) {
                     var html = "";
                     //是否单选框
@@ -167,7 +169,7 @@ function getDictByCode(param) {
                             html += "<option value=''>请选择</option>";
                         }*/
                         for (var i in data) {
-                            html += "<option value='" + data[i].value;
+                            html += "<option value='" + data[i].code;
                             //是否默认选中
                             if (data[i].isDefault == 1) {
                                 html += "' selected>" + data[i].name + "</option>";
