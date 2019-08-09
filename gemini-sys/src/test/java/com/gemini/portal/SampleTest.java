@@ -1,29 +1,49 @@
-//package com.gemini.admin;
-//
-//import UserMapper;
-//import User;
-//import org.junit.Assert;
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.test.context.junit4.SpringRunner;
-//
-//import java.util.List;
-//
-//@RunWith(SpringRunner.class)
-//@SpringBootTest
-//public class SampleTest {
-//
-//    @Autowired
-//    private UserMapper userMapper;
-//
-//    @Test
-//    public void testSelect() {
-//        System.out.println(("----- selectAll method test ------"));
-//        List<User> userList = userMapper.selectList(null);
-//        Assert.assertEquals(18, userList.size());
-//        userList.forEach(System.out::println);
-//    }
-//
-//}
+package com.gemini.portal;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = PortalApplication.class)
+public class SampleTest {
+
+
+    @Test
+    public void testSelect() throws ExecutionException, InterruptedException {
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        Future<Integer> future = service.submit(() -> {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return 1;
+        });
+        System.out.println(future.get());
+        System.out.println("ok");
+    }
+
+    @Test
+    public void test1() throws ExecutionException, InterruptedException {
+//        List<Integer>
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        Future<Integer> future = service.submit(() -> {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return 1;
+        });
+        System.out.println(future.get());
+        System.out.println("ok");
+    }
+
+}
