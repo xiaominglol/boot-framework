@@ -3,7 +3,10 @@ package com.gemini.portal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class CallableTest implements Callable {
 
@@ -34,18 +37,18 @@ public class CallableTest implements Callable {
         Future future2 = pool.submit(callableTest2);
         Future future3 = pool.submit(callableTest3);
 
-        try {
-            future1.get();
-            future2.get();
-            future3.get();
-            LOG.info(future1.get().toString());
-            LOG.info(future2.get().toString());
-            LOG.info(future3.get().toString());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            future1.get();
+//            future2.get();
+//            future3.get();
+//            LOG.info(future1.get().toString());
+//            LOG.info(future2.get().toString());
+//            LOG.info(future3.get().toString());
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        }
         pool.shutdown();
 
         Thread.sleep(2000);
