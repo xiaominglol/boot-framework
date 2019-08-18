@@ -49,6 +49,10 @@
             <artifactId>boot-redis</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.gemini.boot.framework</groupId>
+            <artifactId>boot-shiro</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
@@ -58,10 +62,6 @@
             <optional>true</optional>
         </dependency>
         <!--第三方-->
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
