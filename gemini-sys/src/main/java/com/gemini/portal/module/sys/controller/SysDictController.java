@@ -20,6 +20,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 字典控制层
  *
@@ -55,8 +57,13 @@ public class SysDictController {
                 qw.eq("code", dictPo.getCode());
                 qw.eq("state_code", "Enable");
             }
-            IPage<SysDictPo> list = dictService.page(new Page<>(layUiPage.getPageNum(), layUiPage.getPageSize()), qw);
-            return Message.success(list);
+            if (layUiPage.getPageNum() != 0 && layUiPage.getPageSize() != 0) {
+                IPage<SysDictPo> list = dictService.page(new Page<>(layUiPage.getPageNum(), layUiPage.getPageSize()), qw);
+                return Message.success(list);
+            } else {
+                List<SysDictPo> list = dictService.list(qw);
+                return Message.success(list);
+            }
         } catch (Exception e) {
 //            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());

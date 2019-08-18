@@ -3,7 +3,7 @@
  * @author 小明不读书
  * @date 2018-10-31
  */
-// 初始化表格
+// 分页表格
 function initTable(param) {
     layui.use(['table'], function () {
         var table = layui.table;
@@ -13,7 +13,7 @@ function initTable(param) {
             , url: param.url
             , data: param.data
             , page: param.page == null ? true : param.page      //默认开启分页
-            , cols: [param.cols]
+            , cols: param.cols
             , where: param.where
             , done: function (res, curr, count) {
                 // 是否多选
@@ -39,6 +39,28 @@ function initTable(param) {
     });
 }
 
+// 树形表格
+function renderTreeTable(param) {
+    layui.use(['treetable'], function () {
+        var treeTable = layui.treetable;
+        treeTable.render({
+            treeColIndex: 1,            // 树形图标显示在第几列（必填）
+            treeSpid: null,             // 顶级pid（必填）
+            treeIdName: 'id',           // id字段名
+            treePidName: 'pid',         // pid字段名
+            treeDefaultClose: true,     // 是否默认折叠
+            treeLinkage: false,         // 父级展开时是否自动展开所有子级
+            elem: '#table',
+            url: param.url,
+            where: param.data,
+            cols: param.cols
+            , done: function (res, curr, count) {
+                checkboxRadio($, "table");
+            }
+        });
+    });
+}
+
 // 刷新表格
 function refreshTable(param) {
     layui.use(['table'], function () {
@@ -59,7 +81,7 @@ function openAddOrUpdate(param) {
         layer.open({
             type: 1
             , title: param.title
-            , content: $('#' + param.id)
+            , content: $('#' + (param.id == null ? 'addOrUpdate' : param.id))
             //,skin: 'layui-layer-molv'
             , maxmin: true
             , area: param.area == null ? ['900px', '550px'] : param.area
@@ -94,6 +116,21 @@ function openAddOrUpdate(param) {
             }
         })
 
+    });
+}
+
+// 渲染树
+function renderTree(param) {
+    let data = getSysData({
+        url: param.url
+    });
+    initTree({
+        dom: param.dom == null ? "tree" : param.dom
+        , data: data
+        , id: "id"
+        , pid: "pid"
+        , name: "name"
+        , click: param.click
     });
 }
 
@@ -135,7 +172,7 @@ function downpanel() {
     });
 }
 
-
+// 构建树
 function buildTree(nodes, id, pid, name) {
     var tree = new Array();
     if (null != nodes) {
@@ -157,6 +194,7 @@ function buildTree(nodes, id, pid, name) {
     return tree;
 }
 
+// 构建树
 function buildChildTree(key, nodes, id, pid, name) {
     var child = new Array();
 

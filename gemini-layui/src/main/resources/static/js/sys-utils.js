@@ -16,14 +16,14 @@
  * @param param.url   请求对应数据的url
  */
 function getSysData(param) {
-    var data = null;
+    let data = null;
     $.ajax({
         url: param.url,
         type: 'GET',
         async: false,
         data: param.data,
         success: function (result) {
-            data = result.data.records;
+            data = result.data;
         }
     });
     return data;

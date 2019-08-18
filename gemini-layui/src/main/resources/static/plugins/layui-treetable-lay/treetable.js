@@ -15,10 +15,10 @@ layui.define(['layer', 'table'], function (exports) {
                 treetable.init(param, param.data);
             } else {
                 $.getJSON(param.url, param.where, function (res) {
-                    if (res.data.records.length == 1) {
-                        param.treeSpid = res.data.records[0].pid;
+                    if (res.data.length == 1) {
+                        param.treeSpid = res.data[0].pid;
                     }
-                    treetable.init(param, res.data.records);
+                    treetable.init(param, res.data);
                 });
             }
         },
