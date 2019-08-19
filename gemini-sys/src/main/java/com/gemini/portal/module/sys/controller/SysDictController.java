@@ -7,14 +7,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gemini.boot.framework.mybatis.entity.CommonFailInfo;
 import com.gemini.boot.framework.mybatis.entity.LayUiPage;
 import com.gemini.boot.framework.mybatis.entity.Message;
-import com.gemini.boot.framework.mybatis.utils.BeanUtils;
 import com.gemini.portal.common.annotation.SysLog;
-import com.gemini.portal.enums.StateEnum;
 import com.gemini.portal.module.sys.po.SysDictPo;
-import com.gemini.portal.module.sys.po.SysUserPo;
 import com.gemini.portal.module.sys.service.SysDictService;
 import com.gemini.portal.module.sys.service.SysErrorLogService;
-import com.gemini.portal.module.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -92,10 +88,6 @@ public class SysDictController {
     public Message add(@RequestBody SysDictPo dictPo) {
         try {
             if (StringUtils.isEmpty(dictPo.getId())) {
-                SysUserPo currentUser = UserUtils.getCurrentUser();
-                BeanUtils.setDict(StateEnum.Enable, dictPo);
-                dictPo.setModifyUserId(currentUser.getId());
-                dictPo.setModifyUserName(currentUser.getName());
                 dictService.insert(dictPo);
                 return Message.success(dictPo);
             } else {
@@ -113,9 +105,6 @@ public class SysDictController {
     public Message update(@RequestBody SysDictPo dictPo) {
         try {
             if (!StringUtils.isEmpty(dictPo.getId())) {
-                SysUserPo currentUser = UserUtils.getCurrentUser();
-                dictPo.setModifyUserId(currentUser.getId());
-                dictPo.setModifyUserName(currentUser.getName());
                 dictService.update(dictPo);
                 return Message.success(dictPo);
             } else {

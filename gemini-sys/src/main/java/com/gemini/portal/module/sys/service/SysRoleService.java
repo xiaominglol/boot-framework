@@ -1,6 +1,6 @@
 package com.gemini.portal.module.sys.service;
 
-import com.gemini.boot.framework.mybatis.service.BootCrudService;
+import com.gemini.portal.common.service.BootCrudService;
 import com.gemini.portal.module.sys.mapper.SysRoleMapper;
 import com.gemini.portal.module.sys.po.SysRolePo;
 

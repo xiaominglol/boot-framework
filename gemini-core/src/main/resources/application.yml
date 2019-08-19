@@ -19,7 +19,7 @@ spring:
 
 #gemini自定义配置
 gemini:
-  #用户头像上传目录 /home/gemini/prod/pictrue
+  #用户头像上传目录 /home/gemini/prod/picture
   pictureUploadPath: E:/file/picture/
 
 

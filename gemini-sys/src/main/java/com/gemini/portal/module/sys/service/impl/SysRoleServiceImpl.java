@@ -3,7 +3,7 @@ package com.gemini.portal.module.sys.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.gemini.boot.framework.mybatis.service.impl.BootCrudServiceImpl;
+import com.gemini.portal.common.service.BootCrudServiceImpl;
 import com.gemini.portal.module.sys.mapper.SysRoleMapper;
 import com.gemini.portal.module.sys.po.SysRolePo;
 import com.gemini.portal.module.sys.service.SysRoleService;

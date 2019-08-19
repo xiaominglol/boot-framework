@@ -2,14 +2,10 @@ package com.gemini.portal.module.sys.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.gemini.boot.framework.mybatis.service.impl.BootCrudServiceImpl;
-import com.gemini.boot.framework.mybatis.utils.BeanUtils;
-import com.gemini.portal.enums.StateEnum;
+import com.gemini.portal.common.service.BootCrudServiceImpl;
 import com.gemini.portal.module.sys.mapper.SysDictMapper;
 import com.gemini.portal.module.sys.po.SysDictPo;
-import com.gemini.portal.module.sys.po.SysUserPo;
 import com.gemini.portal.module.sys.service.SysDictService;
-import com.gemini.portal.module.sys.utils.UserUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -41,10 +37,6 @@ public class SysDictServiceImpl extends BootCrudServiceImpl<SysDictPo, SysDictMa
         if (null != po.getDetailList() && 0 < po.getDetailList().size()) {
             for (SysDictPo detailPo : po.getDetailList()) {
                 detailPo.setPid(po.getId());
-                SysUserPo currentUser = UserUtils.getCurrentUser();
-                BeanUtils.setDict(StateEnum.Enable, detailPo);
-                detailPo.setModifyUserId(currentUser.getId());
-                detailPo.setModifyUserName(currentUser.getName());
             }
             batchInsert(po.getDetailList());
         }
@@ -52,14 +44,7 @@ public class SysDictServiceImpl extends BootCrudServiceImpl<SysDictPo, SysDictMa
 
     @Override
     public void updateAfter(SysDictPo po) {
-        if (null != po.getDetailList() && 0 < po.getDetailList().size()) {
-            for (SysDictPo detailPo : po.getDetailList()) {
-                SysUserPo currentUser = UserUtils.getCurrentUser();
-                detailPo.setModifyUserId(currentUser.getId());
-                detailPo.setModifyUserName(currentUser.getName());
-            }
-            batchUpdate(po.getDetailList());
-        }
+        batchUpdate(po.getDetailList());
     }
 
     @Override

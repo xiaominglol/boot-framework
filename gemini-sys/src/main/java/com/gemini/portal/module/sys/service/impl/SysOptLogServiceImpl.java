@@ -2,7 +2,7 @@ package com.gemini.portal.module.sys.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.gemini.boot.framework.mybatis.service.impl.BootCrudServiceImpl;
+import com.gemini.portal.common.service.BootCrudServiceImpl;
 import com.gemini.portal.module.sys.mapper.SysOptLogMapper;
 import com.gemini.portal.module.sys.po.SysOptLogPo;
 import com.gemini.portal.module.sys.service.SysOptLogService;
