@@ -9,17 +9,15 @@ import java.util.List;
 /**
  * 菜单表
  *
- * @author wenge.cai
+ * @author 小明不读书
  */
-public interface SysMenuService extends BootCrudService<SysMenuPo, SysMenuMapper> {
+public interface SysMenuService extends BootCrudService<SysMenuPo, SysMenuPo, SysMenuMapper, SysMenuMapper> {
 
     /**
      * 通过用户ID查询所有列表（不带分页）
      *
-     * @param account
+     * @param userId
      * @return
      */
-    List<SysMenuPo> getByAccount(Long account);
-
-    boolean removeById(Long id);
+    List<SysMenuPo> getByUserId(Long userId);
 }

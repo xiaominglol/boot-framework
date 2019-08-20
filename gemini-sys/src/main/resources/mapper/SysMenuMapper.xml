@@ -21,12 +21,12 @@
         <result column="state_id" property="stateId" javaType="Long"/>
         <result column="state_code" property="stateCode" javaType="String"/>
         <result column="state_name" property="stateName" javaType="String"/>
-        <result column="modify_id" property="modifyId" javaType="Long"/>
-        <result column="modify_name" property="modifyName" javaType="String"/>
+        <result column="modify_user_id" property="modifyUserId" javaType="Long"/>
+        <result column="modify_user_name" property="modifyUserName" javaType="String"/>
         <result column="modify_time" property="modifyTime" javaType="String"/>
     </resultMap>
 
-    <select id="getByAccount" parameterType="java.lang.String" resultType="com.gemini.portal.module.sys.po.SysMenuPo">
+    <select id="getByUserId" parameterType="java.lang.String" resultType="com.gemini.portal.module.sys.po.SysMenuPo">
         SELECT
 	        distinct m.*
         FROM
@@ -35,12 +35,12 @@
         LEFT JOIN f_sys_menu m ON rm.menu_id = m.id
         WHERE m.menu_type_code != 'button'
         AND state_code = 'Enable'
-        AND ur.user_id = #{account, javaType=Long}
+        AND ur.user_id = #{userId, javaType=Long}
         ORDER BY m.pid,m.sort
     </select>
 
     <delete id="deleteMenuAut" parameterType="java.lang.Integer">
-        delete from t_sys_permissions
+        delete from f_sys_role_menu
         where menu_id=#{id}
     </delete>
 </mapper>

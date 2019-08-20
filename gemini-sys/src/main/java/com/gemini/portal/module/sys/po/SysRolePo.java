@@ -1,15 +1,17 @@
 package com.gemini.portal.module.sys.po;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.gemini.boot.framework.mybatis.po.BasePo;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * 角色表
  *
- * @author wenge.cai
+ * @author 小明不读书
  */
 @Data
 @TableName("f_sys_role")
@@ -64,4 +66,7 @@ public class SysRolePo extends BasePo {
      * 修改时间(YYYY-MM-DD HH:MM:SS)
      */
     private Timestamp modifyTime;
+
+    @TableField(exist = false)
+    private List<SysRoleMenuPo> detailList;
 }

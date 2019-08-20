@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * 用户表
  *
- * @author wenge.cai
+ * @author 小明不读书
  */
 @Mapper
 public interface SysUserMapper extends BaseMapper<SysUserPo> {

@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 字典表
  *
- * @author wenge.cai
+ * @author 小明不读书
  */
 @Data
 @TableName("f_sys_dict")

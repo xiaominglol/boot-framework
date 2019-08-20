@@ -6,14 +6,15 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gemini.boot.framework.mybatis.entity.CommonFailInfo;
 import com.gemini.boot.framework.mybatis.entity.LayUiPage;
 import com.gemini.boot.framework.mybatis.entity.Message;
+import com.gemini.boot.framework.web.utils.DateUtils;
 import com.gemini.boot.framework.web.utils.ExcelImportUtils;
 import com.gemini.portal.MD5Util;
+import com.gemini.portal.Poi314ExcelUtils;
 import com.gemini.portal.common.annotation.SysLog;
 import com.gemini.portal.common.properties.GeminiProperties;
 import com.gemini.portal.module.sys.po.SysUserPo;
 import com.gemini.portal.module.sys.service.SysErrorLogService;
 import com.gemini.portal.module.sys.service.SysUserService;
-import com.gemini.portal.module.sys.utils.UserUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -26,12 +27,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author 小明不读书
@@ -48,18 +49,12 @@ public class SysUserController {
     @Autowired
     GeminiProperties geminiProperties;
 
-    /**
-     * 跳转到列表
-     */
     @GetMapping("/gotoList")
     //@RequiresPermissions("3333")
     public String gotoList() {
         return "module/sys/user/user_list";
     }
 
-    /**
-     * 获取分页列表
-     */
     @GetMapping
     @ResponseBody
     public Message list(LayUiPage layUiPage, SysUserPo userPo) {
@@ -71,22 +66,22 @@ public class SysUserController {
             if (!StringUtils.isEmpty(userPo.getOrgId())) {
                 qw.eq("org_id", userPo.getOrgId());
             }
-            IPage<SysUserPo> list = userService.page(new Page<>(layUiPage.getPageNum(), layUiPage.getPageSize()), qw);
-            return Message.success(list);
+            if (layUiPage.getPageNum() != 0 && layUiPage.getPageSize() != 0) {
+                IPage<SysUserPo> list = userService.page(new Page<>(layUiPage.getPageNum(), layUiPage.getPageSize()), qw);
+                return Message.success(list);
+            } else {
+                List<SysUserPo> list = userService.list(qw);
+                return Message.success(list);
+            }
         } catch (Exception e) {
 //            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
 
-    /**
-     * 通过ID获取
-     *
-     * @param id 主键ID
-     */
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     @ResponseBody
-    public Message getById(@PathVariable("id") Long id) {
+    public Message detail(@PathVariable("id") Long id) {
         try {
             if (!StringUtils.isEmpty(id)) {
                 SysUserPo user = userService.getById(id);
@@ -100,27 +95,15 @@ public class SysUserController {
         }
     }
 
-    /**
-     * 保存
-     *
-     * @param user 用户
-     */
     @SysLog("添加用户")
     @PostMapping
     @ResponseBody
-    public Message save(SysUserPo userPo, @RequestParam(value = "ids[]") Long[] ids) {
+    public Message add(@RequestBody SysUserPo userPo) {
         try {
             if (StringUtils.isEmpty(userPo.getId())) {
                 String pwd = MD5Util.encryption(userPo.getPassword(), userPo.getAccount());
                 userPo.setPassword(pwd);
-                SysUserPo currentUser = UserUtils.getCurrentUser();
-                userPo.setStateId(123L);
-                userPo.setStateCode("Enable");
-                userPo.setStateName("启用");
-                userPo.setModifyUserId(currentUser.getId());
-                userPo.setModifyUserName(currentUser.getName());
-                userService.insert(userPo);
-                userService.addUserRole(userPo.getId(), ids);
+                userService.insertAsync(userPo, userPo.getDetailList(), userPo.getId());
                 return Message.success(userPo);
             } else {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
@@ -131,27 +114,17 @@ public class SysUserController {
         }
     }
 
-    /**
-     * 批量保存
-     *
-     * @param userList 用户列表
-     */
     @SysLog("批量添加用户")
-    @PostMapping("/user/batchSave")
+    @PostMapping("/batchSave")
     @ResponseBody
-    public Message batchSave(@RequestBody(required = false) List<SysUserPo> userList) {
+    public Message batchAdd(@RequestBody(required = false) List<SysUserPo> userList) {
         try {
             if (userList != null && userList.size() > 0) {
                 for (SysUserPo userPo : userList) {
-                    //初始化密码123456
-                    userPo.setPassword("123456");
-                    String pwd = MD5Util.encryption(userPo.getPassword(), userPo.getAccount());
+                    String pwd = MD5Util.encryption(MD5Util.INIT_PASSWORD, userPo.getAccount());
                     userPo.setPassword(pwd);
-                    SysUserPo currentUser = UserUtils.getCurrentUser();
-                    userPo.setModifyUserId(currentUser.getId());
-                    userPo.setModifyUserName(currentUser.getName());
                     userPo.setPicture("/img/icon/64/default_picture.png");
-                    userService.insert(userPo);
+                    userService.insertAsync(userPo, userPo.getDetailList(), userPo.getId());
                 }
                 return Message.success(null);
             } else {
@@ -163,33 +136,19 @@ public class SysUserController {
         }
     }
 
-    /**
-     * 更新
-     *
-     * @param user 用户
-     * @return
-     */
     @SysLog("更新用户")
-    @PutMapping("/user")
+    @PutMapping
     @ResponseBody
-    public Message update(SysUserPo userPo, @RequestParam(value = "ids[]", required = false) Long[] ids) {
+    public Message update(@RequestBody SysUserPo userPo) {
         try {
-            if (!StringUtils.isEmpty(userPo.getAccount())) {
-                SysUserPo currentUser = UserUtils.getCurrentUser();
-                userPo.setModifyUserId(currentUser.getId());
-                userPo.setModifyUserName(currentUser.getName());
-
+            if (!StringUtils.isEmpty(userPo.getId())) {
                 SysUserPo oldUser = userService.getById(userPo.getId());
-                //如果密码不一样，证明在修改密码，所以要加密保存，如果密码一样，则不需要再加密
+                //如果密码不一样，证明在修改密码，所以要加密保存，如果密码一样，则不需要再加密,因为前端传过来的密码已经加密过了
                 if (!userPo.getPassword().equals(oldUser.getPassword())) {
                     String pwd = MD5Util.encryption(userPo.getPassword(), userPo.getAccount());
                     userPo.setPassword(pwd);
                 }
-                userService.update(userPo);
-                if (ids != null) {
-                    userService.deleteUserRole(userPo.getAccount());
-                    userService.addUserRole(userPo.getId(), ids);
-                }
+                userService.updateAsync(userPo, userPo.getDetailList());
                 return Message.success(userPo);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
@@ -200,21 +159,14 @@ public class SysUserController {
         }
     }
 
-    /**
-     * 删除
-     *
-     * @param ids
-     * @return
-     */
     @SysLog("删除用户")
-    @DeleteMapping("/user/{ids}")
+    @DeleteMapping("/{ids}")
     @ResponseBody
     public Message delete(@PathVariable("ids") Long[] ids) {
         try {
             if (!StringUtils.isEmpty(ids)) {
                 for (Long id : ids) {
-                    userService.deleteById(id);
-//                    userService.deleteUserRole(id);
+                    userService.deleteByIdAsync(id);
                 }
                 return Message.success(null);
             } else {
@@ -255,7 +207,7 @@ public class SysUserController {
     /**
      * 上传图片
      */
-    @PostMapping("/user/picture/upload")
+    @PostMapping("/picture/upload")
     @ResponseBody
     public Message upload(@RequestPart("file") MultipartFile picture) {
         if (picture.isEmpty() || StringUtils.isEmpty(picture.getOriginalFilename())) {
@@ -280,7 +232,7 @@ public class SysUserController {
      * @throws IOException
      */
     @SysLog("用户导入")
-    @PostMapping("/user/import")
+    @PostMapping("/import")
     @ResponseBody
     public Message batchImport(@RequestParam(value = "file") MultipartFile file) {
         try {
@@ -366,38 +318,38 @@ public class SysUserController {
      *
      * @return
      */
-//    @SysLog("用户导出")
-//    @GetMapping("/user/export")
-//    public void export(HttpServletResponse response) {
-//        try {
-//            // 第一步：定义文件名
-//            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-HHmmss");
-//            String fileName = "用户导出-" + sdf.format(new Date()) + ".xlsx";
-//            // 第二步：定义工作簿名称
-//            String sheetName = "用户导出";
-//            // 第三步：设置表头名称
-//            String[] headNames = {"用户账号", "用户名称", "创建时间"};
-//            // 第四步：设置字段名称
-//            String[] fieldNames = {"account", "name", "createDate"};
-//            // 第五步：设置列宽
-//            Short[] columnWidths = {5000, 6000, 7000};
-//            // 第六步：组装数据
-//            List<Map<String, Object>> dataList = new ArrayList<>();
-//            List<User> list = userService.list();
-//            for (User user : list) {
-//                Map<String, Object> map = new HashMap<>();
-//                map.put("account", user.getAccount());
-//                map.put("name", user.getName());
-//                map.put("createDate", DateUtils.getDateTime(user.getCreateDate()));
-//                dataList.add(map);
-//            }
-//            // 第七步：调用工具类
-//            Poi314ExcelUtils.exportExcel(fileName, sheetName, headNames, fieldNames, columnWidths, dataList, response, Poi314ExcelUtils.EXCEL_2010, -1);
-//        } catch (Exception e) {
+    @SysLog("用户导出")
+    @GetMapping("/export")
+    public void export(HttpServletResponse response) {
+        try {
+            // 第一步：定义文件名
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-HHmmss");
+            String fileName = "用户导出-" + sdf.format(new Date()) + ".xlsx";
+            // 第二步：定义工作簿名称
+            String sheetName = "用户导出";
+            // 第三步：设置表头名称
+            String[] headNames = {"用户账号", "用户名称", "创建时间"};
+            // 第四步：设置字段名称
+            String[] fieldNames = {"account", "name", "createDate"};
+            // 第五步：设置列宽
+            Short[] columnWidths = {5000, 6000, 7000};
+            // 第六步：组装数据
+            List<Map<String, Object>> dataList = new ArrayList<>();
+            List<SysUserPo> list = userService.list(userService.wrapper());
+            for (SysUserPo user : list) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("account", user.getAccount());
+                map.put("name", user.getName());
+                map.put("createDate", DateUtils.getDateTime(user.getCreateDatetime()));
+                dataList.add(map);
+            }
+            // 第七步：调用工具类
+            Poi314ExcelUtils.exportExcel(fileName, sheetName, headNames, fieldNames, columnWidths, dataList, response, Poi314ExcelUtils.EXCEL_2010, -1);
+        } catch (Exception e) {
 //            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
-//        }
-//
-//    }
+        }
+
+    }
 
     /**
      * 重置密码
@@ -406,7 +358,7 @@ public class SysUserController {
      * @return
      */
     @SysLog("重置密码")
-    @PutMapping("/user/restPwd")
+    @PutMapping("/restPwd")
     @ResponseBody
     public Message restPwd(@RequestBody List<SysUserPo> userList) {
         try {
@@ -414,7 +366,7 @@ public class SysUserController {
                 for (SysUserPo user : userList) {
                     String pwd = MD5Util.encryption(MD5Util.INIT_PASSWORD, user.getAccount());
                     user.setPassword(pwd);
-                    userService.update(user);
+                    userService.updateAsync(user);
                 }
                 return Message.success(null);
             } else {

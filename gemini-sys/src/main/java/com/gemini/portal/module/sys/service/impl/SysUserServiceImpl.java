@@ -4,7 +4,9 @@ package com.gemini.portal.module.sys.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.gemini.portal.common.service.BootCrudServiceImpl;
 import com.gemini.portal.module.sys.mapper.SysUserMapper;
+import com.gemini.portal.module.sys.mapper.SysUserRoleMapper;
 import com.gemini.portal.module.sys.po.SysUserPo;
+import com.gemini.portal.module.sys.po.SysUserRolePo;
 import com.gemini.portal.module.sys.service.SysUserService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -16,10 +18,10 @@ import java.util.Set;
 /**
  * 用户表
  *
- * @author wenge.cai
+ * @author 小明不读书
  */
 @Service
-public class SysUserServiceImpl extends BootCrudServiceImpl<SysUserPo, SysUserMapper> implements SysUserService {
+public class SysUserServiceImpl extends BootCrudServiceImpl<SysUserPo, SysUserRolePo, SysUserMapper, SysUserRoleMapper> implements SysUserService {
 
     @Override
     public QueryWrapper<SysUserPo> wrapper(SysUserPo po) {

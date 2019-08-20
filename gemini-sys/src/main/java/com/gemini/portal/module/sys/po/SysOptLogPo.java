@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * 操作日志表
  *
- * @author wenge.cai
+ * @author 小明不读书
  */
 @Data
 @TableName("f_sys_opt_log")

@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * 角色表
  *
- * @author wenge.cai
+ * @author 小明不读书
  */
 @Mapper
 public interface SysRoleMapper extends BaseMapper<SysRolePo> {

@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 字典表
  *
- * @author wenge.cai
+ * @author 小明不读书
  */
 @Mapper
 public interface SysDictMapper extends BaseMapper<SysDictPo> {

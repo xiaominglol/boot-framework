@@ -12,10 +12,10 @@ import org.springframework.util.StringUtils;
 /**
  * 字典表
  *
- * @author wenge.cai
+ * @author 小明不读书
  */
 @Service
-public class SysDictServiceImpl extends BootCrudServiceImpl<SysDictPo, SysDictMapper> implements SysDictService {
+public class SysDictServiceImpl extends BootCrudServiceImpl<SysDictPo, SysDictPo, SysDictMapper, SysDictMapper> implements SysDictService {
 
     @Override
     public QueryWrapper<SysDictPo> wrapper(SysDictPo po) {
@@ -30,25 +30,5 @@ public class SysDictServiceImpl extends BootCrudServiceImpl<SysDictPo, SysDictMa
                 .eq(!StringUtils.isEmpty(po.getModifyUserId()), "modify_user_id", po.getModifyUserId())
                 .eq(!StringUtils.isEmpty(po.getModifyUserName()), "modify_user_name", po.getModifyUserName())
                 .eq(!StringUtils.isEmpty(po.getModifyTime()), "modify_time", po.getModifyTime());
-    }
-
-    @Override
-    public void insertAfter(SysDictPo po) {
-        if (null != po.getDetailList() && 0 < po.getDetailList().size()) {
-            for (SysDictPo detailPo : po.getDetailList()) {
-                detailPo.setPid(po.getId());
-            }
-            batchInsert(po.getDetailList());
-        }
-    }
-
-    @Override
-    public void updateAfter(SysDictPo po) {
-        batchUpdate(po.getDetailList());
-    }
-
-    @Override
-    public void deleteBefore(Long id) {
-        mapper.delete(wrapper().eq("pid", id));
     }
 }

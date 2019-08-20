@@ -12,7 +12,7 @@ import org.springframework.util.StringUtils;
 /**
  * 操作日志表
  *
- * @author wenge.cai
+ * @author 小明不读书
  */
 @Service
 public class SysOptLogServiceImpl extends BootCrudServiceImpl<SysOptLogPo, SysOptLogMapper> implements SysOptLogService {

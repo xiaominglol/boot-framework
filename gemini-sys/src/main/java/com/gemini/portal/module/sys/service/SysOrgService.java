@@ -7,7 +7,7 @@ import com.gemini.portal.module.sys.po.SysOrgPo;
 /**
  * 组织架构表
  *
- * @author wenge.cai
+ * @author 小明不读书
  */
-public interface SysOrgService extends BootCrudService<SysOrgPo, SysOrgMapper> {
+public interface SysOrgService extends BootCrudService<SysOrgPo, SysOrgPo, SysOrgMapper, SysOrgMapper> {
 }

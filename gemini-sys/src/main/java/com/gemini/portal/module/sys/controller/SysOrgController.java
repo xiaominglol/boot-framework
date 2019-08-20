@@ -6,15 +6,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gemini.boot.framework.mybatis.entity.CommonFailInfo;
 import com.gemini.boot.framework.mybatis.entity.LayUiPage;
 import com.gemini.boot.framework.mybatis.entity.Message;
-import com.gemini.boot.framework.mybatis.utils.BeanUtils;
 import com.gemini.portal.common.annotation.SysLog;
-import com.gemini.portal.enums.StateEnum;
 import com.gemini.portal.module.sys.po.SysOrgPo;
-import com.gemini.portal.module.sys.po.SysUserPo;
 import com.gemini.portal.module.sys.service.SysErrorLogService;
 import com.gemini.portal.module.sys.service.SysOrgService;
 import com.gemini.portal.module.sys.utils.TreeSelectUtil;
-import com.gemini.portal.module.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -43,6 +39,25 @@ public class SysOrgController {
         return "module/sys/org/org_list";
     }
 
+    /**
+     * 构建下拉树
+     *
+     * @return
+     */
+    @GetMapping("/treeSelect")
+    @ResponseBody
+    public Message treeSelect() {
+        try {
+            QueryWrapper<SysOrgPo> qw = new QueryWrapper<>();
+            List<SysOrgPo> orgList = orgService.list(qw);
+            List<Map<String, Object>> list = TreeSelectUtil.getTreeSelect(orgList);
+            return Message.success(list);
+        } catch (Exception e) {
+//            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
+            return Message.fail(e.getMessage());
+        }
+    }
+
     @GetMapping
     @ResponseBody
     public Message list(LayUiPage layUiPage, SysOrgPo orgPo) {
@@ -57,8 +72,13 @@ public class SysOrgController {
             if (!StringUtils.isEmpty(orgPo.getPid())) {
                 qw.eq("pid", orgPo.getPid());
             }
-            IPage<SysOrgPo> list = orgService.page(new Page<>(layUiPage.getPageNum(), layUiPage.getPageSize()), qw);
-            return Message.success(list);
+            if (layUiPage.getPageNum() != 0 && layUiPage.getPageSize() != 0) {
+                IPage<SysOrgPo> list = orgService.page(new Page<>(layUiPage.getPageNum(), layUiPage.getPageSize()), qw);
+                return Message.success(list);
+            } else {
+                List<SysOrgPo> list = orgService.list(qw);
+                return Message.success(list);
+            }
         } catch (Exception e) {
 //            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
@@ -87,11 +107,7 @@ public class SysOrgController {
     public Message add(@RequestBody SysOrgPo orgPo) {
         try {
             if (StringUtils.isEmpty(orgPo.getId())) {
-                SysUserPo currentUser = UserUtils.getCurrentUser();
-                BeanUtils.setDict(StateEnum.Enable, orgPo);
-                orgPo.setModifyUserId(currentUser.getId());
-                orgPo.setModifyUserName(currentUser.getName());
-                orgService.insert(orgPo);
+                orgService.insertAsync(orgPo, orgPo.getDetailList(), orgPo.getId());
                 return Message.success(orgPo);
             } else {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
@@ -108,10 +124,7 @@ public class SysOrgController {
     public Message update(@RequestBody SysOrgPo orgPo) {
         try {
             if (!StringUtils.isEmpty(orgPo.getId())) {
-                SysUserPo currentUser = UserUtils.getCurrentUser();
-                orgPo.setModifyUserId(currentUser.getId());
-                orgPo.setModifyUserName(currentUser.getName());
-                orgService.update(orgPo);
+                orgService.updateAsync(orgPo, orgPo.getDetailList());
                 return Message.success(orgPo);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
@@ -128,7 +141,7 @@ public class SysOrgController {
     public Message delete(@PathVariable("id") Long id) {
         try {
             if (!StringUtils.isEmpty(id)) {
-                orgService.deleteById(id);
+                orgService.deleteByIdAsync(id);
                 return Message.success(null);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
@@ -139,17 +152,4 @@ public class SysOrgController {
         }
     }
 
-    @GetMapping("/treeSelect")
-    @ResponseBody
-    public Message treeSelect() {
-        try {
-            QueryWrapper<SysOrgPo> qw = new QueryWrapper<>();
-            List<SysOrgPo> orgList = orgService.list(qw);
-            List<Map<String, Object>> list = TreeSelectUtil.getTreeSelect(orgList);
-            return Message.success(list);
-        } catch (Exception e) {
-//            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
-            return Message.fail(e.getMessage());
-        }
-    }
 }

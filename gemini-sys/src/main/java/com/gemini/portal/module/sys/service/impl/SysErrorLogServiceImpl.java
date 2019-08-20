@@ -12,7 +12,7 @@ import org.springframework.util.StringUtils;
 /**
  * 错误日志表
  *
- * @author wenge.cai
+ * @author 小明不读书
  */
 @Service
 public class SysErrorLogServiceImpl extends BootCrudServiceImpl<SysErrorLogPo, SysErrorLogMapper> implements SysErrorLogService {

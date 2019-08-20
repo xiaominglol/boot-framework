@@ -11,8 +11,8 @@
         <result column="state_id" property="stateId" javaType="Long"/>
         <result column="state_code" property="stateCode" javaType="String"/>
         <result column="state_name" property="stateName" javaType="String"/>
-        <result column="modify_id" property="modifyId" javaType="Long"/>
-        <result column="modify_name" property="modifyName" javaType="String"/>
+        <result column="modify_user_id" property="modifyUserId" javaType="Long"/>
+        <result column="modify_user_name" property="modifyUserName" javaType="String"/>
         <result column="modify_time" property="modifyTime" javaType="String"/>
     </resultMap>
 

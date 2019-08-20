@@ -22,7 +22,7 @@ import java.util.List;
  * @author 小明不读书
  * @date 2018-02-11
  */
-public interface BootCrudService<Po extends BasePo, DetailPo, Mapper extends BaseMapper<Po>, DetailMapper extends BaseMapper<DetailPo>> {
+public interface BaseCrudService<Po extends BasePo, DetailPo, Mapper extends BaseMapper<Po>, DetailMapper extends BaseMapper<DetailPo>> {
 
     /**
      * 獲取uid

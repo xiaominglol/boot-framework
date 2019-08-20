@@ -7,7 +7,7 @@ import com.gemini.portal.module.sys.po.SysDictPo;
 /**
  * 字典表
  *
- * @author wenge.cai
+ * @author 小明不读书
  */
-public interface SysDictService extends BootCrudService<SysDictPo, SysDictMapper> {
+public interface SysDictService extends BootCrudService<SysDictPo, SysDictPo, SysDictMapper, SysDictMapper> {
 }

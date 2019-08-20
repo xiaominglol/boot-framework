@@ -11,14 +11,17 @@ import org.springframework.scheduling.annotation.EnableAsync;
 /**
  * Service基類的实现
  *
- * @author wenge.cai
+ * @author 小明不读书
  */
 @EnableAsync
 @Slf4j
-public abstract class BootCrudServiceImpl<Po extends BasePo, Mapper extends BaseMapper<Po>> implements BootCrudService<Po, Mapper> {
+public abstract class BootCrudServiceImpl<Po extends BasePo, DetailPo, Mapper extends BaseMapper<Po>, DetailMapper extends BaseMapper<DetailPo>> implements BootCrudService<Po, DetailPo, Mapper, DetailMapper> {
 
     @Autowired
     protected Mapper mapper;
+
+    @Autowired
+    protected DetailMapper detailMapper;
 
     @Autowired
     private UidService uidService;
@@ -36,5 +39,10 @@ public abstract class BootCrudServiceImpl<Po extends BasePo, Mapper extends Base
     @Override
     public Mapper mapper() {
         return mapper;
+    }
+
+    @Override
+    public DetailMapper detailMapper() {
+        return detailMapper;
     }
 }

@@ -7,7 +7,7 @@ import com.gemini.portal.module.sys.po.SysLoginLogPo;
 /**
  * 登陆日志表
  *
- * @author wenge.cai
+ * @author 小明不读书
  */
 public interface SysLoginLogService extends BootCrudService<SysLoginLogPo, SysLoginLogMapper> {
 }

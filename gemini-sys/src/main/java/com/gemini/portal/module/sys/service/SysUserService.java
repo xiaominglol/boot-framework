@@ -2,7 +2,9 @@ package com.gemini.portal.module.sys.service;
 
 import com.gemini.portal.common.service.BootCrudService;
 import com.gemini.portal.module.sys.mapper.SysUserMapper;
+import com.gemini.portal.module.sys.mapper.SysUserRoleMapper;
 import com.gemini.portal.module.sys.po.SysUserPo;
+import com.gemini.portal.module.sys.po.SysUserRolePo;
 
 import java.util.List;
 import java.util.Map;
@@ -11,9 +13,9 @@ import java.util.Set;
 /**
  * 用户表
  *
- * @author wenge.cai
+ * @author 小明不读书
  */
-public interface SysUserService extends BootCrudService<SysUserPo, SysUserMapper> {
+public interface SysUserService extends BootCrudService<SysUserPo, SysUserRolePo, SysUserMapper, SysUserRoleMapper> {
 
     /**
      * 根据account查询用户

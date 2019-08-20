@@ -2,7 +2,6 @@ package com.gemini.portal.module.sys.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.gemini.portal.common.service.BootCrudServiceImpl;
 import com.gemini.portal.module.sys.mapper.SysMenuMapper;
 import com.gemini.portal.module.sys.po.SysMenuPo;
@@ -15,10 +14,10 @@ import java.util.List;
 /**
  * 菜单表
  *
- * @author wenge.cai
+ * @author 小明不读书
  */
 @Service
-public class SysMenuServiceImpl extends BootCrudServiceImpl<SysMenuPo, SysMenuMapper> implements SysMenuService {
+public class SysMenuServiceImpl extends BootCrudServiceImpl<SysMenuPo, SysMenuPo, SysMenuMapper, SysMenuMapper> implements SysMenuService {
 
     @Override
     public QueryWrapper<SysMenuPo> wrapper(SysMenuPo po) {
@@ -46,15 +45,15 @@ public class SysMenuServiceImpl extends BootCrudServiceImpl<SysMenuPo, SysMenuMa
     }
 
     @Override
-    public List<SysMenuPo> getByAccount(Long account) {
-        return mapper.getByAccount(account);
+    public List<SysMenuPo> getByUserId(Long userId) {
+        return mapper.getByUserId(userId);
     }
 
     @Override
-    public boolean removeById(Long id) {
+    public void deleteBefore(Long id) {
         //删除角色权限
         mapper.deleteMenuAut(id);
-        //删除角色
-        return SqlHelper.delBool(mapper.deleteById(id));
+        //删除子表
+        detailMapper().delete(detailWrapper().eq("pid", id));
     }
 }

@@ -88,7 +88,7 @@ public class SysDictController {
     public Message add(@RequestBody SysDictPo dictPo) {
         try {
             if (StringUtils.isEmpty(dictPo.getId())) {
-                dictService.insert(dictPo);
+                dictService.insertAsync(dictPo, dictPo.getDetailList(), dictPo.getId());
                 return Message.success(dictPo);
             } else {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
@@ -105,7 +105,7 @@ public class SysDictController {
     public Message update(@RequestBody SysDictPo dictPo) {
         try {
             if (!StringUtils.isEmpty(dictPo.getId())) {
-                dictService.update(dictPo);
+                dictService.updateAsync(dictPo, dictPo.getDetailList());
                 return Message.success(dictPo);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
@@ -122,7 +122,7 @@ public class SysDictController {
     public Message delete(@PathVariable("id") Long id) {
         try {
             if (!StringUtils.isEmpty(id)) {
-                dictService.deleteById(id);
+                dictService.deleteByIdAsync(id);
                 return Message.success(null);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);

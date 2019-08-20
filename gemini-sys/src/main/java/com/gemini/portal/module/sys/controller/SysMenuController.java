@@ -2,11 +2,13 @@ package com.gemini.portal.module.sys.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gemini.boot.framework.mybatis.entity.CommonFailInfo;
+import com.gemini.boot.framework.mybatis.entity.LayUiPage;
 import com.gemini.boot.framework.mybatis.entity.Message;
 import com.gemini.portal.common.annotation.SysLog;
 import com.gemini.portal.module.sys.po.SysMenuPo;
-import com.gemini.portal.module.sys.po.SysUserPo;
 import com.gemini.portal.module.sys.service.SysErrorLogService;
 import com.gemini.portal.module.sys.service.SysMenuService;
 import com.gemini.portal.module.sys.utils.UserUtils;
@@ -32,20 +34,30 @@ public class SysMenuController {
     @Autowired
     SysMenuService menuService;
 
-    /**
-     * 跳转到列表
-     */
     @GetMapping("/gotoList")
     public String gotoList() {
         return "module/sys/menu/menu_list";
     }
 
     /**
-     * 树形表格列表
+     * 首页菜单权限
      */
-    @GetMapping("/menu")
+    @GetMapping("/list")
     @ResponseBody
-    public Message getTreeTableList(SysMenuPo menuPo) {
+    public Message list() {
+        try {
+            Long userId = UserUtils.getCurrentUser().getId();
+            List<SysMenuPo> list = menuService.getByUserId(userId);
+            return Message.success(list);
+        } catch (Exception e) {
+//            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
+            return Message.fail(e.getMessage());
+        }
+    }
+
+    @GetMapping
+    @ResponseBody
+    public Message list(LayUiPage layUiPage, SysMenuPo menuPo) {
         try {
             QueryWrapper<SysMenuPo> qw = new QueryWrapper<>();
             if (!StringUtils.isEmpty(menuPo.getId())) {
@@ -54,38 +66,22 @@ public class SysMenuController {
             if (!StringUtils.isEmpty(menuPo.getName())) {
                 qw.like("name", menuPo.getName());
             }
-            List<SysMenuPo> list = menuService.list(qw);
-            return Message.success(list);
+            if (layUiPage.getPageNum() != 0 && layUiPage.getPageSize() != 0) {
+                IPage<SysMenuPo> list = menuService.page(new Page<>(layUiPage.getPageNum(), layUiPage.getPageSize()), qw);
+                return Message.success(list);
+            } else {
+                List<SysMenuPo> list = menuService.list(qw);
+                return Message.success(list);
+            }
         } catch (Exception e) {
 //            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
             return Message.fail(e.getMessage());
         }
     }
 
-    /**
-     * 菜单列表（不带分页）
-     */
-    @GetMapping("/list")
+    @GetMapping("/{id}")
     @ResponseBody
-    public Message list() {
-        try {
-            Long sysUserId = UserUtils.getCurrentUser().getId();
-            List<SysMenuPo> list = menuService.getByAccount(sysUserId);
-            return Message.success(list);
-        } catch (Exception e) {
-//            excpLogService.save(ExcpLog.saveExcpLog(this.getClass().getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName() + "()", e.getMessage(), logger));
-            return Message.fail(e.getMessage());
-        }
-    }
-
-    /**
-     * 通过ID获取
-     *
-     * @param id 主键ID
-     */
-    @GetMapping("/menu/{id}")
-    @ResponseBody
-    public Message getById(@PathVariable("id") Long id) {
+    public Message detail(@PathVariable("id") Long id) {
         try {
             if (!StringUtils.isEmpty(id)) {
                 SysMenuPo menu = menuService.getById(id);
@@ -99,21 +95,13 @@ public class SysMenuController {
         }
     }
 
-    /**
-     * 添加
-     *
-     * @param menu 菜单
-     */
     @SysLog("添加菜单")
-    @PostMapping("/menu")
+    @PostMapping
     @ResponseBody
-    public Message add(SysMenuPo menuPo) {
+    public Message add(@RequestBody SysMenuPo menuPo) {
         try {
             if (StringUtils.isEmpty(menuPo.getId())) {
-                SysUserPo currentUser = UserUtils.getCurrentUser();
-                menuPo.setModifyUserId(currentUser.getId());
-                menuPo.setModifyUserName(currentUser.getName());
-                menuService.insert(menuPo);
+                menuService.insertAsync(menuPo, menuPo.getDetailList(), menuPo.getId());
                 return Message.success(menuPo);
             } else {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
@@ -124,22 +112,13 @@ public class SysMenuController {
         }
     }
 
-    /**
-     * 更新
-     *
-     * @param menu 菜单
-     * @return
-     */
     @SysLog("更新菜单")
-    @PutMapping("/menu")
+    @PutMapping
     @ResponseBody
-    public Message update(SysMenuPo menuPo) {
+    public Message update(@RequestBody SysMenuPo menuPo) {
         try {
             if (!StringUtils.isEmpty(menuPo.getId())) {
-                SysUserPo currentUser = UserUtils.getCurrentUser();
-                menuPo.setModifyUserId(currentUser.getId());
-                menuPo.setModifyUserName(currentUser.getName());
-                menuService.update(menuPo);
+                menuService.updateAsync(menuPo, menuPo.getDetailList());
                 return Message.success(menuPo);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
@@ -150,19 +129,13 @@ public class SysMenuController {
         }
     }
 
-    /**
-     * 删除
-     *
-     * @param id 主键
-     * @return
-     */
     @SysLog("删除菜单")
     @DeleteMapping("/menu/{id}")
     @ResponseBody
     public Message delete(@PathVariable("id") Long id) {
         try {
             if (!StringUtils.isEmpty(id)) {
-                menuService.removeById(id);
+                menuService.deleteByIdAsync(id);
                 return Message.success(null);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);

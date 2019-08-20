@@ -9,10 +9,8 @@ import com.gemini.boot.framework.mybatis.entity.LayUiPage;
 import com.gemini.boot.framework.mybatis.entity.Message;
 import com.gemini.portal.common.annotation.SysLog;
 import com.gemini.portal.module.sys.po.SysRolePo;
-import com.gemini.portal.module.sys.po.SysUserPo;
 import com.gemini.portal.module.sys.service.SysErrorLogService;
 import com.gemini.portal.module.sys.service.SysRoleService;
-import com.gemini.portal.module.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -35,17 +33,11 @@ public class SysRoleController {
     @Autowired
     SysRoleService roleService;
 
-    /**
-     * 跳转到列表
-     */
     @RequestMapping("/gotoList")
     public String gotoList() {
         return "module/sys/role/role_list";
     }
 
-    /**
-     * 获取分页列表
-     */
     @GetMapping
     @ResponseBody
     public Message list(LayUiPage layUiPage, SysRolePo rolePo) {
@@ -69,14 +61,9 @@ public class SysRoleController {
         }
     }
 
-    /**
-     * 通过ID获取
-     *
-     * @param id 主键ID
-     */
-    @GetMapping("/role/{id}")
+    @GetMapping("/{id}")
     @ResponseBody
-    public Message getById(@PathVariable("id") Long id) {
+    public Message detail(@PathVariable("id") Long id) {
         try {
             if (!StringUtils.isEmpty(id)) {
                 SysRolePo rolePo = roleService.getById(id);
@@ -90,21 +77,13 @@ public class SysRoleController {
         }
     }
 
-    /**
-     * 添加
-     *
-     * @param rolePo 角色
-     */
     @SysLog("添加角色")
-    @PostMapping("/role")
+    @PostMapping
     @ResponseBody
-    public Message add(SysRolePo rolePo, @RequestParam(value = "ids[]", required = false) Long[] ids) {
+    public Message add(@RequestBody SysRolePo rolePo) {
         try {
             if (StringUtils.isEmpty(rolePo.getId())) {
-                SysUserPo currentUser = UserUtils.getCurrentUser();
-                rolePo.setModifyUserId(currentUser.getId());
-                rolePo.setModifyUserName(currentUser.getName());
-                roleService.save(rolePo, ids);
+                roleService.insertAsync(rolePo, rolePo.getDetailList(), rolePo.getId());
                 return Message.success(rolePo);
             } else {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
@@ -115,22 +94,13 @@ public class SysRoleController {
         }
     }
 
-    /**
-     * 更新
-     *
-     * @param rolePo
-     * @return
-     */
     @SysLog("更新角色")
-    @PutMapping("/role")
+    @PutMapping
     @ResponseBody
-    public Message update(SysRolePo rolePo, @RequestParam(value = "ids[]", required = false) Long[] ids) {
+    public Message update(@RequestBody SysRolePo rolePo) {
         try {
             if (!StringUtils.isEmpty(rolePo.getId())) {
-                SysUserPo currentUser = UserUtils.getCurrentUser();
-                rolePo.setModifyUserId(currentUser.getId());
-                rolePo.setModifyUserName(currentUser.getName());
-                roleService.updateById(rolePo, ids);
+                roleService.updateAsync(rolePo, rolePo.getDetailList());
                 return Message.success(rolePo);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
@@ -141,19 +111,13 @@ public class SysRoleController {
         }
     }
 
-    /**
-     * 删除
-     *
-     * @param id 角色主键id
-     * @return
-     */
     @SysLog("删除角色")
-    @DeleteMapping("/role/{id}")
+    @DeleteMapping("/{id}")
     @ResponseBody
     public Message delete(@PathVariable("id") Long id) {
         try {
             if (!StringUtils.isEmpty(id)) {
-                roleService.removeById(id);
+                roleService.deleteByIdAsync(id);
                 return Message.success(null);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
