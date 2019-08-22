@@ -1,6 +1,6 @@
 package com.gemini.portal.module.sys.service;
 
-import com.gemini.portal.common.service.BootCrudService;
+import com.gemini.portal.common.service.BaseDetailService;
 import com.gemini.portal.module.sys.mapper.SysOrgMapper;
 import com.gemini.portal.module.sys.po.SysOrgPo;
 
@@ -9,5 +9,5 @@ import com.gemini.portal.module.sys.po.SysOrgPo;
  *
  * @author 小明不读书
  */
-public interface SysOrgService extends BootCrudService<SysOrgPo, SysOrgPo, SysOrgMapper, SysOrgMapper> {
+public interface SysOrgService extends BaseDetailService<SysOrgPo, SysOrgPo, SysOrgMapper, SysOrgMapper> {
 }

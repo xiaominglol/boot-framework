@@ -2,7 +2,7 @@ package com.gemini.portal.module.sys.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.gemini.portal.common.service.BootCrudServiceImpl;
+import com.gemini.portal.common.service.BaseDetailServiceImpl;
 import com.gemini.portal.module.sys.mapper.SysMenuMapper;
 import com.gemini.portal.module.sys.po.SysMenuPo;
 import com.gemini.portal.module.sys.service.SysMenuService;
@@ -17,7 +17,7 @@ import java.util.List;
  * @author 小明不读书
  */
 @Service
-public class SysMenuServiceImpl extends BootCrudServiceImpl<SysMenuPo, SysMenuPo, SysMenuMapper, SysMenuMapper> implements SysMenuService {
+public class SysMenuServiceImpl extends BaseDetailServiceImpl<SysMenuPo, SysMenuPo, SysMenuMapper, SysMenuMapper> implements SysMenuService {
 
     @Override
     public QueryWrapper<SysMenuPo> wrapper(SysMenuPo po) {

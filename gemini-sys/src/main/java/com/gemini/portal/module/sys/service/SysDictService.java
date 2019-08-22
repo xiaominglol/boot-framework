@@ -1,6 +1,6 @@
 package com.gemini.portal.module.sys.service;
 
-import com.gemini.portal.common.service.BootCrudService;
+import com.gemini.portal.common.service.BaseDetailService;
 import com.gemini.portal.module.sys.mapper.SysDictMapper;
 import com.gemini.portal.module.sys.po.SysDictPo;
 
@@ -9,5 +9,5 @@ import com.gemini.portal.module.sys.po.SysDictPo;
  *
  * @author 小明不读书
  */
-public interface SysDictService extends BootCrudService<SysDictPo, SysDictPo, SysDictMapper, SysDictMapper> {
+public interface SysDictService extends BaseDetailService<SysDictPo, SysDictPo, SysDictMapper, SysDictMapper> {
 }

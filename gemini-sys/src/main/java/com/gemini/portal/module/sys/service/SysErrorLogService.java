@@ -1,6 +1,6 @@
 package com.gemini.portal.module.sys.service;
 
-import com.gemini.portal.common.service.BootCrudService;
+import com.gemini.portal.common.service.BaseService;
 import com.gemini.portal.module.sys.mapper.SysErrorLogMapper;
 import com.gemini.portal.module.sys.po.SysErrorLogPo;
 
@@ -9,5 +9,5 @@ import com.gemini.portal.module.sys.po.SysErrorLogPo;
  *
  * @author 小明不读书
  */
-public interface SysErrorLogService extends BootCrudService<SysErrorLogPo, SysErrorLogMapper> {
+public interface SysErrorLogService extends BaseService<SysErrorLogPo, SysErrorLogMapper> {
 }

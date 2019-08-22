@@ -107,7 +107,7 @@ public class SysOrgController {
     public Message add(@RequestBody SysOrgPo orgPo) {
         try {
             if (StringUtils.isEmpty(orgPo.getId())) {
-                orgService.insertAsync(orgPo, orgPo.getDetailList(), orgPo.getId());
+                orgService.insertAsync(orgPo, orgPo.getDetailList(), true);
                 return Message.success(orgPo);
             } else {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
@@ -124,7 +124,7 @@ public class SysOrgController {
     public Message update(@RequestBody SysOrgPo orgPo) {
         try {
             if (!StringUtils.isEmpty(orgPo.getId())) {
-                orgService.updateAsync(orgPo, orgPo.getDetailList());
+                orgService.updateAsync(orgPo, orgPo.getDetailList(), true);
                 return Message.success(orgPo);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);

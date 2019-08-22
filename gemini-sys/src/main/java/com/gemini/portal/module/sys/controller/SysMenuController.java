@@ -101,7 +101,7 @@ public class SysMenuController {
     public Message add(@RequestBody SysMenuPo menuPo) {
         try {
             if (StringUtils.isEmpty(menuPo.getId())) {
-                menuService.insertAsync(menuPo, menuPo.getDetailList(), menuPo.getId());
+                menuService.insertAsync(menuPo, menuPo.getDetailList(), true);
                 return Message.success(menuPo);
             } else {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
@@ -118,7 +118,7 @@ public class SysMenuController {
     public Message update(@RequestBody SysMenuPo menuPo) {
         try {
             if (!StringUtils.isEmpty(menuPo.getId())) {
-                menuService.updateAsync(menuPo, menuPo.getDetailList());
+                menuService.updateAsync(menuPo, menuPo.getDetailList(), true);
                 return Message.success(menuPo);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);

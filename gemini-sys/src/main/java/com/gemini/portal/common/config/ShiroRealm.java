@@ -98,7 +98,7 @@ public class ShiroRealm extends AuthorizingRealm {
             logger.error(e.getMessage());
             throw e;
         } finally {
-            loginLogService.insert(loginLog);
+            loginLogService.insertAsync(loginLog, false);
         }
         return saInfo;
     }

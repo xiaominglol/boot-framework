@@ -103,7 +103,7 @@ public class SysUserController {
             if (StringUtils.isEmpty(userPo.getId())) {
                 String pwd = MD5Util.encryption(userPo.getPassword(), userPo.getAccount());
                 userPo.setPassword(pwd);
-                userService.insertAsync(userPo, userPo.getDetailList(), userPo.getId());
+                userService.insertAsync(userPo, userPo.getDetailList(), false);
                 return Message.success(userPo);
             } else {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
@@ -124,7 +124,7 @@ public class SysUserController {
                     String pwd = MD5Util.encryption(MD5Util.INIT_PASSWORD, userPo.getAccount());
                     userPo.setPassword(pwd);
                     userPo.setPicture("/img/icon/64/default_picture.png");
-                    userService.insertAsync(userPo, userPo.getDetailList(), userPo.getId());
+                    userService.insertAsync(userPo, userPo.getDetailList(), false);
                 }
                 return Message.success(null);
             } else {
@@ -148,7 +148,7 @@ public class SysUserController {
                     String pwd = MD5Util.encryption(userPo.getPassword(), userPo.getAccount());
                     userPo.setPassword(pwd);
                 }
-                userService.updateAsync(userPo, userPo.getDetailList());
+                userService.updateAsync(userPo, userPo.getDetailList(), false);
                 return Message.success(userPo);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);
@@ -366,7 +366,7 @@ public class SysUserController {
                 for (SysUserPo user : userList) {
                     String pwd = MD5Util.encryption(MD5Util.INIT_PASSWORD, user.getAccount());
                     user.setPassword(pwd);
-                    userService.updateAsync(user);
+                    userService.updateAsync(user, false);
                 }
                 return Message.success(null);
             } else {

@@ -2,7 +2,7 @@ package com.gemini.portal.module.sys.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.gemini.portal.common.service.BootCrudServiceImpl;
+import com.gemini.portal.common.service.BaseServiceImpl;
 import com.gemini.portal.module.sys.mapper.SysLoginLogMapper;
 import com.gemini.portal.module.sys.po.SysLoginLogPo;
 import com.gemini.portal.module.sys.service.SysLoginLogService;
@@ -15,7 +15,7 @@ import org.springframework.util.StringUtils;
  * @author 小明不读书
  */
 @Service
-public class SysLoginLogServiceImpl extends BootCrudServiceImpl<SysLoginLogPo, SysLoginLogMapper> implements SysLoginLogService {
+public class SysLoginLogServiceImpl extends BaseServiceImpl<SysLoginLogPo, SysLoginLogMapper> implements SysLoginLogService {
 
     @Override
     public QueryWrapper<SysLoginLogPo> wrapper(SysLoginLogPo po) {
@@ -27,5 +27,13 @@ public class SysLoginLogServiceImpl extends BootCrudServiceImpl<SysLoginLogPo, S
                 .eq(!StringUtils.isEmpty(po.getLoginStateName()), "login_state_name", po.getLoginStateName())
                 .eq(!StringUtils.isEmpty(po.getMessage()), "message", po.getMessage());
 //                .eq(!StringUtils.isEmpty(po.getCreateDatetime()), "create_datetime", po.getCreateDatetime());
+    }
+
+    @Override
+    public void insertBefore(SysLoginLogPo po) {
+    }
+
+    @Override
+    public void updateBefore(SysLoginLogPo po) {
     }
 }

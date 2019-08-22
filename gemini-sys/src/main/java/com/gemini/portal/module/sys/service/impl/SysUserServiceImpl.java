@@ -2,7 +2,7 @@ package com.gemini.portal.module.sys.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.gemini.portal.common.service.BootCrudServiceImpl;
+import com.gemini.portal.common.service.BaseDetailServiceImpl;
 import com.gemini.portal.module.sys.mapper.SysUserMapper;
 import com.gemini.portal.module.sys.mapper.SysUserRoleMapper;
 import com.gemini.portal.module.sys.po.SysUserPo;
@@ -21,7 +21,7 @@ import java.util.Set;
  * @author 小明不读书
  */
 @Service
-public class SysUserServiceImpl extends BootCrudServiceImpl<SysUserPo, SysUserRolePo, SysUserMapper, SysUserRoleMapper> implements SysUserService {
+public class SysUserServiceImpl extends BaseDetailServiceImpl<SysUserPo, SysUserRolePo, SysUserMapper, SysUserRoleMapper> implements SysUserService {
 
     @Override
     public QueryWrapper<SysUserPo> wrapper(SysUserPo po) {

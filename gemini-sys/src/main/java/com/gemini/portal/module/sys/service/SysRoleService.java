@@ -1,6 +1,6 @@
 package com.gemini.portal.module.sys.service;
 
-import com.gemini.portal.common.service.BootCrudService;
+import com.gemini.portal.common.service.BaseDetailService;
 import com.gemini.portal.module.sys.mapper.SysRoleMapper;
 import com.gemini.portal.module.sys.mapper.SysRoleMenuMapper;
 import com.gemini.portal.module.sys.po.SysRoleMenuPo;
@@ -14,7 +14,7 @@ import java.util.Map;
  *
  * @author 小明不读书
  */
-public interface SysRoleService extends BootCrudService<SysRolePo, SysRoleMenuPo, SysRoleMapper, SysRoleMenuMapper> {
+public interface SysRoleService extends BaseDetailService<SysRolePo, SysRoleMenuPo, SysRoleMapper, SysRoleMenuMapper> {
 
     /**
      * 通过角色id查询权限

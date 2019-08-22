@@ -2,7 +2,7 @@ package com.gemini.portal.module.sys.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.gemini.portal.common.service.BootCrudServiceImpl;
+import com.gemini.portal.common.service.BaseServiceImpl;
 import com.gemini.portal.module.sys.mapper.SysOptLogMapper;
 import com.gemini.portal.module.sys.po.SysOptLogPo;
 import com.gemini.portal.module.sys.service.SysOptLogService;
@@ -15,7 +15,7 @@ import org.springframework.util.StringUtils;
  * @author 小明不读书
  */
 @Service
-public class SysOptLogServiceImpl extends BootCrudServiceImpl<SysOptLogPo, SysOptLogMapper> implements SysOptLogService {
+public class SysOptLogServiceImpl extends BaseServiceImpl<SysOptLogPo, SysOptLogMapper> implements SysOptLogService {
 
     @Override
     public QueryWrapper<SysOptLogPo> wrapper(SysOptLogPo po) {
@@ -33,5 +33,13 @@ public class SysOptLogServiceImpl extends BootCrudServiceImpl<SysOptLogPo, SysOp
                 .eq(!StringUtils.isEmpty(po.getIp()), "ip", po.getIp())
                 .eq(!StringUtils.isEmpty(po.getTime()), "time", po.getTime());
 //                .eq(!StringUtils.isEmpty(po.getCreateDatetime()), "create_datetime", po.getCreateDatetime());
+    }
+
+    @Override
+    public void insertBefore(SysOptLogPo po) {
+    }
+
+    @Override
+    public void updateBefore(SysOptLogPo po) {
     }
 }

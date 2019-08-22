@@ -2,7 +2,7 @@ package com.gemini.portal.module.sys.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.gemini.portal.common.service.BootCrudServiceImpl;
+import com.gemini.portal.common.service.BaseDetailServiceImpl;
 import com.gemini.portal.module.sys.mapper.SysDictMapper;
 import com.gemini.portal.module.sys.po.SysDictPo;
 import com.gemini.portal.module.sys.service.SysDictService;
@@ -15,7 +15,7 @@ import org.springframework.util.StringUtils;
  * @author 小明不读书
  */
 @Service
-public class SysDictServiceImpl extends BootCrudServiceImpl<SysDictPo, SysDictPo, SysDictMapper, SysDictMapper> implements SysDictService {
+public class SysDictServiceImpl extends BaseDetailServiceImpl<SysDictPo, SysDictPo, SysDictMapper, SysDictMapper> implements SysDictService {
 
     @Override
     public QueryWrapper<SysDictPo> wrapper(SysDictPo po) {

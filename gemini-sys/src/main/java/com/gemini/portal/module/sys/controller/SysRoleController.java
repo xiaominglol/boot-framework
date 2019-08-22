@@ -83,7 +83,7 @@ public class SysRoleController {
     public Message add(@RequestBody SysRolePo rolePo) {
         try {
             if (StringUtils.isEmpty(rolePo.getId())) {
-                roleService.insertAsync(rolePo, rolePo.getDetailList(), rolePo.getId());
+                roleService.insertAsync(rolePo, rolePo.getDetailList(), false);
                 return Message.success(rolePo);
             } else {
                 return Message.fail(CommonFailInfo.Id_ALREADY_EXIST);
@@ -100,7 +100,7 @@ public class SysRoleController {
     public Message update(@RequestBody SysRolePo rolePo) {
         try {
             if (!StringUtils.isEmpty(rolePo.getId())) {
-                roleService.updateAsync(rolePo, rolePo.getDetailList());
+                roleService.updateAsync(rolePo, rolePo.getDetailList(), false);
                 return Message.success(rolePo);
             } else {
                 return Message.fail(CommonFailInfo.Id_CAN_NOT_BE_EMPTY);

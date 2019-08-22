@@ -69,7 +69,7 @@ public class SysLogAspect {
         // 处理完请求，返回内容
         optLogPoPo.setResult(ret == null ? "" : ret.toString());
         //保存操作日志
-        optLogPoService.insert(optLogPoPo);
+        optLogPoService.insertAsync(optLogPoPo, false);
     }
 
     /**

@@ -17,35 +17,34 @@ import org.springframework.scheduling.annotation.Async;
 import java.util.List;
 
 /**
- * 增删查改Service
+ * 单表 - 增删查改
  *
  * @author 小明不读书
  * @date 2018-02-11
  */
-public interface BootCrudService<Po extends BasePo, DetailPo, Mapper extends BaseMapper<Po>, DetailMapper extends BaseMapper<DetailPo>> {
+public interface BaseService<Po extends BasePo, Mapper extends BaseMapper<Po>> {
 
     /**
-     * 獲取uid
+     * 获取uuid
      *
-     * @return Long
+     * @return
      */
     Long uid();
 
     /**
-     * 獲取log
+     * 获取日志对象
      *
-     * @return Logger
+     * @return
      */
     Logger log();
 
     /**
-     * 獲取mapper
+     * 获取主mapper对象
      *
-     * @return Mapper
+     * @return
      */
     Mapper mapper();
 
-    DetailMapper detailMapper();
 
     /**
      * 通过id查询一条记录
@@ -63,7 +62,7 @@ public interface BootCrudService<Po extends BasePo, DetailPo, Mapper extends Bas
      * @param po
      * @return
      */
-    default Po getOneByParam(Po po) {
+    default Po getByParam(Po po) {
         return mapper().selectOne(wrapper(po));
     }
 
@@ -106,7 +105,7 @@ public interface BootCrudService<Po extends BasePo, DetailPo, Mapper extends Bas
     }
 
     /**
-     * 构建查询条件
+     * 构建主表查询对象
      *
      * @return
      */
@@ -114,14 +113,9 @@ public interface BootCrudService<Po extends BasePo, DetailPo, Mapper extends Bas
         return new QueryWrapper<>();
     }
 
-    default QueryWrapper<DetailPo> detailWrapper() {
-        return new QueryWrapper<>();
-    }
-
     /**
      * 插入之前
-     * <p>
-     * 设置基本信息
+     * 设置主表基本信息
      *
      * @param po
      */
@@ -137,58 +131,39 @@ public interface BootCrudService<Po extends BasePo, DetailPo, Mapper extends Bas
     }
 
     /**
-     * 插入之后
-     * <p>
-     * 如果是主表结构，那么插入之后无需操作
-     * 如果是主子表结构，那么要重写，插入子表
-     *
-     * @param detailPos
-     * @param id
-     */
-    default void insertAfter(List<DetailPo> detailPos, Long id) {
-        if (null != detailPos && 0 < detailPos.size()) {
-            for (DetailPo detailPo : detailPos) {
-                BeanUtils.invoke(detailPo, "setPid", id);
-                detailMapper().insert(detailPo);
-            }
-        }
-    }
-
-    /**
      * 插入-异步
      *
-     * @param po
-     * @param detailPos
-     * @param id
+     * @param po     插入po
+     * @param isBase 是否基础po
      */
     @Async
-    default void insertAsync(Po po, List<DetailPo> detailPos, Long id) {
+    default void insertAsync(Po po, Boolean isBase) {
         log().info("新增数据：{}", po);
-        insertBefore(po);
+        if (isBase) {
+            insertBefore(po);
+        }
         mapper().insert(po);
-        insertAfter(detailPos, id);
     }
 
     /**
      * 插入-同步
      *
-     * @param po
-     * @param detailPos
-     * @param id
+     * @param po     插入po
+     * @param isBase 是否基础po
      * @return 1-成功，0-失败
      */
-    default int insertSync(Po po, List<DetailPo> detailPos, Long id) {
+    default int insertSync(Po po, Boolean isBase) {
         log().info("新增数据：{}", po);
-        insertBefore(po);
+        if (isBase) {
+            insertBefore(po);
+        }
         int result = mapper().insert(po);
-        insertAfter(detailPos, id);
         return result;
     }
 
     /**
      * 更新之前
-     * <p>
-     * 设置基本信息
+     * 设置主表基本信息
      *
      * @param po
      */
@@ -200,65 +175,42 @@ public interface BootCrudService<Po extends BasePo, DetailPo, Mapper extends Bas
     }
 
     /**
-     * 更新之后
-     * <p>
-     * 如果是主表结构，那么无需操作
-     * 如果是主子表结构，那么需要重写，更新子表
-     *
-     * @param detailPos
-     */
-    default void updateAfter(List<DetailPo> detailPos) {
-        if (null != detailPos && 0 < detailPos.size()) {
-            for (DetailPo detailPo : detailPos) {
-                detailMapper().updateById(detailPo);
-            }
-        }
-    }
-
-    /**
      * 更新-异步
      *
-     * @param po
+     * @param po     插入po
+     * @param isBase 是否基础po
      */
     @Async
-    default void updateAsync(Po po, List<DetailPo> detailPos) {
+    default void updateAsync(Po po, Boolean isBase) {
         log().info("更新数据：{}", po);
-        updateBefore(po);
-        mapper().updateById(po);
-        updateAfter(detailPos);
-    }
-
-    @Async
-    default void updateAsync(Po po) {
-        log().info("更新数据：{}", po);
-        updateBefore(po);
+        if (isBase) {
+            updateBefore(po);
+        }
         mapper().updateById(po);
     }
 
     /**
      * 更新-同步
      *
-     * @param po
+     * @param po     插入po
+     * @param isBase 是否基础po
+     * @return 1-成功，0-失败
      */
-    default int updateSync(Po po, List<DetailPo> detailPos) {
+    default int updateSync(Po po, Boolean isBase) {
         log().info("更新数据：{}", po);
-        updateBefore(po);
+        if (isBase) {
+            updateBefore(po);
+        }
         int result = mapper().updateById(po);
-        updateAfter(detailPos);
         return result;
     }
 
-
     /**
      * 删除之前
-     * <p>
-     * 如果是主表结构，那么无需操作
-     * 如果是主子表结构，那么需要重写，删除子表
      *
      * @param id
      */
     default void deleteBefore(Long id) {
-        detailMapper().delete(detailWrapper().eq("pid", id));
     }
 
     /**

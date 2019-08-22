@@ -3,7 +3,7 @@ package com.gemini.portal.module.sys.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.gemini.portal.common.service.BootCrudServiceImpl;
+import com.gemini.portal.common.service.BaseDetailServiceImpl;
 import com.gemini.portal.module.sys.mapper.SysRoleMapper;
 import com.gemini.portal.module.sys.mapper.SysRoleMenuMapper;
 import com.gemini.portal.module.sys.po.SysRoleMenuPo;
@@ -21,7 +21,7 @@ import java.util.Map;
  * @author 小明不读书
  */
 @Service
-public class SysRoleServiceImpl extends BootCrudServiceImpl<SysRolePo, SysRoleMenuPo, SysRoleMapper, SysRoleMenuMapper> implements SysRoleService {
+public class SysRoleServiceImpl extends BaseDetailServiceImpl<SysRolePo, SysRoleMenuPo, SysRoleMapper, SysRoleMenuMapper> implements SysRoleService {
 
     @Override
     public QueryWrapper<SysRolePo> wrapper(SysRolePo po) {
