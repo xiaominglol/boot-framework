@@ -7,7 +7,7 @@
                         <div class="layui-row">
                             <div class="layui-col-md12">
                                 <blockquote class="layui-elem-quote layui-quote-nm">
-                                    <form class="layui-form layui-form-pane queryFrom" action="">
+                                    <form class="layui-form layui-form-pane queryFrom">
                                         <div class="layui-form-item">
                                             <div class="layui-inline">
                                                 <label class="layui-form-label" style="width: auto">操作描述</label>
@@ -52,19 +52,6 @@
 </div>
 
 
-<script type="text/html" id="typeTpl">
-    {{#  if(d.type == "1"){ }}
-    <span class="layui-badge layui-bg-blue">查询</span>
-    {{#  } else if(d.type == "2"){ }}
-    <span class="layui-badge layui-bg-green">添加</span>
-    {{#  } else if(d.type == "3"){ }}
-    <span class="layui-badge">修改</span>
-    {{#  } else if(d.type == "4"){ }}
-    <span class="layui-badge layui-bg-red">删除</span>
-    {{#  } else if(d.type == "5"){ }}
-    <span class="layui-badge layui-bg-green">用户登陆</span>
-    {{#  } }}
-</script>
 <script th:inline="none">
 
     layui.use(['form', 'util'], function () {
@@ -72,16 +59,14 @@
         var util = layui.util;
 
         //表格
-        initTable({
+        renderTable({
             dom: "table"
-            , url: "/optLog"
-            , cols: [
+            , url: "/sys/log/optLog"
+            , cols: [[
                 {checkbox: true}
                 , {field: 'userAccount', title: '用户账号', width: 120}
                 , {field: 'userName', title: '用户名称', width: 120}
-                , {
-                    field: 'type', title: '操作类型', width: 100, align: "center", templet: '#typeTpl'
-                }
+                , {field: 'optTypeName', title: '操作类型', width: 100}
                 , {field: 'description', title: '操作描述', width: 150}
                 , {field: 'url', title: '请求地址', width: 120}
                 , {field: 'method', title: '请求方法名称'}
@@ -90,11 +75,11 @@
                 , {field: 'time', title: '耗时(毫秒)', width: 100}
                 , {field: 'ip', title: 'ip地址', width: 120}
                 , {
-                    field: 'optTime', title: '操作时间', width: 160, templet: function (d) {
-                        return util.toDateString(d.optTime);
+                    field: 'createDateTime', title: '操作时间', width: 160, templet: function (d) {
+                        return util.toDateString(d.createDateTime);
                     }
                 }
-            ]
+            ]]
         });
 
         //查询

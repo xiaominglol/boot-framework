@@ -50,7 +50,7 @@ function edit(param) {
                 $("[name='" + param.fields[i].field + "']").val(selectedData.data[0][param.fields[i].field]);
             }
 
-            initTable({
+            renderTable({
                 dom: "detailTable"
                 , url: param.url
                 , height: ''

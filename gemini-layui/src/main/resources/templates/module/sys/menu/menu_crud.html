@@ -1,6 +1,5 @@
-<!--添加/修改-->
 <div id="addOrUpdate" style="display: none">
-    <form class="layui-form layui-form-pane" action="">
+    <form class="layui-form layui-form-pane">
         <div class="layui-form-item" pane>
             <label class="layui-form-label"><span class="require">*</span>类型
             </label>
@@ -78,6 +77,17 @@
                 <input type="radio" name="status" value="1" title="显示" checked>
                 <input type="radio" name="status" value="0" title="隐藏">
             </div>
+        </div>
+        <div class="layui-form-item" align="right" style="float: right;margin-right: 35px">
+            <span class="layui-btn layui-btn-sm add_detail" style="margin-right: 10px;">
+                新增一行
+            </span>
+            <span class="layui-btn layui-btn-sm layui-btn-danger delete_detail" style="margin-right: 20px;">
+                批量删除
+            </span>
+        </div>
+        <div class="layui-form-item">
+            <table id="detailTable" lay-filter="detailTable"></table>
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">

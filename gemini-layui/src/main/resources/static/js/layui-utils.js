@@ -4,11 +4,11 @@
  * @date 2018-10-31
  */
 // 分页表格
-function initTable(param) {
+function renderTable(param) {
     layui.use(['table'], function () {
         var table = layui.table;
         table.render({
-            elem: '#' + param.dom
+            elem: '#' + (param.dom == null ? "table" : param.dom)
             , height: param.height == null ? 'full-220' : param.height
             , url: param.url
             , data: param.data

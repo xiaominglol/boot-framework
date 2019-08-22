@@ -1,11 +1,11 @@
 package com.gemini.portal.common.config;
 
 import com.gemini.boot.framework.mybatis.entity.CommonStatus;
-import com.gemini.portal.MD5Util;
 import com.gemini.portal.module.sys.po.SysLoginLogPo;
 import com.gemini.portal.module.sys.po.SysUserPo;
 import com.gemini.portal.module.sys.service.SysLoginLogService;
 import com.gemini.portal.module.sys.service.SysUserService;
+import com.gemini.portal.utils.MD5Util;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;

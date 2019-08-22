@@ -1,5 +1,5 @@
 <div id="import" style="display: none">
-    <form class="layui-form layui-form-pane" action="">
+    <form class="layui-form layui-form-pane">
         <div class="layui-form-item">
             <div class="layui-btn-container">
                 <span class="layui-btn layui-btn-sm layui-btn-normal userImportButton">
@@ -64,7 +64,7 @@
             before: function (obj) {
             },
             done: function (res) {
-                initTable({
+                renderTable({
                     dom: "importTable"
                     , data: res.data
                     , cols: [

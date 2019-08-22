@@ -1,4 +1,4 @@
-package com.gemini.portal;
+package com.gemini.portal.utils;
 
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;

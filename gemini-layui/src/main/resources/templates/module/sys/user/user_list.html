@@ -18,7 +18,7 @@
                         <div class="layui-row">
                             <div class="layui-col-md12">
                                 <blockquote class="layui-elem-quote layui-quote-nm">
-                                    <form class="layui-form layui-form-pane queryFrom" action="">
+                                    <form class="layui-form layui-form-pane queryFrom">
                                         <div class="layui-form-item">
                                             <div class="layui-inline">
                                                 <label class="layui-form-label">名称</label>
@@ -88,6 +88,7 @@
         var form = layui.form;
         var table = layui.table;
         var util = layui.util;
+        var baseUrl = "/sys/user";
 
         //左侧树
         renderTree({
@@ -118,9 +119,8 @@
         }
 
         //右侧表格
-        initTable({
-            dom: "table"
-            , url: "/sys/user"
+        renderTable({
+            url: baseUrl
             , cols: [
                 {checkbox: true}
                 , {field: 'account', title: '用户账号', width: 160}
