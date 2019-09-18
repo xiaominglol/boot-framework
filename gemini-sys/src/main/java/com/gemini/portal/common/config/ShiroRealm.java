@@ -1,6 +1,6 @@
 package com.gemini.portal.common.config;
 
-import com.gemini.boot.framework.mybatis.entity.CommonStatus;
+import com.gemini.portal.enums.StateEnum;
 import com.gemini.portal.module.sys.po.SysLoginLogPo;
 import com.gemini.portal.module.sys.po.SysUserPo;
 import com.gemini.portal.module.sys.service.SysLoginLogService;
@@ -74,11 +74,11 @@ public class ShiroRealm extends AuthorizingRealm {
             if (!user.getPassword().equals(MD5Util.encryption(String.valueOf(upToken.getPassword()), user.getAccount()))) {
                 throw new AuthenticationException("用户账号或者密码错误.");
             }
-            if (user.getStateCode().equals(CommonStatus.STATUS_NULLITY)) {
+            if (user.getStateCode().equals(StateEnum.Disable.name())) {
                 throw new LockedAccountException("用户已禁用.");
             }
             loginLog.setLoginStateId(123213L);
-            loginLog.setLoginStateCode(String.valueOf(CommonStatus.STATUS_VALIDITY));
+            loginLog.setLoginStateCode("12");
             loginLog.setLoginStateName("启用");
             loginLog.setMessage("登陆成功");
 
@@ -92,7 +92,7 @@ public class ShiroRealm extends AuthorizingRealm {
             //java.lang.ClassCastException: com.gemini.core.module.sys.model.User cannot be cast to com.gemini.base.sys.model.User
             //请看上面第2点注释
             loginLog.setLoginStateId(123213L);
-            loginLog.setLoginStateCode(String.valueOf(CommonStatus.STATUS_NULLITY));
+            loginLog.setLoginStateCode("123");
             loginLog.setLoginStateName("禁用");
             loginLog.setMessage(e.getMessage());
             logger.error(e.getMessage());

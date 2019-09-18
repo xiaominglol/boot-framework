@@ -7,21 +7,13 @@ public enum StateEnum implements DictService {
     Enable() {
         @Override
         public Dict dict() {
-            Dict dict = new Dict();
-            dict.setId(391933416176131L);
-            dict.setCode("Enable");
-            dict.setName("启用");
-            return dict;
+            return Dict.get(391933416176131L);
         }
     },
     Disable() {
         @Override
         public Dict dict() {
-            Dict dict = new Dict();
-            dict.setId(391933416176129L);
-            dict.setCode("Disable");
-            dict.setName("禁用");
-            return dict;
+            return Dict.get(391933416176129L);
         }
     }
 }

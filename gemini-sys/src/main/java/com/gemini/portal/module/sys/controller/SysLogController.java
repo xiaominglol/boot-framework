@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gemini.boot.framework.mybatis.entity.LayUiPage;
-import com.gemini.boot.framework.mybatis.entity.Message;
+import com.gemini.boot.framework.web.entity.Message;
 import com.gemini.portal.module.sys.po.SysErrorLogPo;
 import com.gemini.portal.module.sys.po.SysLoginLogPo;
 import com.gemini.portal.module.sys.po.SysOptLogPo;
