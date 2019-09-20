@@ -1,13 +1,10 @@
 package com.gemini.portal.module.sys.po;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.gemini.boot.framework.mybatis.po.BasePo;
+import com.gemini.boot.framework.mybatis.po.BaseDetailPo;
 import lombok.Data;
 
-import java.sql.Timestamp;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 用户表
@@ -16,12 +13,7 @@ import java.util.List;
  */
 @Data
 @TableName("f_sys_user")
-public class SysUserPo extends BasePo {
-
-    /**
-     * 主鍵ID
-     */
-    private Long id;
+public class SysUserPo extends BaseDetailPo<SysUserRolePo> {
 
     /**
      * 用户账号
@@ -57,37 +49,4 @@ public class SysUserPo extends BasePo {
      * 创建时间(YYYY-MM-DD HH:MM:SS)
      */
     private Date createDatetime;
-
-    /**
-     * 状态id
-     */
-    private Long stateId;
-
-    /**
-     * 状态编码
-     */
-    private String stateCode;
-
-    /**
-     * 状态名称
-     */
-    private String stateName;
-
-    /**
-     * 修改人id
-     */
-    private Long modifyUserId;
-
-    /**
-     * 修改人名称
-     */
-    private String modifyUserName;
-
-    /**
-     * 修改时间(YYYY-MM-DD HH:MM:SS)
-     */
-    private Timestamp modifyTime;
-
-    @TableField(exist = false)
-    private List<SysUserRolePo> detailList;
 }

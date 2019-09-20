@@ -32,14 +32,5 @@ public class SysOptLogServiceImpl extends BaseServiceImpl<SysOptLogPo, SysOptLog
                 .eq(!StringUtils.isEmpty(po.getResult()), "result", po.getResult())
                 .eq(!StringUtils.isEmpty(po.getIp()), "ip", po.getIp())
                 .eq(!StringUtils.isEmpty(po.getTime()), "time", po.getTime());
-//                .eq(!StringUtils.isEmpty(po.getCreateDatetime()), "create_datetime", po.getCreateDatetime());
-    }
-
-    @Override
-    public void insertBefore(SysOptLogPo po) {
-    }
-
-    @Override
-    public void updateBefore(SysOptLogPo po) {
     }
 }

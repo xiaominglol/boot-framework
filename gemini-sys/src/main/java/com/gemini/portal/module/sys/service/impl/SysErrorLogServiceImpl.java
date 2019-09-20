@@ -31,14 +31,5 @@ public class SysErrorLogServiceImpl extends BaseServiceImpl<SysErrorLogPo, SysEr
                 .eq(!StringUtils.isEmpty(po.getParams()), "params", po.getParams())
                 .eq(!StringUtils.isEmpty(po.getResult()), "result", po.getResult())
                 .eq(!StringUtils.isEmpty(po.getIp()), "ip", po.getIp());
-//                .eq(!StringUtils.isEmpty(po.getCreateDatetime()), "create_datetime", po.getCreateDatetime());
-    }
-
-    @Override
-    public void insertBefore(SysErrorLogPo po) {
-    }
-
-    @Override
-    public void updateBefore(SysErrorLogPo po) {
     }
 }

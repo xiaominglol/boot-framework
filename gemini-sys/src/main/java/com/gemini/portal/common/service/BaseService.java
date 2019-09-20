@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.gemini.boot.framework.mybatis.po.BasePo;
 import com.gemini.boot.framework.mybatis.utils.BeanUtils;
 import com.gemini.boot.framework.mybatis.utils.StringUtils;
 import com.gemini.portal.enums.StateEnum;
@@ -22,7 +21,7 @@ import java.util.List;
  * @author 小明不读书
  * @date 2018-02-11
  */
-public interface BaseService<Po extends BasePo, Mapper extends BaseMapper<Po>> {
+public interface BaseService<Po, Mapper extends BaseMapper<Po>> {
 
     /**
      * 获取uuid

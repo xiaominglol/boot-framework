@@ -26,14 +26,5 @@ public class SysLoginLogServiceImpl extends BaseServiceImpl<SysLoginLogPo, SysLo
                 .eq(!StringUtils.isEmpty(po.getLoginStateCode()), "login_state_code", po.getLoginStateCode())
                 .eq(!StringUtils.isEmpty(po.getLoginStateName()), "login_state_name", po.getLoginStateName())
                 .eq(!StringUtils.isEmpty(po.getMessage()), "message", po.getMessage());
-//                .eq(!StringUtils.isEmpty(po.getCreateDatetime()), "create_datetime", po.getCreateDatetime());
-    }
-
-    @Override
-    public void insertBefore(SysLoginLogPo po) {
-    }
-
-    @Override
-    public void updateBefore(SysLoginLogPo po) {
     }
 }

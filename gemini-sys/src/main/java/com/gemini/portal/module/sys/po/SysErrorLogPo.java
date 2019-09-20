@@ -1,7 +1,7 @@
 package com.gemini.portal.module.sys.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.gemini.boot.framework.mybatis.po.BasePo;
+import com.gemini.boot.framework.mybatis.po.BaseObjectPo;
 import lombok.Data;
 
 import java.util.Date;
@@ -13,7 +13,7 @@ import java.util.Date;
  */
 @Data
 @TableName("f_sys_error_log")
-public class SysErrorLogPo extends BasePo {
+public class SysErrorLogPo extends BaseObjectPo {
 
     /**
      * 主鍵ID

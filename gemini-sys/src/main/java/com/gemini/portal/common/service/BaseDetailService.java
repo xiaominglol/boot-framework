@@ -3,7 +3,6 @@ package com.gemini.portal.common.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.gemini.boot.framework.mybatis.po.BasePo;
 import com.gemini.boot.framework.mybatis.utils.BeanUtils;
 import com.gemini.portal.enums.StateEnum;
 import com.gemini.portal.module.sys.po.SysUserPo;
@@ -22,7 +21,7 @@ import java.util.List;
  * @author 小明不读书
  * @date 2018-02-11
  */
-public interface BaseDetailService<Po extends BasePo, DetailPo, Mapper extends BaseMapper<Po>, DetailMapper extends BaseMapper<DetailPo>> extends BaseService<Po, Mapper> {
+public interface BaseDetailService<Po, DetailPo, Mapper extends BaseMapper<Po>, DetailMapper extends BaseMapper<DetailPo>> extends BaseService<Po, Mapper> {
 
     /**
      * 获取子mapper对象
@@ -46,7 +45,7 @@ public interface BaseDetailService<Po extends BasePo, DetailPo, Mapper extends B
      *
      * @param detailPo
      */
-    default void insertBefore(DetailPo detailPo) {
+    default void insertDetailBefore(DetailPo detailPo) {
         // 主键id
         BeanUtils.invoke(detailPo, "setId", uid());
         // 用户信息
@@ -68,7 +67,7 @@ public interface BaseDetailService<Po extends BasePo, DetailPo, Mapper extends B
         if (null != detailPos && 0 < detailPos.size()) {
             for (DetailPo detailPo : detailPos) {
                 if (isBase) {
-                    insertBefore(detailPo);
+                    insertDetailBefore(detailPo);
                 }
                 BeanUtils.invoke(detailPo, "setPid", BeanUtils.invoke(po, "getId"));
                 detailMapper().insert(detailPo);
@@ -113,7 +112,7 @@ public interface BaseDetailService<Po extends BasePo, DetailPo, Mapper extends B
      *
      * @param detailPo
      */
-    default void updateBefore(DetailPo detailPo) {
+    default void updateDetailBefore(DetailPo detailPo) {
         // 用户信息
         SysUserPo currentUser = UserUtils.getCurrentUser();
         BeanUtils.invoke(detailPo, "setModifyUserId", currentUser.getId());
@@ -130,7 +129,7 @@ public interface BaseDetailService<Po extends BasePo, DetailPo, Mapper extends B
         if (null != detailPos && 0 < detailPos.size()) {
             for (DetailPo detailPo : detailPos) {
                 if (isBase) {
-                    updateBefore(detailPo);
+                    updateDetailBefore(detailPo);
                 }
                 detailMapper().updateById(detailPo);
             }

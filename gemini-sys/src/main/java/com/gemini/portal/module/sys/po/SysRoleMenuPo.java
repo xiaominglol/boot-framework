@@ -1,7 +1,7 @@
 package com.gemini.portal.module.sys.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.gemini.boot.framework.mybatis.po.BasePo;
+import com.gemini.boot.framework.mybatis.po.BaseObjectPo;
 import lombok.Data;
 
 /**
@@ -11,7 +11,7 @@ import lombok.Data;
  */
 @Data
 @TableName("f_sys_role_menu")
-public class SysRoleMenuPo extends BasePo {
+public class SysRoleMenuPo extends BaseObjectPo {
 
     /**
      * 角色id

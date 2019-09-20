@@ -1,7 +1,6 @@
 package com.gemini.portal.common.service;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.gemini.boot.framework.mybatis.po.BasePo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -13,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author 小明不读书
  * @date 2018-02-11
  */
-public abstract class BaseDetailServiceImpl<Po extends BasePo, DetailPo, Mapper extends BaseMapper<Po>, DetailMapper extends BaseMapper<DetailPo>> extends BaseServiceImpl<Po, Mapper> implements BaseDetailService<Po, DetailPo, Mapper, DetailMapper> {
+public abstract class BaseDetailServiceImpl<Po, DetailPo, Mapper extends BaseMapper<Po>, DetailMapper extends BaseMapper<DetailPo>> extends BaseServiceImpl<Po, Mapper> implements BaseDetailService<Po, DetailPo, Mapper, DetailMapper> {
 
     @Autowired
     protected DetailMapper detailMapper;
