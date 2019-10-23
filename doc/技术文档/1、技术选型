@@ -63,7 +63,7 @@ jenkins
 
 
 
-mysql
+dataBase
 主从架构
 读写分类
 分库分表
